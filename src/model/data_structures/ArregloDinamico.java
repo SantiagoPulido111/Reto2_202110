@@ -58,16 +58,17 @@ public class ArregloDinamico implements IArregloDinamico {
 		}
 
 		public String darElemento(int i) {
-			// TODO implementar LISTO
+			// TODO LISTO
 			return elementos[i];
 		}
 
 		public String buscar(String dato) {
-			// TODO implementar
+			// TODO LISTO
 			// Recomendacion: Usar el criterio de comparacion natural (metodo compareTo()) definido en Strings.
 			
 			String buscado=null;
-			for ( int i = 0; i < tamanoAct; i++)
+			
+			for ( int i = 0; i < tamanoAct && buscado ==null; i++)
             {
 				if(elementos[i].compareTo(dato)==0)
 				{
@@ -79,31 +80,49 @@ public class ArregloDinamico implements IArregloDinamico {
 		}
 
 		public String eliminar(String dato) {
-			// TODO implementar
+			// TODO Preguntar
 			// Recomendacion: Usar el criterio de comparacion natural (metodo compareTo()) definido en Strings.
 			
 			
 			
 			String buscado=null;
 			
-			
-			
 			String [ ] copia = elementos;
             elementos = new String[tamanoMax];
             
+            //Estoy asumiendo que si el dato esta mas de una vez lo borro todas las veces 
+            // Esto en realidad solo se usa si el dato esta mas de una vez 
             
-            for ( int i = 0; i < tamanoAct; i++)
+            
+            
+            int i;
+            //Empiezo a rellenar hasta que encuentre el string a eliminar o hasta que llege a una seecion vacia del arreglo
+            for ( i = 0; i < tamanoAct&&buscado==null&&copia[i]!=null; i++) 
             {
-            	if (copia[i].compareTo(dato)!=0)
-            			{
-            		elementos[i]=copia[i];
-             			}
-            	else
+            	if (copia[i].compareTo(dato)==0)
             	{
-            		buscado= dato;
-            		tamanoAct--;
+            	buscado=dato;
+            	
+            	tamanoAct--;
+             	}
+            	else
+            	{	
+            	elementos[i]=copia[i];	
             	}
             } 
+            
+            //sigo rellenado
+           
+            if (buscado==dato)
+            {
+            for(int a=i;a<tamanoAct+1;a++)
+            {
+            	
+            	elementos[a-1]=copia[a];	
+            	
+            }
+            
+            }
 			
 			return buscado;
 		}
