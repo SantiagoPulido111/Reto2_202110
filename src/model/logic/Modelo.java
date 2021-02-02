@@ -67,6 +67,14 @@ public class Modelo {
 	{
 		return datos.eliminar(dato);
 	}
+	
+	
+	//metodo para poder retornar los elementos del modelo enview
+	public String darItem(int i)
+	{
+		return datos.darElemento(i);
+	}
+	
 
 
 }

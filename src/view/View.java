@@ -30,7 +30,12 @@ public class View
 		
 		public void printModelo(Modelo modelo)
 		{
-			// TODO preguntar
-			System.out.println(modelo);
+			// TODO LISTO
+			//System.out.println(modelo);
+			int max= modelo.darTamano();
+			for (int i=0; i<max;i++)
+			{
+				System.out.println(modelo.darItem(i));
+			}
 		}
 }
