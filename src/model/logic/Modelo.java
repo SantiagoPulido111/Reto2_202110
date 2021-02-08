@@ -1,6 +1,7 @@
 package model.logic;
 
 import model.data_structures.ArregloDinamico;
+
 import model.data_structures.IArregloDinamico;
 
 /**
@@ -11,14 +12,14 @@ public class Modelo {
 	/**
 	 * Atributos del modelo del mundo
 	 */
-	private IArregloDinamico datos;
+	private IArregloDinamico<String> datos;
 	
 	/**
 	 * Constructor del modelo del mundo con capacidad predefinida
 	 */
 	public Modelo()
 	{
-		datos = new ArregloDinamico(7);
+		datos = new ArregloDinamico<String>(7);
 	}
 	
 	/**
@@ -27,7 +28,7 @@ public class Modelo {
 	 */
 	public Modelo(int capacidad)
 	{
-		datos = new ArregloDinamico(capacidad);
+		datos = new ArregloDinamico<String>(capacidad);
 	}
 	
 	/**
@@ -53,7 +54,7 @@ public class Modelo {
 	 * @param dato Dato a buscar
 	 * @return dato encontrado
 	 */
-	public T buscar(T dato)
+	public String buscar(String dato)
 	{
 		return datos.buscar(dato);
 	}
@@ -75,6 +76,9 @@ public class Modelo {
 		return datos.darElemento(i);
 	}
 	
-
+	public void invertir()
+	{	
+		datos.invertir();;
+	}
 
 }

@@ -2,6 +2,7 @@ package controller;
 
 import java.util.Scanner;
 
+
 import model.logic.Modelo;
 import view.View;
 
@@ -92,6 +93,10 @@ public class Controller {
 					lector.close();
 					fin = true;
 					break;	
+				case 7:
+					view.printMessage("Invertido"); 
+					modelo.invertir();
+					break;
 
 				default: 
 					view.printMessage("--------- \n Opcion Invalida !! \n---------");

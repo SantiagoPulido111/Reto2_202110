@@ -27,10 +27,14 @@ public class ArregloDinamico<T extends Comparable<T>> implements IArregloDinamic
          * Construir un arreglo con la capacidad maxima inicial.
          * @param max Capacidad maxima inicial
          */
+		
 		public ArregloDinamico( int max )
         {
-               elementos = (T[]) new Object[tamanoMax];
-               tamanoMax = max;
+			   tamanoMax = max;
+           
+			  
+               elementos= (T[]) new Comparable[max];
+          
                tamanoAct = 0;
         }
         
@@ -40,7 +44,7 @@ public class ArregloDinamico<T extends Comparable<T>> implements IArregloDinamic
                {  // caso de arreglo lleno (aumentar tamaNo)
                     tamanoMax = 2 * tamanoMax;
                     T [ ] copia = elementos;
-                    elementos = (T[]) new Object[tamanoMax];
+                    elementos = (T[]) new Comparable[tamanoMax];
                     for ( int i = 0; i < tamanoAct; i++)
                     {
                      	 elementos[i] = copia[i];
@@ -74,6 +78,10 @@ public class ArregloDinamico<T extends Comparable<T>> implements IArregloDinamic
 			}
 		}
 
+		
+		
+		
+		//Implementacion de buscar y eliminar con compareTo
 		public T buscar(T dato) 
 		{			
 			T buscado=null;
@@ -94,7 +102,7 @@ public class ArregloDinamico<T extends Comparable<T>> implements IArregloDinamic
 			T buscado=null;
 			
 			T [ ] copia = elementos;
-            elementos = (T[]) new Object[tamanoMax];
+            elementos = (T[]) new Comparable[tamanoMax];
             
             //Estoy asumiendo que si el dato esta mas de una vez lo borro todas las veces 
             // Esto en realidad solo se usa si el dato esta mas de una vez 
@@ -132,5 +140,100 @@ public class ArregloDinamico<T extends Comparable<T>> implements IArregloDinamic
 			
 			return buscado;
 		}
+		
+		
+		
+		
+		
+		//Implementacion de buscar y eliminar con equals
+		
+		public T buscarEq(T dato) 
+		{			
+			T buscado=null;
+			
+			for ( int i = 0; i < tamanoAct && buscado ==null; i++)
+            {
+				if(elementos[i].equals(dato))
+				{
+					buscado=elementos[i];
+				}
+            } 
+			
+			return buscado;
+		}
+
+		
+		public T eliminarEq(T dato) 
+		{			
+			T buscado=null;
+			
+			T [ ] copia = elementos;
+            elementos = (T[]) new Comparable[tamanoMax];
+            
+            //Estoy asumiendo que si el dato esta mas de una vez lo borro todas las veces 
+            // Esto en realidad solo se usa si el dato esta mas de una vez 
+            
+            
+            
+            int i;
+            //Empiezo a rellenar hasta que encuentre el string a eliminar o hasta que llege a una seecion vacia del arreglo
+            for ( i = 0; i < tamanoAct&&buscado==null&&copia[i]!=null; i++) 
+            {
+            	if (copia[i].equals(dato))
+            	{
+            	buscado=dato;
+            	
+            	tamanoAct--;
+             	}
+            	else
+            	{	
+            	elementos[i]=copia[i];	
+            	}
+            } 
+            
+            //sigo rellenado
+           
+            if (buscado==dato)
+            {
+            	for(int a=i;a<tamanoAct+1;a++)
+            	{
+
+            		elementos[a-1]=copia[a];	
+
+            	}
+
+            }
+			
+			return buscado;
+			
+			
+			
+			
+			
+			
+			
+			
+		}
+		
+		
+		//
+		//Nuevo metodo
+		//
+		
+		public void invertir()
+		{
+			
+			T [ ] copia = elementos;
+            elementos = (T[]) new Comparable[tamanoMax];
+            
+            for(int i=0; i<tamanoAct; i++)
+            	elementos[tamanoAct-1-i]=copia[i];
+
+		}
+		
+	
+		
+		
+		
 
 }
