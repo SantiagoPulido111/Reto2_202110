@@ -124,4 +124,69 @@ public class ArregloDinamico<T extends Comparable<T>> implements IArregloDinamic
 		}			
 		return buscado;
 	}
+	
+	
+	public T buscarEq(T dato) 
+	{			
+		T buscado=null;
+
+		for ( int i = 0; i < tamanoAct && buscado ==null; i++)
+		{
+			if(elementos[i].equals(dato))
+			{
+				buscado=elementos[i];
+			}
+		} 
+
+		return buscado;
+	}
+
+	public T eliminarEq(T dato) 
+	{			
+		T buscado=null;
+		T [ ] copia = elementos;
+		elementos = (T[]) new Comparable[tamanoMax];
+		int i;
+
+		for ( i = 0; i < tamanoAct&&buscado==null&&copia[i]!=null; i++) 
+		{
+			if (copia[i].equals(dato))
+			{
+				buscado=dato;
+
+				tamanoAct--;
+			}
+			else
+			{	
+				elementos[i]=copia[i];	
+			}
+		} 
+
+		if (buscado==dato)
+		{
+			for(int a=i;a<tamanoAct+1;a++)
+			{
+				elementos[a-1]=copia[a];	
+			}
+		}			
+		return buscado;
+	}
+	
+	
+	
+	public void invertir()
+	{
+		T [ ] copia = elementos;
+		elementos = (T[]) new Comparable[tamanoMax];
+		for(int i=0; i<tamanoAct;i++)
+		{
+			elementos[tamanoAct-i-1]=copia[i];
+		}
+	}
+	
+	
+	
+	
+	
+	
 }

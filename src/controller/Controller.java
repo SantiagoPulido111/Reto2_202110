@@ -94,15 +94,10 @@ public class Controller {
 					fin = true;
 					break;	
 				case 7:
-<<<<<<< HEAD
-					view.printMessage("Antes de invertir"); 
-					view.printModelo(modelo);
-					view.printMessage("Invertido"); 
-=======
+
 					view.printMessage("Antes de invertir");
 					view.printModelo(modelo);
 					view.printMessage("Invertido");
->>>>>>> origin/Estudiante2
 					modelo.invertir();
 					view.printModelo(modelo);
 					break;
