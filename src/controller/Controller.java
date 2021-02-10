@@ -94,8 +94,11 @@ public class Controller {
 					fin = true;
 					break;	
 				case 7:
-					view.printMessage("Invertido"); 
+					view.printMessage("Antes de invertir");
+					view.printModelo(modelo);
+					view.printMessage("Invertido");
 					modelo.invertir();
+					view.printModelo(modelo);
 					break;
 
 				default: 
