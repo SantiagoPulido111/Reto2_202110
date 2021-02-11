@@ -31,7 +31,7 @@ public class View
 		
 		public void printModelo(Modelo modelo)
 		{
-			// TODO LISTO
+		
 			//System.out.println(modelo);
 			int max= modelo.darTamano();
 			for (int i=0; i<max;i++)

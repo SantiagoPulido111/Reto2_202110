@@ -25,7 +25,7 @@ public class TestArregloDinamico {
 
 	@Test
 	public void testArregloDinamico() {
-		// TODO LISTO
+		
 		assertTrue(arreglo!=null);
 		assertEquals(0, arreglo.darTamano()); 
 		
@@ -34,7 +34,7 @@ public class TestArregloDinamico {
 	@Test
 	public void testDarElemento() {
 		
-		// TODO LISTO
+		
 		
 		setUp2();
 		for(int i =0; i< TAMANO*2; i++)

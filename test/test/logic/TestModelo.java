@@ -30,14 +30,14 @@ public class TestModelo {
 
 	@Test
 	public void testDarTamano() {
-		// TODO LISTO
+		
 		setUp2();
 		assertEquals("El tamano deberia ser " +CAPACIDAD,CAPACIDAD ,modelo.darTamano());
 	}
 
 	@Test
 	public void testAgregar() {
-		// TODO LISTO
+		
 		setUp1();
 		String s="prueba";
 		modelo.agregar(s);
@@ -57,7 +57,7 @@ public class TestModelo {
 	@Test
 	public void testBuscar() {
 		setUp2();
-		// TODO LISTO
+		
 		for(int i =0; i< CAPACIDAD;i++)
 		{
 			assertEquals("deberia estar el elemento",""+i ,modelo.buscar(""+i));
@@ -70,7 +70,7 @@ public class TestModelo {
 	@Test
 	public void testEliminar() {
 		setUp2();
-		// TODO LISTO 
+		
 		for(int i =0; i< CAPACIDAD;i++)
 		{
 			assertEquals("deberia retornar el elemento",""+i ,modelo.eliminar(""+i));

@@ -12,14 +12,19 @@ public class NodoClase<T extends Comparable<T>>
 
 	public NodoClase(T infor)
 	{
-		this.info=infor;
+		setInfo(infor);
 	}
 	
 	
 	
-	public void setNext(NodoClase<T> info)
+	public void setNext(NodoClase<T> infor)
 	{
-		next=info;
+		next=infor;
+	}
+	
+	public void setInfo(T infor)
+	{
+		this.info=infor;
 	}
 	
 	
