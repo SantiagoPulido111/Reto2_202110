@@ -185,14 +185,21 @@ public class ArregloDinamico<T extends Comparable<T>> implements ILista<T>
 	}
 
 	
-	public void addFirst(T element) {
-		elementos[1]=element;
+	
+	
+	
+	//TODO desde aca
+	
+	public void addFirst(T element) 
+	{
+		elementos[0]=element;
 		
 	}
 
 	
-	public void addLast(T element) {
-		elementos[tamanoAct]=element;
+	public void addLast(T element) 
+	{
+		elementos[tamanoAct-1]=element;
 		
 	}
 
