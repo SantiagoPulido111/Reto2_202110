@@ -38,7 +38,7 @@ public class ArregloDinamico<T extends Comparable<T>> implements ILista<T>
 		tamanoAct = 0;
 	}
 
-	public void agregar( T dato )
+	public void addLast( T dato )
 	{
 		if ( tamanoAct == tamanoMax )
 		{  // caso de arreglo lleno (aumentar tamaNo)
@@ -78,102 +78,13 @@ public class ArregloDinamico<T extends Comparable<T>> implements ILista<T>
 		}
 	}
 
-	//Implementacion de buscar y eliminar con compareTo
-	public T buscar(T dato) 
-	{			
-		T buscado=null;
 
-		for ( int i = 0; i < tamanoAct && buscado ==null; i++)
-		{
-			if(elementos[i].compareTo(dato)==0)
-			{
-				buscado=elementos[i];
-			}
-		} 
 
-		return buscado;
-	}
 
-	public T eliminar(T dato) 
-	{			
-		T buscado=null;
-		T [ ] copia = elementos;
-		elementos = (T[]) new Comparable[tamanoMax];
-		int i;
 
-		for ( i = 0; i < tamanoAct&&buscado==null&&copia[i]!=null; i++) 
-		{
-			if (copia[i].compareTo(dato)==0)
-			{
-				buscado=dato;
 
-				tamanoAct--;
-			}
-			else
-			{	
-				elementos[i]=copia[i];	
-			}
-		} 
 
-		if (buscado==dato)
-		{
-			for(int a=i;a<tamanoAct+1;a++)
-			{
-				elementos[a-1]=copia[a];	
-			}
-		}			
-		return buscado;
-	}
-	
-	
-	public T buscarEq(T dato) 
-	{			
-		T buscado=null;
 
-		for ( int i = 0; i < tamanoAct && buscado ==null; i++)
-		{
-			if(elementos[i].equals(dato))
-			{
-				buscado=elementos[i];
-			}
-		} 
-
-		return buscado;
-	}
-
-	public T eliminarEq(T dato) 
-	{			
-		T buscado=null;
-		T [ ] copia = elementos;
-		elementos = (T[]) new Comparable[tamanoMax];
-		int i;
-
-		for ( i = 0; i < tamanoAct&&buscado==null&&copia[i]!=null; i++) 
-		{
-			if (copia[i].equals(dato))
-			{
-				buscado=dato;
-
-				tamanoAct--;
-			}
-			else
-			{	
-				elementos[i]=copia[i];	
-			}
-		} 
-
-		if (buscado==dato)
-		{
-			for(int a=i;a<tamanoAct+1;a++)
-			{
-				elementos[a-1]=copia[a];	
-			}
-		}			
-		return buscado;
-	}
-	
-	
-	
 	public void invertir()
 	{
 		T [ ] copia = elementos;
@@ -184,103 +95,225 @@ public class ArregloDinamico<T extends Comparable<T>> implements ILista<T>
 		}
 	}
 
-	
-	
-	
-	
-	//TODO desde aca
-	
+
+
+
+
+
+
 	public void addFirst(T element) 
 	{
+		if ( tamanoAct == tamanoMax )
+		{  
+
+			tamanoMax = 2 * tamanoMax;
+		}
+		T [ ] copia = elementos;
+		elementos = (T[]) new Comparable[tamanoMax];
+
 		elementos[0]=element;
-		
+
+		for ( int i = 1; i < tamanoAct+1; i++)
+		{
+			elementos[i] = copia[i];
+		} 
+
+
+		tamanoAct++;
+
 	}
 
-	
-	public void addLast(T element) 
+
+
+
+
+
+	public void addElement(T element, int pos) 
 	{
-		elementos[tamanoAct-1]=element;
-		
+
+		if(pos>-1&&pos<tamanoAct)
+		{
+
+			if ( tamanoAct == tamanoMax )
+			{  
+
+				tamanoMax = 2 * tamanoMax;
+			}
+
+
+
+			T [ ] copia = elementos;
+			elementos = (T[]) new Comparable[tamanoMax];
+
+			elementos[0]=element;
+
+			int i = 0;
+
+			while (  i < pos)
+			{
+				elementos[i] = copia[i];
+				i++;
+			} 
+
+			elementos[i]=element;
+
+			while (  i < tamanoAct+1)
+			{
+				elementos[i] = copia[i];
+				i++;
+			} 
+
+			tamanoAct++;
+
+
+		}
+		else
+		{
+			System.out.println("la posicion no esta en los limites ");
+		}
 	}
 
-	
-	
-	
-	public void addElement(T element, int pos) {
-		
-		// TODO Auto-generated method stub
+
+
+	public T removeFirst()
+	{
+
+		if (tamanoAct==0)
+		{
+			return null;
+		}
+		else if(tamanoAct==0)
+		{
+			T temp =elementos[0];
+			elementos[0]=null;
+			tamanoAct=0;
+			return temp;
+
+		}
+		else
+		{
+			T [ ] copia = elementos;
+			elementos = (T[]) new Comparable[tamanoMax];
+			for ( int i = 1; i < tamanoAct; i++)
+			{
+				elementos[i-1] = copia[i];
+			} 
+			tamanoAct--;
+			return copia[0];
+		}
 	}
 
-	@Override
-	public T removeFirst() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	@Override
 	public T removeLast() {
-		// TODO Auto-generated method stub
-		return null;
+
+
+		if (tamanoAct==0)
+		{
+			return null;
+		}
+		else
+		{
+			tamanoAct--;
+			T temp=elementos[tamanoAct];
+			elementos[tamanoAct]=null;
+			return temp;
+		}
 	}
 
-	@Override
+
+
+
+
+
 	public T removeElement(int pos) {
-		// TODO Auto-generated method stub
-		return null;
+		if (pos==0)
+		{
+			return removeFirst();
+		}
+
+		else
+		{
+			T [ ] copia = elementos;
+			elementos = (T[]) new Comparable[tamanoMax];
+
+			for ( int i = 0; i < pos; i++)
+			{
+				elementos[i] = copia[i];
+			} 
+			for ( int i = pos+1; i < tamanoAct; i++)
+			{
+				elementos[i-1] = copia[i];
+			} 
+
+			tamanoAct--;
+			return copia[pos];
+		}
 	}
 
-	@Override
+
+
 	public T firstElement() {
-		// TODO Auto-generated method stub
-		return null;
+
+		return tamanoAct>0?elementos[0]:null;
 	}
 
-	@Override
+
 	public T lastElement() {
-		// TODO Auto-generated method stub
-		return null;
+
+		return tamanoAct>0?elementos[tamanoAct-1]:null;
 	}
 
-	@Override
-	public T getElement(int pos) {
-		// TODO Auto-generated method stub
-		return null;
+
+	public T getElement(int pos) 
+	{
+
+		return (pos>-1 && pos<tamanoAct) ? elementos[pos]:null;
 	}
 
-	@Override
+	
+	
 	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		return tamanoAct;
 	}
 
-	@Override
+	
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
+		
+		return tamanoAct==0;
 	}
 
-	@Override
-	public int isPresent(T element) {
-		// TODO Auto-generated method stub
-		return 0;
+
+	public int isPresent(T element) 
+	{
+		int encontrado=-1;
+		for(int i=0;i<tamanoAct&&encontrado==-1;i++)
+		{
+			if(elementos[i].equals(element))
+			{
+				encontrado=i;
+			}
+			
+		}
+		return encontrado;
 	}
 
 	@Override
 	public void exchange(int pos1, int pos2) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void changeInfo(int pos, T newElem) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
 }

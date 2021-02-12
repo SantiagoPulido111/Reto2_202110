@@ -264,7 +264,7 @@ public class ListaEncadenada<T extends Comparable<T>> implements ILista<T>
 	}
 
 
-//TODO revisar desde aca
+
 
 	public int isPresent(T element) 
 	{
@@ -303,43 +303,8 @@ public class ListaEncadenada<T extends Comparable<T>> implements ILista<T>
 	//TODO Revisar
 	public void exchange(int pos1, int pos2) 
 	{
-		if(primerNodo!=null&&pos1!=pos2)
-		{
-			NodoClase<T>actual1=primerNodo;
-			NodoClase<T>actual2=primerNodo;
-			int menor =pos1<pos2?pos1:pos2;
-			int mayor=pos1>pos2?pos1:pos2;
-			//revisar caso menor=1
-			int i=1;
-			while(actual1.hasNext()&&i<menor-1)
-			{
-				actual1=actual1.getNext();
-				actual2=actual2.getNext();
-				i++;
-			}
-
-			while(actual1.hasNext()&&i<mayor-1)
-			{
-				actual2=actual2.getNext();
-				i++;
-
-			}
-			if(i==mayor-1)
-			{
-
-				NodoClase<T>tempMenor=(menor==1)?actual1:actual1.getNext();
-				NodoClase<T>tempMayor=actual2.getNext();
-				tempMenor.setNext(actual2.getNext().getNext());
-				tempMayor.setNext((menor==1)?actual1.getNext():actual1.getNext().getNext());
-				actual2.setNext(tempMenor);
-				actual1.setNext(tempMayor);
-
-			}
-
-
-
-		}
-
+		addElement(removeElement(pos1),pos2);
+		addElement(removeElement(pos2+1),pos1);
 
 	}
 
@@ -348,7 +313,7 @@ public class ListaEncadenada<T extends Comparable<T>> implements ILista<T>
 	{
 		if(primerNodo!=null)
 		{
-			int i=1;
+			int i=0;
 			NodoClase<T>actual=primerNodo;
 			while(actual.hasNext()&&i<pos)
 			{
