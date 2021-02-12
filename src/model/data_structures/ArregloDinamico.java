@@ -131,7 +131,7 @@ public class ArregloDinamico<T extends Comparable<T>> implements ILista<T>
 	public void addElement(T element, int pos) 
 	{
 
-		if(pos>-1&&pos<tamanoAct)
+		if(pos>-1&&pos<tamanoAct+1)
 		{
 
 			if ( tamanoAct == tamanoMax )
@@ -286,6 +286,7 @@ public class ArregloDinamico<T extends Comparable<T>> implements ILista<T>
 
 	public int isPresent(T element) 
 	{
+		
 		int encontrado=-1;
 		for(int i=0;i<tamanoAct&&encontrado==-1;i++)
 		{
@@ -298,15 +299,25 @@ public class ArregloDinamico<T extends Comparable<T>> implements ILista<T>
 		return encontrado;
 	}
 
-	@Override
-	public void exchange(int pos1, int pos2) {
-		// TODO Auto-generated method stub
 
+	public void exchange(int pos1, int pos2) 
+	{
+		if(pos1>-1&&pos2>-1&&pos1<tamanoAct&&pos2<tamanoAct)
+		{
+		T elem1=elementos[pos1];
+		elementos[pos1]=elementos[pos2];
+		elementos[pos2]=elem1;
+		}
 	}
 
-	@Override
-	public void changeInfo(int pos, T newElem) {
-		// TODO Auto-generated method stub
+	
+	public void changeInfo(int pos, T newElem) 
+	{
+		if(pos>-1&&pos<tamanoAct)
+		{
+			elementos[pos]=newElem;
+		}
+		
 
 	}
 

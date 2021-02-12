@@ -3,6 +3,8 @@ package model.logic;
 import model.data_structures.ArregloDinamico;
 
 import model.data_structures.IArregloDinamico;
+import model.data_structures.ILista;
+import model.data_structures.ListaEncadenada;
 
 /**
  * Definicion del modelo del mundo
@@ -12,14 +14,14 @@ public class Modelo {
 	/**
 	 * Atributos del modelo del mundo
 	 */
-	private IArregloDinamico<String> datos;
+	private ILista<String> datos;
 	
 	/**
 	 * Constructor del modelo del mundo con capacidad predefinida
 	 */
 	public Modelo()
 	{
-		datos = new ArregloDinamico<String>(7);
+		datos = new ListaEncadenada<String>();
 	}
 	
 	/**
@@ -28,7 +30,7 @@ public class Modelo {
 	 */
 	public Modelo(int capacidad)
 	{
-		datos = new ArregloDinamico<String>(capacidad);
+		datos = new ListaEncadenada<String>();
 	}
 	
 	/**
@@ -37,16 +39,18 @@ public class Modelo {
 	 */
 	public int darTamano()
 	{
-		return datos.darTamano();
+		return datos.size();
 	}
 
 	/**
 	 * Requerimiento de agregar dato
 	 * @param dato
 	 */
-	public void agregar(String dato)
+	public void agregar(String dato, int i)
 	{	
-		datos.agregar(dato);
+		
+		//pruebas
+		datos.addElement(dato,i);
 	}
 	
 	/**
@@ -56,7 +60,7 @@ public class Modelo {
 	 */
 	public String buscar(String dato)
 	{
-		return datos.buscar(dato);
+		return datos.getElement(datos.isPresent(dato));
 	}
 	
 	/**
@@ -66,19 +70,22 @@ public class Modelo {
 	 */
 	public String eliminar(String dato)
 	{
-		return datos.eliminar(dato);
+		return datos.removeElement(datos.isPresent(dato));
 	}
 	
 	
 	//metodo para poder retornar los elementos del modelo enview
 	public String darItem(int i)
 	{
-		return datos.darElemento(i);
+		return datos.getElement(i);
 	}
 	
-	public void invertir()
-	{	
-		datos.invertir();;
+	public void cambiar (int i, int j)
+	{
+		
+		datos.exchange(i, i);
 	}
+	
+	
 
 }

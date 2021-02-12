@@ -47,7 +47,9 @@ public class Controller {
 				case 2:
 					view.printMessage("--------- \nDar cadena (simple) a ingresar: ");
 					dato = lector.next();
-					modelo.agregar(dato);
+					view.printMessage("--------- \nDar pos? : ");
+					int c = lector.nextInt();
+					modelo.agregar(dato,c);
 					view.printMessage("Dato agregado");
 					view.printMessage("Numero actual de elementos " + modelo.darTamano() + "\n---------");						
 					break;
@@ -93,14 +95,17 @@ public class Controller {
 					lector.close();
 					fin = true;
 					break;	
-				case 7:
-
-					view.printMessage("Antes de invertir");
-					view.printModelo(modelo);
-					view.printMessage("Invertido");
-					modelo.invertir();
-					view.printModelo(modelo);
+					
+				case 7: 
+					view.printMessage("dar pos1"); 
+					int i = lector.nextInt();
+					view.printMessage("dar pos1"); 
+					int j = lector.nextInt();
+					
+					modelo.cambiar(i, j);
+					
 					break;
+				
 
 				default: 
 					view.printMessage("--------- \n Opcion Invalida !! \n---------");

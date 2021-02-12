@@ -14,12 +14,12 @@ public class TestArregloDinamico {
 	
 	@Before
 	public void setUp1() {
-		arreglo= new ArregloDinamico(TAMANO);
+		arreglo= new ArregloDinamico<String>(TAMANO);
 	}
 
 	public void setUp2() {
 		for(int i =0; i< TAMANO*2; i++){
-			arreglo.agregar(""+i);
+			arreglo.addLast(""+1);
 		}
 	}
 

@@ -7,9 +7,9 @@ public class ListaEncadenada<T extends Comparable<T>> implements ILista<T>
 	private  int tamano;
 
 
-	public ListaEncadenada(T primer)
+	public ListaEncadenada()
 	{
-		addFirst(primer);
+
 		tamano=0;
 
 	}
@@ -65,8 +65,16 @@ public class ListaEncadenada<T extends Comparable<T>> implements ILista<T>
 	//listo
 	public void addElement(T element, int pos) 
 	{
-
-		if (primerNodo !=null)
+		if(pos==0)
+		{
+			addFirst(element);
+		}
+		else if(pos==tamano)
+		{
+			addLast(element);
+			System.out.println("llego aca");
+		}
+		else if (primerNodo !=null&&pos>0&&pos<tamano+1)
 		{
 			NodoClase<T>actual= primerNodo;
 			int i =0;
@@ -75,6 +83,7 @@ public class ListaEncadenada<T extends Comparable<T>> implements ILista<T>
 				actual=actual.getNext();
 				i++;
 			}
+			
 			if(i==pos-1)
 			{
 				NodoClase<T>siguiente= actual.getNext();
@@ -85,14 +94,12 @@ public class ListaEncadenada<T extends Comparable<T>> implements ILista<T>
 				//adiciono lo que estaba en pos ( con lo que el guardba y sus suguientes)
 				actual.setNext(siguiente);
 			}
+
+			tamano++;
 		}
-		else if(pos==0)
-		{
-			primerNodo= new NodoClase<T>(element);
-			ultimoNodo=primerNodo;
-		}
+
 		//Si se ingresa una poscion que no sea posible el metodo no hace nada 
-		tamano++;
+
 
 	}
 
@@ -171,8 +178,8 @@ public class ListaEncadenada<T extends Comparable<T>> implements ILista<T>
 	public T removeElement(int pos) 
 	{
 
-		tamano--;
-		
+
+
 		if(pos==0)
 		{
 			return removeFirst();
@@ -185,6 +192,7 @@ public class ListaEncadenada<T extends Comparable<T>> implements ILista<T>
 		}
 		else if(primerNodo!=null&&primerNodo.hasNext()&&pos>0)
 		{
+			tamano--;
 			NodoClase<T>anterior= primerNodo;
 			NodoClase<T>actual= anterior.getNext();
 			int i=1;
