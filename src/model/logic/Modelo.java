@@ -97,7 +97,10 @@ public class Modelo {
 	{
 
 		Reader in = new FileReader(ruta);
-		Iterable<CSVRecord> records = CSVFormat.EXCEL.parse(in);
+		Iterable<CSVRecord> records = CSVFormat.EXCEL.withHeader().parse(in);
+		
+		
+    
 
 		if(listaEncadenada)
 		{
@@ -112,6 +115,7 @@ public class Modelo {
 		for (CSVRecord record : records)
 		{
 			String trending_date=record.get("trending_date");
+			System.out.println(trending_date);
 			String title=record.get("title");
 			String channel_title=record.get("channel_title");
 			int views=Integer.parseInt(record.get("views"));

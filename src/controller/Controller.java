@@ -15,6 +15,10 @@ public class Controller {
 	/* Instancia de la Vista*/
 	private View view;
 	
+	
+	private final static String SMALL = "data/videos-small.csv";
+	private final static String ID = "data/category-id.csv";
+	private final static String ALL = "data/videos-all.csv";
 	/**
 	 * Crear la vista y el modelo del proyecto
 	 * @param capacidad tamaNo inicial del arreglo
@@ -41,9 +45,10 @@ public class Controller {
 					view.printMessage("--------- \nCrear Arreglo \nEscriba (1) para lista encadenada, (0) para arreglo dinamico ");
 				    int esLista = lector.nextInt();
 				    boolean esListab = esLista==1;
-				    view.printMessage("--------- \nCrear Arreglo \nDigite la ruta del .csv, enter cargara videos-small");
-				    String ruta = lector.next();
-				    ruta=(ruta=="")?"data/videos-small.csv":ruta;
+				    view.printMessage("--------- \nCrear Arreglo \nDigite 1, para videos-small, y 2 videos-small ");
+				    int rutai = lector.nextInt();
+				    
+				    String ruta=(rutai==1)?SMALL:ALL;
 				try {
 					modelo = new Modelo(ruta,esListab);
 				} catch (IOException e) {
@@ -53,8 +58,18 @@ public class Controller {
 					
 				} 
 				    view.printMessage("Arreglo Dinamico creado");
-				    view.printMessage("Primer elemento: " +modelo.darItem(0).getTitle());
-				    view.printMessage("Ultimo Elemento: " +modelo.darItem(modelo.darTamano()-1).getTitle());
+				    view.printMessage("Titulo primer elemento: " +modelo.darItem(0).getTitle());
+				    view.printMessage("Pais primer elemento: " +modelo.darItem(0).getCountry());
+				    view.printMessage("Likes primer elemento: " +modelo.darItem(0).getLikes());
+				    view.printMessage("Fecha de tendencia primer elemento: " +modelo.darItem(0).getTrending_date());
+				    
+				    int posFinal= modelo.darTamano()-1;
+				   
+				    view.printMessage("Arreglo Dinamico creado");
+				    view.printMessage("Titulo primer elemento: " +modelo.darItem(posFinal).getTitle());
+				    view.printMessage("Pais primer elemento: " +modelo.darItem(posFinal).getCountry());
+				    view.printMessage("Likes primer elemento: " +modelo.darItem(posFinal).getLikes());
+				    view.printMessage("Fecha de tendencia primer elemento: " +modelo.darItem(posFinal).getTrending_date());
 				    view.printMessage("Total de videos: " + modelo.darTamano());
 				    //TODO dar el tiempo que tarda
 				    view.printMessage("Tiempo tardado en cargar");
