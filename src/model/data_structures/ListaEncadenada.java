@@ -308,7 +308,7 @@ public class ListaEncadenada<T extends Comparable<T>> implements ILista<T>
 
 
 
-	//TODO Revisar
+
 	public void exchange(int pos1, int pos2) 
 	{
 		addElement(removeElement(pos1),pos2);
