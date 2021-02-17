@@ -1,6 +1,7 @@
 package model.logic;
 
 import java.io.FileNotFoundException;
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
@@ -13,6 +14,7 @@ import model.data_structures.ArregloDinamico;
 
 import model.data_structures.ILista;
 import model.data_structures.ListaEncadenada;
+import view.View;
 
 
 /**
@@ -24,6 +26,8 @@ public class Modelo {
 	 * Atributos del modelo del mundo
 	 */
 	private ILista<YoutubeVideo> datos;
+
+	private View vista = new View();
 
 	/**
 	 * Constructor del modelo del mundo con capacidad predefinida
@@ -37,7 +41,7 @@ public class Modelo {
 	 * Constructor del modelo del mundo con capacidad dada
 	 * @param tamano
 	 */
-	
+
 
 	/**
 	 * Servicio de consulta de numero de elementos presentes en el modelo 
@@ -54,7 +58,6 @@ public class Modelo {
 	 */
 	public void agregar(YoutubeVideo dato, int i)
 	{	
-
 		//pruebas
 		datos.addElement(dato,i);
 	}
@@ -88,19 +91,16 @@ public class Modelo {
 
 	public void cambiar (int i, int j)
 	{
-
 		datos.exchange(i, i);
 	}
 
 	//TODO arreglar este metodo, no sirve desde el for
 	public void cargarDatos(String ruta, boolean listaEncadenada) throws IOException
 	{
-
+		Stopwatch timer = new Stopwatch();
 		Reader in = new FileReader(ruta);
 		Iterable<CSVRecord> records = CSVFormat.EXCEL.withHeader().parse(in);
-		
-		
-    
+
 
 		if(listaEncadenada)
 		{
@@ -110,12 +110,12 @@ public class Modelo {
 		{
 			datos= new ListaEncadenada<YoutubeVideo>();
 		}
-		
-		
+
+
 		for (CSVRecord record : records)
 		{
 			String trending_date=record.get("trending_date");
-			System.out.println(trending_date);
+			//			System.out.println(trending_date);
 			String title=record.get("title");
 			String channel_title=record.get("channel_title");
 			int views=Integer.parseInt(record.get("views"));
@@ -123,15 +123,15 @@ public class Modelo {
 			int dislikes=Integer.parseInt(record.get("dislikes"));
 			String thumbnail_link=record.get("thumbnail_link");
 			String country=record.get("country");
-			
+
 			YoutubeVideo temp=new YoutubeVideo(trending_date, title, channel_title,views,likes,dislikes,thumbnail_link,country );
-			
+
 			datos.addLast(temp);
-			
-			
 		}
+		
+		vista.printMessage("Arreglo creado"); 
+		double time = timer.elapsedTime();
+		vista.printMessage("Tiempo tomado: "+ time);
 	}
-
-//TODO implementar el conteo del tiempo al cargar el modelo
-
+	//TODO implementar el conteo del tiempo al cargar el modelo
 }

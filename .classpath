@@ -1,18 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/santi/Desktop/LabsDatos/T2_202110/lib/commons-csv-1.8.jar"/>
-	<classpathentry kind="lib" path="C:/Users/santi/Desktop/LabsDatos/T2_202110/lib/commons-csv-1.8-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Andes/Estructuras de Datos/202110/commons-csv-1.8/commons-csv-1.8.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Andes/Estructuras de Datos/202110/commons-csv-1.8/commons-csv-1.8-sources.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

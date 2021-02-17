@@ -4,8 +4,7 @@ public interface ILista<T extends Comparable<T>>
 {
 	
 	//Agrega un elemento al principio de la lista
-	public void addFirst(T element);
-	
+	public void addFirst(T element);	
 	
 	//Agrega un elemento al final de la lista
 	public void addLast(T element);
@@ -50,6 +49,4 @@ public interface ILista<T extends Comparable<T>>
 	//Actualiza el elemento en una posición válida de la lista
 	public  void changeInfo (int pos, T newElem);
 
-	
-	
 }

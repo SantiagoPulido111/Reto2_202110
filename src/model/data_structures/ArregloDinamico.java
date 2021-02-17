@@ -49,7 +49,7 @@ public class ArregloDinamico<T extends Comparable<T>> implements ILista<T>
 			{
 				elementos[i] = copia[i];
 			} 
-			System.out.println("Arreglo lleno: " + tamanoAct + " - Arreglo duplicado: " + tamanoMax);
+			//			System.out.println("Arreglo lleno: " + tamanoAct + " - Arreglo duplicado: " + tamanoMax);
 		}	
 		elementos[tamanoAct] = dato;
 		tamanoAct++;
@@ -78,13 +78,6 @@ public class ArregloDinamico<T extends Comparable<T>> implements ILista<T>
 		}
 	}
 
-
-
-
-
-
-
-
 	public void invertir()
 	{
 		T [ ] copia = elementos;
@@ -94,12 +87,6 @@ public class ArregloDinamico<T extends Comparable<T>> implements ILista<T>
 			elementos[tamanoAct-i-1]=copia[i];
 		}
 	}
-
-
-
-
-
-
 
 	public void addFirst(T element) 
 	{
@@ -117,30 +104,18 @@ public class ArregloDinamico<T extends Comparable<T>> implements ILista<T>
 		{
 			elementos[i] = copia[i];
 		} 
-
-
 		tamanoAct++;
-
 	}
-
-
-
-
-
 
 	public void addElement(T element, int pos) 
 	{
 
 		if(pos>-1&&pos<tamanoAct+1)
 		{
-
 			if ( tamanoAct == tamanoMax )
 			{  
-
 				tamanoMax = 2 * tamanoMax;
 			}
-
-
 
 			T [ ] copia = elementos;
 			elementos = (T[]) new Comparable[tamanoMax];
@@ -164,16 +139,12 @@ public class ArregloDinamico<T extends Comparable<T>> implements ILista<T>
 			} 
 
 			tamanoAct++;
-
-
 		}
 		else
 		{
 			System.out.println("la posicion no esta en los limites ");
 		}
 	}
-
-
 
 	public T removeFirst()
 	{
@@ -188,7 +159,6 @@ public class ArregloDinamico<T extends Comparable<T>> implements ILista<T>
 			elementos[0]=null;
 			tamanoAct=0;
 			return temp;
-
 		}
 		else
 		{
@@ -203,10 +173,8 @@ public class ArregloDinamico<T extends Comparable<T>> implements ILista<T>
 		}
 	}
 
-
-	public T removeLast() {
-
-
+	public T removeLast() 
+	{
 		if (tamanoAct==0)
 		{
 			return null;
@@ -219,11 +187,6 @@ public class ArregloDinamico<T extends Comparable<T>> implements ILista<T>
 			return temp;
 		}
 	}
-
-
-
-
-
 
 	public T removeElement(int pos) {
 		if (pos==0)
@@ -250,51 +213,40 @@ public class ArregloDinamico<T extends Comparable<T>> implements ILista<T>
 		}
 	}
 
-
-
-	public T firstElement() {
-
+	public T firstElement() 
+	{
 		return tamanoAct>0?elementos[0]:null;
 	}
 
-
-	public T lastElement() {
-
+	public T lastElement() 
+	{
 		return tamanoAct>0?elementos[tamanoAct-1]:null;
 	}
 
-
 	public T getElement(int pos) 
 	{
-
 		return (pos>-1 && pos<tamanoAct) ? elementos[pos]:null;
 	}
 
-	
-	
-	public int size() {
-		
+	public int size() 
+	{	
 		return tamanoAct;
 	}
 
-	
-	public boolean isEmpty() {
-		
+	public boolean isEmpty() 
+	{	
 		return tamanoAct==0;
 	}
 
-
 	public int isPresent(T element) 
-	{
-		
+	{		
 		int encontrado=-1;
 		for(int i=0;i<tamanoAct&&encontrado==-1;i++)
 		{
 			if(elementos[i].equals(element))
 			{
 				encontrado=i;
-			}
-			
+			}		
 		}
 		return encontrado;
 	}
@@ -304,27 +256,17 @@ public class ArregloDinamico<T extends Comparable<T>> implements ILista<T>
 	{
 		if(pos1>-1&&pos2>-1&&pos1<tamanoAct&&pos2<tamanoAct)
 		{
-		T elem1=elementos[pos1];
-		elementos[pos1]=elementos[pos2];
-		elementos[pos2]=elem1;
+			T elem1=elementos[pos1];
+			elementos[pos1]=elementos[pos2];
+			elementos[pos2]=elem1;
 		}
 	}
 
-	
 	public void changeInfo(int pos, T newElem) 
 	{
 		if(pos>-1&&pos<tamanoAct)
 		{
 			elementos[pos]=newElem;
 		}
-		
-
 	}
-
-
-
-
-
-
-
 }

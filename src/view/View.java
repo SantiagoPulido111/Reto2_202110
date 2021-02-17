@@ -23,19 +23,17 @@ public class View
 			//System.out.println("7. Exchange");
 			
 			
-			System.out.println("Dar el numero de opcion a resolver, luego oprimir tecla Return: (e.g.," + " 1):");
-			
+			System.out.println("Dar el numero de opcion a resolver, luego oprimir tecla Return: (e.g.," + " 1):");	
 		}
 		
 
-		public void printMessage(String mensaje) {
-
+		public void printMessage(String mensaje) 
+		{
 			System.out.println(mensaje);
 		}		
 		
 		public void printModelo(Modelo modelo)
 		{
-		
 			//System.out.println(modelo);
 			int max= modelo.darTamano();
 			for (int i=0; i<max;i++)
