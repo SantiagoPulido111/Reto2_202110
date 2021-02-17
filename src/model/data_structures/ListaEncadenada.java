@@ -275,4 +275,28 @@ public class ListaEncadenada<T extends Comparable<T>> implements ILista<T>
 			}
 		}
 	}
+	
+	public ILista<T> sublista(int numElementos)
+	{
+		ListaEncadenada<T> temp = new ListaEncadenada<>();
+		NodoClase<T> temp2 = primerNodo;
+		
+		for (int i = 0; i < numElementos; i++) 
+		{
+			temp.addLast(temp2.getInfo());
+			temp2 = temp2.getNext();
+		}
+		return temp;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

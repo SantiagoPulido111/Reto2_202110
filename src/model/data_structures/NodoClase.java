@@ -15,8 +15,6 @@ public class NodoClase<T extends Comparable<T>>
 		setInfo(infor);
 	}
 	
-	
-	
 	public void setNext(NodoClase<T> infor)
 	{
 		next=infor;
@@ -50,7 +48,3 @@ public class NodoClase<T extends Comparable<T>>
 	
 	
 }
-
-
-
-

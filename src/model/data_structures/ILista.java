@@ -47,6 +47,25 @@ public interface ILista<T extends Comparable<T>>
 	public void exchange (int pos1, int pos2);
 	
 	//Actualiza el elemento en una posición válida de la lista
-	public  void changeInfo (int pos, T newElem);
-
+	public  void changeInfo (int pos, T newElem);	
+	
+	
+	/**
+	 * Crear una sublista de la lista original (this).
+	 * Los elementos se toman en el mismo orden como aparecen en la lista original (this).
+	 * @param número de elementos que contendrá la sublista. Si el número es superior al tamaño
+	 * original de la lista, se obtiene una copia de la lista original.
+	* @return sublista creada con la misma representación de la lista original (this).
+	 */
+	
+	public ILista<T> sublista(int numElementos);
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

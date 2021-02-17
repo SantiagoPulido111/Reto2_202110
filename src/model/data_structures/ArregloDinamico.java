@@ -95,6 +95,7 @@ public class ArregloDinamico<T extends Comparable<T>> implements ILista<T>
 
 			tamanoMax = 2 * tamanoMax;
 		}
+
 		T [ ] copia = elementos;
 		elementos = (T[]) new Comparable[tamanoMax];
 
@@ -268,5 +269,17 @@ public class ArregloDinamico<T extends Comparable<T>> implements ILista<T>
 		{
 			elementos[pos]=newElem;
 		}
+	}
+
+
+	public ILista<T> sublista(int numElementos)
+	{
+		ArregloDinamico<T> temp = new ArregloDinamico<>(numElementos);
+
+		for (int i = 0; i < numElementos; i++) 
+		{
+			temp.addLast(elementos[i]);
+		}
+		return temp;
 	}
 }
