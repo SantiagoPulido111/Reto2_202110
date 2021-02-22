@@ -2,7 +2,7 @@ package model.logic;
 
 import model.data_structures.ILista;
 
-public class Ordenamientos 
+public class Ordenamientos <T extends Comparable<T>>
 {
 
 	private static boolean less(Comparable v, Comparable w)
@@ -16,7 +16,6 @@ public class Ordenamientos
 	}
 
 
-
 	//TODO insertion, 
 
 	public static void insertion(ILista<YoutubeVideo> sublista)
@@ -28,17 +27,11 @@ public class Ordenamientos
 
 			for (int j = i; j > 0 && less(sublista.getElement(j), sublista.getElement(j-1)); j--)
 				exch(sublista, j, j-1);
-			    
-
 		}
 	}
 
 
-
-
 	//TODO shell 
-
-
 
 	public static void shell(ILista<YoutubeVideo> sublista)
 	{ 
@@ -51,7 +44,7 @@ public class Ordenamientos
 		{ 
 			for (int i = h; i < N; i++)
 			{ 
-				
+
 				for (int j = i; j >= h && less(sublista.getElement(j), sublista.getElement(j-h)); j -= h)
 					exch(sublista, j, j-h);
 			}
@@ -60,10 +53,7 @@ public class Ordenamientos
 	}
 
 
-
 	//TODO merge 
-
-
 
 	private static YoutubeVideo[] aux; 
 
@@ -102,13 +92,11 @@ public class Ordenamientos
 		sortMerge(sublista, 0, sublista.size() - 1);
 	}
 
+	
 	//TODO MergeBu
-
-
-
+	
 	public static void mergeBU(ILista<YoutubeVideo> sublista)
 	{ 
-
 		int N = sublista.size();
 		aux = new YoutubeVideo[N];
 		for (int sz = 1; sz < N; sz = sz+sz) 
@@ -117,46 +105,40 @@ public class Ordenamientos
 	}
 
 
-
-
-
 	//TODO quicksort 
 
+
+	public static void quickSort(ILista<YoutubeVideo> sublista)
+	{
+		// StdRandom.shuffle(a);
+		quickSort(sublista, 0, sublista.size() - 1);
+	}
 	
-	 public static void quickSort(Comparable[] a)
-	 {
-	// StdRandom.shuffle(a);
-	 quickSort(a, 0, a.length - 1);
-	 }
-	 private static void quickSort(Comparable[] a, int lo, int hi)
-	 {
-	 if (hi <= lo) return;
-	 int j = partition(a, lo, hi); 
-	 quickSort(a, lo, j-1); 
-	 quickSort(a, j+1, hi);
-	 }
-	
-
-	 private static int partition(Comparable[] a, int lo, int hi)
-	 { 
-		 
-	  int i = lo, j = hi+1;
-	  
-	  Comparable v = a[lo]; 
-	  
-	  while (true)
-	  {
-		  
-	  while (less(a[++i], v)) if (i == hi) break;
-	  while (less(v, a[--j])) if (j == lo) break;
-	  if (i >= j) break;
-	  exch(a, i, j);
-	  }
-	  exch(a, lo, j); 
-	  return j; 
-	 }
+	private static void quickSort(ILista<YoutubeVideo> sublista, int lo, int hi)
+	{
+		if (hi <= lo) return;
+		int j = partition(sublista, lo, hi); 
+		quickSort(sublista, lo, j-1); 
+		quickSort(sublista, j+1, hi);
+	}
 
 
+	private static int partition(ILista<YoutubeVideo> sublista, int lo, int hi)
+	{ 
+		int i = lo, j = hi+1;
 
+		Comparable v = sublista.getElement(lo); 
+
+		while (true)
+		{
+
+			while (less(sublista.getElement(++i), v)) if (i == hi) break;
+			while (less(v, sublista.getElement(--j))) if (j == lo) break;
+			if (i >= j) break;
+			exch(sublista, i, j);
+		}
+		exch(sublista, lo, j); 
+		return j; 
+	}
 
 }

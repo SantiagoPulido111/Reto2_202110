@@ -7,5 +7,6 @@ module T3_202110 {
 	exports main;
 	exports model.data_structures;
 
+	requires commons.csv;
 	requires junit;
 }

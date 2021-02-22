@@ -5,6 +5,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
@@ -32,8 +35,9 @@ public class Modelo {
 
 	/**
 	 * Constructor del modelo del mundo con capacidad predefinida
+	 * @throws ParseException 
 	 */
-	public Modelo(String ruta, boolean listaEncadenada) throws IOException
+	public Modelo(String ruta, boolean listaEncadenada) throws IOException, ParseException
 	{
 		cargarDatos(ruta, listaEncadenada);
 	}
@@ -96,7 +100,7 @@ public class Modelo {
 	}
 
 	//TODO arreglar este metodo, no sirve desde el for
-	public void cargarDatos(String ruta, boolean listaEncadenada) throws IOException
+	public void cargarDatos(String ruta, boolean listaEncadenada) throws IOException, ParseException
 	{
 		Stopwatch timer = new Stopwatch();
 		Reader in = new FileReader(ruta);
@@ -115,7 +119,9 @@ public class Modelo {
 
 		for (CSVRecord record : records)
 		{
-			String trending_date=record.get("trending_date");
+			String trending_date_String = record.get("trending_date");
+			Date trending_date;
+			trending_date = new SimpleDateFormat("yy.dd.MM").parse(trending_date_String);
 			//			System.out.println(trending_date);
 			String title=record.get("title");
 			String channel_title=record.get("channel_title");
@@ -129,20 +135,20 @@ public class Modelo {
 
 			datos.addLast(temp);
 		}
-		
+
 		vista.printMessage("Arreglo creado"); 
 		double time = timer.elapsedTime();
 		vista.printMessage("Tiempo tomado: "+ time);
 	}
-	
+
 	public void sublista(int i)
 	{
 		if(i>0)
 		{
-		i=i<datos.size()?i:datos.size();
-	    setSublista(datos.sublista(i));
+			i=i<datos.size()?i:datos.size();
+			setSublista(datos.sublista(i));
 		}
-		
+
 	}
 
 	public ILista<YoutubeVideo> getSublista() 
@@ -154,9 +160,10 @@ public class Modelo {
 	{
 		this.sublista = sublista;
 	}
-	
-	public void sort(int tipoOrdenamiento)
+
+	public void sortSublista(int tipoOrdenamiento)
 	{
+		Stopwatch timer = new Stopwatch();
 		switch(tipoOrdenamiento)
 		{
 		case 1:
@@ -164,17 +171,22 @@ public class Modelo {
 			Ordenamientos.insertion(sublista);
 			break;
 		case 2:
+			//shell
 			Ordenamientos.shell(sublista);
 			break;
 		case 3:
+			//merge
 			Ordenamientos.sortMerge(sublista);
 			break;
 		case 4:
+			//quick
 			Ordenamientos.quickSort(sublista);
 			break;
-		
+
 		}
+		vista.printMessage("Arreglo creado"); 
+		double time = timer.elapsedTime();
+		vista.printMessage("Tiempo tomado: "+ time);
 	}
-	
-	
+
 }

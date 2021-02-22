@@ -1,7 +1,7 @@
 package controller;
 
 import java.io.IOException;
-
+import java.text.ParseException;
 import java.util.Scanner;
 
 import model.data_structures.ILista;
@@ -28,7 +28,7 @@ public class Controller
 		view = new View();
 	}
 
-	public void run() 
+	public void run() throws ParseException 
 	{
 		Scanner lector = new Scanner(System.in);
 		boolean fin = false;
@@ -82,52 +82,51 @@ public class Controller
 				int tamano = lector.nextInt();
 				modelo.sublista(tamano);
 			   
-			    view.printMessage("Numero actual de elementos sublista" + modelo.getSublista().size()+ "\n---------");
+			    view.printMessage("Numero actual de elementos sublista " + modelo.getSublista().size()+ "\n---------");
 				
 				break;
 				
 			case 3:
+				view.printMessage("--------- \nOrdenar Arreglo \nOpción : \n1 para Insertion \n2 para Shell \n3 para Merge \n4 para Quicksort");
+				int opcion = lector.nextInt();
+				modelo.sortSublista(opcion);
+				
+				
+				if(modelo.getSublista().size() < 20)
+				{
+					view.printMessage("La sublista es de " + modelo.getSublista().size() + " elementos.");
+					for (int i = 0; i < modelo.getSublista().size(); i++) 
+					{
+						view.printMessage("Titulo: " + modelo.getSublista().getElement(i).getTitle() + "Trending Date: " + modelo.getSublista().getElement(i).getTrending_date());
+					}
+				}	
+				else
+				{
+					view.printMessage("Primero 10 elementos");
+					for (int i = 0; i < 10; i++) 
+					{
+						view.printMessage("Titulo: " + modelo.getSublista().getElement(i).getTitle() + "Trending Date: " + modelo.getSublista().getElement(i).getTrending_date());		
+					}
+					view.printMessage("Ultimos 10 elementos");
+					
+					for (int i = modelo.getSublista().size() - 9; i < modelo.getSublista().size(); i++) 
+					{
+						view.printMessage("Titulo: " + modelo.getSublista().getElement(i).getTitle() + "Trending Date: " + modelo.getSublista().getElement(i).getTrending_date());
+					}
+				}
 				break;
-				//TEMPORALMENTE INUTIL
-				//view.printMessage("--------- \nDar cadena (simple) a buscar: ");
-				//dato = lector.next();
-				//respuesta = modelo.buscar(dato);
-				//					if ( respuesta != null)
-				//					{
-				//						view.printMessage("Dato encontrado: "+ respuesta);
-				//					}
-				//					else
-				//					{
-				//						view.printMessage("Dato NO encontrado");
-				//					}
-				//					view.printMessage("Numero actual de elementos " + modelo.darTamano() + "\n---------");						
-				//					break;
 
 			case 4:
+				view.printMessage("La sublista es de " + modelo.getSublista().size() + " elementos.");
+				for (int i = 0; i < modelo.getSublista().size(); i++) 
+				{
+					view.printMessage( (i + 1) + " Titulo: " + modelo.getSublista().getElement(i).getTitle() + "Trending Date: " + modelo.getSublista().getElement(i).getTrending_date());
+				}
 				break;
-				//TEMPORALMENTE INUTIL
-				//					view.printMessage("--------- \nDar cadena (simple) a eliminar: ");
-				//					dato = lector.next();
-				//					//respuesta = modelo.eliminar(dato);
-				//					if ( respuesta != null)
-				//					{
-				//						view.printMessage("Dato eliminado "+ respuesta);
-				//					}
-				//					else
-				//					{
-				//						view.printMessage("Dato NO eliminado");							
-				//					}
-				//					view.printMessage("Numero actual de elementos " + modelo.darTamano() + "\n---------");						
-				//					break;
 
 			case 5: 
 				break;
-				//TEMPORALMENTE INUTIL
-				//					view.printMessage("--------- \nContenido del Arreglo: ");
-				//					view.printModelo(modelo);
-				//					view.printMessage("Numero actual de elementos " + modelo.darTamano() + "\n---------");						
-				//					break;	
-				//					
+			
 			case 6: 
 				view.printMessage("--------- \n Hasta pronto !! \n---------"); 
 				lector.close();
@@ -136,15 +135,6 @@ public class Controller
 
 			case 7: 
 				break;
-				//					//TEMPORALMENTE INUTIL
-				//					view.printMessage("dar pos1"); 
-				//					int i = lector.nextInt();
-				//					view.printMessage("dar pos1"); 
-				//					int j = lector.nextInt();
-				//					
-				//					modelo.cambiar(i, j);
-				//					
-				//					break;
 
 			default: 
 				view.printMessage("--------- \n Opcion Invalida !! \n---------");

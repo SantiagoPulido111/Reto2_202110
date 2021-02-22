@@ -12,12 +12,12 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/santi/Desktop/LabsDatos/T3_202110/lib/commons-csv-1.8.jar">
+	<classpathentry kind="lib" path="C:/Users/Juan David/Documents/Talleres/T3_202110/lib/commons-csv-1.8.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/santi/Desktop/LabsDatos/T3_202110/lib/commons-csv-1.8-sources.jar">
+	<classpathentry kind="lib" path="C:/Users/Juan David/Documents/Talleres/T3_202110/lib/commons-csv-1.8-sources.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
