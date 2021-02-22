@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import java.util.Scanner;
 
+import model.data_structures.ILista;
 import model.logic.Modelo;
 import view.View;
 
@@ -57,35 +58,34 @@ public class Controller
 					e.printStackTrace();
 					view.printMessage("Error al cargar");
 				} 
-				view.printMessage("Titulo primer elemento: " +modelo.darItem(0).getTitle());
-				view.printMessage("Pais primer elemento: " +modelo.darItem(0).getCountry());
-				view.printMessage("Likes primer elemento: " +modelo.darItem(0).getLikes());
-				view.printMessage("Fecha de tendencia primer elemento: " +modelo.darItem(0).getTrending_date());
+//				view.printMessage("Titulo primer elemento: " +modelo.darItem(0).getTitle());
+//				view.printMessage("Pais primer elemento: " +modelo.darItem(0).getCountry());
+//				view.printMessage("Likes primer elemento: " +modelo.darItem(0).getLikes());
+//				view.printMessage("Fecha de tendencia primer elemento: " +modelo.darItem(0).getTrending_date());
 
-				int posFinal= modelo.darTamano()-1;
-
-				view.printMessage("Titulo primer elemento: " +modelo.darItem(posFinal).getTitle());
-				view.printMessage("Pais primer elemento: " +modelo.darItem(posFinal).getCountry());
-				view.printMessage("Likes primer elemento: " +modelo.darItem(posFinal).getLikes());
-				view.printMessage("Fecha de tendencia primer elemento: " +modelo.darItem(posFinal).getTrending_date());
-				view.printMessage("Total de videos: " + modelo.darTamano());
-				//TODO dar el tiempo que tarda
+// 				int posFinal= modelo.darTamano()-1;
+//
+//				view.printMessage("Titulo primer elemento: " +modelo.darItem(posFinal).getTitle());
+//				view.printMessage("Pais primer elemento: " +modelo.darItem(posFinal).getCountry());
+//				view.printMessage("Likes primer elemento: " +modelo.darItem(posFinal).getLikes());
+//				view.printMessage("Fecha de tendencia primer elemento: " +modelo.darItem(posFinal).getTrending_date());
+//				view.printMessage("Total de videos: " + modelo.darTamano());
+				
+				
 				view.printMessage("Numero actual de elementos " + modelo.darTamano() + "\n---------");
 				
 				break;
 
 			case 2:
+				view.printMessage("--------- \nCrear Arreglo \nEscriba el tamaño de la sublista");
+				
+				int tamano = lector.nextInt();
+				modelo.sublista(tamano);
+			   
+			    view.printMessage("Numero actual de elementos sublista" + modelo.getSublista().size()+ "\n---------");
+				
 				break;
-				//TEMPORALMENTE INUTIL
-				//					view.printMessage("--------- \nDar cadena (simple) a ingresar: ");
-				//					dato = lector.next();
-				//					view.printMessage("--------- \nDar pos? : ");
-				//					int c = lector.nextInt();
-				//					//modelo.agregar(dato,c);
-				//					view.printMessage("Dato agregado");
-				//					view.printMessage("Numero actual de elementos " + modelo.darTamano() + "\n---------");						
-				//					break;
-
+				
 			case 3:
 				break;
 				//TEMPORALMENTE INUTIL

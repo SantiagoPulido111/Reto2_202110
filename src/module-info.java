@@ -1,4 +1,4 @@
-module T2_202110 {
+module T3_202110 {
 	exports test.data_structures;
 	exports controller;
 	exports view;
@@ -8,5 +8,4 @@ module T2_202110 {
 	exports model.data_structures;
 
 	requires junit;
-	requires commons.csv;
 }

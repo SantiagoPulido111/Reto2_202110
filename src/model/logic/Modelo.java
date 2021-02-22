@@ -26,6 +26,7 @@ public class Modelo {
 	 * Atributos del modelo del mundo
 	 */
 	private ILista<YoutubeVideo> datos;
+	private ILista<YoutubeVideo> sublista;
 
 	private View vista = new View();
 
@@ -133,5 +134,47 @@ public class Modelo {
 		double time = timer.elapsedTime();
 		vista.printMessage("Tiempo tomado: "+ time);
 	}
-	//TODO implementar el conteo del tiempo al cargar el modelo
+	
+	public void sublista(int i)
+	{
+		if(i>0)
+		{
+		i=i<datos.size()?i:datos.size();
+	    setSublista(datos.sublista(i));
+		}
+		
+	}
+
+	public ILista<YoutubeVideo> getSublista() 
+	{
+		return sublista;
+	}
+
+	public void setSublista(ILista<YoutubeVideo> sublista) 
+	{
+		this.sublista = sublista;
+	}
+	
+	public void sort(int tipoOrdenamiento)
+	{
+		switch(tipoOrdenamiento)
+		{
+		case 1:
+			// insertion
+			Ordenamientos.insertion(sublista);
+			break;
+		case 2:
+			Ordenamientos.shell(sublista);
+			break;
+		case 3:
+			Ordenamientos.sortMerge(sublista);
+			break;
+		case 4:
+			Ordenamientos.quickSort(sublista);
+			break;
+		
+		}
+	}
+	
+	
 }
