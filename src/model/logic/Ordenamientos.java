@@ -5,6 +5,7 @@ import model.data_structures.ILista;
 public class Ordenamientos <T extends Comparable<T>>
 {
 
+	//TODO revisar esto porque en quick sort a veces compara contra null
 	private static boolean less(Comparable v, Comparable w)
 	{ 
 		return v.compareTo(w) < 0; 

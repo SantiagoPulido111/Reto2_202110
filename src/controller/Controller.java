@@ -45,7 +45,7 @@ public class Controller
 				view.printMessage("--------- \nCrear Arreglo \nEscriba (1) para lista encadenada, (2) para arreglo dinamico ");
 				int esLista = lector.nextInt();
 				boolean esListab = esLista==1;
-				view.printMessage("--------- \nCrear Arreglo \nDigite 1, para videos-small, y 2 videos-small ");
+				view.printMessage("--------- \nCrear Arreglo \nDigite 1, para videos-small, y 2 videos-All ");
 				int rutai = lector.nextInt();
 
 				String ruta=(rutai==1)?SMALL:ALL;
@@ -58,75 +58,92 @@ public class Controller
 					e.printStackTrace();
 					view.printMessage("Error al cargar");
 				} 
-//				view.printMessage("Titulo primer elemento: " +modelo.darItem(0).getTitle());
-//				view.printMessage("Pais primer elemento: " +modelo.darItem(0).getCountry());
-//				view.printMessage("Likes primer elemento: " +modelo.darItem(0).getLikes());
-//				view.printMessage("Fecha de tendencia primer elemento: " +modelo.darItem(0).getTrending_date());
+				//				view.printMessage("Titulo primer elemento: " +modelo.darItem(0).getTitle());
+				//				view.printMessage("Pais primer elemento: " +modelo.darItem(0).getCountry());
+				//				view.printMessage("Likes primer elemento: " +modelo.darItem(0).getLikes());
+				//				view.printMessage("Fecha de tendencia primer elemento: " +modelo.darItem(0).getTrending_date());
 
-// 				int posFinal= modelo.darTamano()-1;
-//
-//				view.printMessage("Titulo primer elemento: " +modelo.darItem(posFinal).getTitle());
-//				view.printMessage("Pais primer elemento: " +modelo.darItem(posFinal).getCountry());
-//				view.printMessage("Likes primer elemento: " +modelo.darItem(posFinal).getLikes());
-//				view.printMessage("Fecha de tendencia primer elemento: " +modelo.darItem(posFinal).getTrending_date());
-//				view.printMessage("Total de videos: " + modelo.darTamano());
-				
-				
+				// 				int posFinal= modelo.darTamano()-1;
+				//
+				//				view.printMessage("Titulo primer elemento: " +modelo.darItem(posFinal).getTitle());
+				//				view.printMessage("Pais primer elemento: " +modelo.darItem(posFinal).getCountry());
+				//				view.printMessage("Likes primer elemento: " +modelo.darItem(posFinal).getLikes());
+				//				view.printMessage("Fecha de tendencia primer elemento: " +modelo.darItem(posFinal).getTrending_date());
+				//				view.printMessage("Total de videos: " + modelo.darTamano());
+
+
 				view.printMessage("Numero actual de elementos " + modelo.darTamano() + "\n---------");
-				
+
 				break;
 
 			case 2:
+				if(modelo==null) 
+				{view.printMessage("-------- Primero carge el modelo -----------") ;
+					break;}
 				view.printMessage("--------- \nCrear Arreglo \nEscriba el tamaño de la sublista");
-				
+
 				int tamano = lector.nextInt();
 				modelo.sublista(tamano);
-			   
-			    view.printMessage("Numero actual de elementos sublista " + modelo.getSublista().size()+ "\n---------");
-				
+
+				view.printMessage("Numero actual de elementos sublista " + modelo.getSublista().size()+ "\n---------");
+
 				break;
-				
+
 			case 3:
-				view.printMessage("--------- \nOrdenar Arreglo \nOpción : \n1 para Insertion \n2 para Shell \n3 para Merge \n4 para Quicksort");
-				int opcion = lector.nextInt();
-				modelo.sortSublista(opcion);
-				
-				
-				if(modelo.getSublista().size() < 20)
+				if(modelo==null) 
+				{view.printMessage("-------- Primero carge el modelo -----------") ;
+					break;}
+				if(modelo.getSublista()!=null)
+				{
+					view.printMessage("--------- \nOrdenar Arreglo \nOpción : \n1 para Insertion \n2 para Shell \n3 para Merge \n4 para Quicksort");
+					int opcion = lector.nextInt();
+					modelo.sortSublista(opcion);
+
+
+					if(modelo.getSublista().size() < 20)
+					{
+						view.printMessage("La sublista es de " + modelo.getSublista().size() + " elementos.");
+						for (int i = 0; i < modelo.getSublista().size(); i++) 
+						{
+							view.printMessage("Titulo: " + modelo.getSublista().getElement(i).getTitle() + "Trending Date: " + modelo.getSublista().getElement(i).getTrending_date());
+						}
+					}	
+					else
+					{
+						view.printMessage("Primero 10 elementos");
+						for (int i = 0; i < 10; i++) 
+						{
+							view.printMessage("Titulo: " + modelo.getSublista().getElement(i).getTitle() + "Trending Date: " + modelo.getSublista().getElement(i).getTrending_date());		
+						}
+						view.printMessage("Ultimos 10 elementos");
+
+						for (int i = modelo.getSublista().size() - 9; i < modelo.getSublista().size(); i++) 
+						{
+							view.printMessage("Titulo: " + modelo.getSublista().getElement(i).getTitle() + "Trending Date: " + modelo.getSublista().getElement(i).getTrending_date());
+						}
+					}
+				}
+				else view.printMessage("--------\n sublista vacia \n --------");
+				break;
+
+			case 4:
+				if(modelo==null) 
+				{view.printMessage("-------- Primero carge el modelo -----------") ;
+					break;}
+				if(modelo.getSublista()!=null)
 				{
 					view.printMessage("La sublista es de " + modelo.getSublista().size() + " elementos.");
 					for (int i = 0; i < modelo.getSublista().size(); i++) 
 					{
-						view.printMessage("Titulo: " + modelo.getSublista().getElement(i).getTitle() + "Trending Date: " + modelo.getSublista().getElement(i).getTrending_date());
-					}
-				}	
-				else
-				{
-					view.printMessage("Primero 10 elementos");
-					for (int i = 0; i < 10; i++) 
-					{
-						view.printMessage("Titulo: " + modelo.getSublista().getElement(i).getTitle() + "Trending Date: " + modelo.getSublista().getElement(i).getTrending_date());		
-					}
-					view.printMessage("Ultimos 10 elementos");
-					
-					for (int i = modelo.getSublista().size() - 9; i < modelo.getSublista().size(); i++) 
-					{
-						view.printMessage("Titulo: " + modelo.getSublista().getElement(i).getTitle() + "Trending Date: " + modelo.getSublista().getElement(i).getTrending_date());
+						view.printMessage( (i + 1) + " Titulo: " + modelo.getSublista().getElement(i).getTitle() + "Trending Date: " + modelo.getSublista().getElement(i).getTrending_date());
 					}
 				}
-				break;
-
-			case 4:
-				view.printMessage("La sublista es de " + modelo.getSublista().size() + " elementos.");
-				for (int i = 0; i < modelo.getSublista().size(); i++) 
-				{
-					view.printMessage( (i + 1) + " Titulo: " + modelo.getSublista().getElement(i).getTitle() + "Trending Date: " + modelo.getSublista().getElement(i).getTrending_date());
-				}
+				else view.printMessage("--------\n sublista vacia \n--------");
 				break;
 
 			case 5: 
 				break;
-			
+
 			case 6: 
 				view.printMessage("--------- \n Hasta pronto !! \n---------"); 
 				lector.close();
