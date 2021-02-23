@@ -117,6 +117,8 @@ public class Controller
 						{
 							view.printMessage("------\nTitulo: " + modelo.getSublista().getElement(i).getTitle() + "\nTrending Date: " + modelo.getSublista().getElement(i).getTrending_date()+"\nlikes: " +modelo.getSublista().getElement(i).getLikes());
 						}
+						view.printMessage("----------------------------");
+				
 					}	
 					else
 					{
@@ -131,6 +133,7 @@ public class Controller
 						{
 							view.printMessage("------\nTitulo: " + modelo.getSublista().getElement(i).getTitle() + "\nTrending Date: " + modelo.getSublista().getElement(i).getTrending_date()+"\nlikes: " +modelo.getSublista().getElement(i).getLikes());
 						}
+						view.printMessage("----------------------------");
 					}
 				}
 				else view.printMessage("--------\n sublista vacia \n --------");
@@ -147,6 +150,7 @@ public class Controller
 					{
 						view.printMessage((i+1) +". ------\nTitulo: " + modelo.getSublista().getElement(i).getTitle() + "\nTrending Date: " + modelo.getSublista().getElement(i).getTrending_date()+"\nlikes: " +modelo.getSublista().getElement(i).getLikes());
 					}
+					view.printMessage("----------------------------");
 				}
 				else view.printMessage("--------\n sublista vacia \n--------");
 				break;
