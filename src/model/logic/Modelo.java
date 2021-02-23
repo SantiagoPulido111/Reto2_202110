@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Comparator;
 import java.util.Date;
 
 import org.apache.commons.csv.CSVFormat;
@@ -17,6 +18,7 @@ import model.data_structures.ArregloDinamico;
 
 import model.data_structures.ILista;
 import model.data_structures.ListaEncadenada;
+import model.utils.Ordenamiento;
 import view.View;
 
 
@@ -109,11 +111,11 @@ public class Modelo {
 
 		if(listaEncadenada)
 		{
-			datos= new ArregloDinamico<YoutubeVideo>(7);
+			datos= new ListaEncadenada<YoutubeVideo>();
 		}
 		else
 		{
-			datos= new ListaEncadenada<YoutubeVideo>();
+			datos= new ArregloDinamico<YoutubeVideo>(1);
 		}
 
 
@@ -161,26 +163,27 @@ public class Modelo {
 		this.sublista = sublista;
 	}
 
-	public void sortSublista(int tipoOrdenamiento)
+	public void sortSublista(int tipoOrdenamiento, boolean porfecha, boolean ascendente)
 	{
 		Stopwatch timer = new Stopwatch();
+		Comparator comp= porfecha?new YoutubeVideo.ComparadorXfecha():new YoutubeVideo.ComparadorXLikes();
 		switch(tipoOrdenamiento)
 		{
 		case 1:
 			// insertion
-			Ordenamientos.insertion(sublista);
+			Ordenamiento.insertion(sublista,comp,ascendente);
 			break;
 		case 2:
 			//shell
-			Ordenamientos.shell(sublista);
+			Ordenamiento.shell(sublista,comp,ascendente);
 			break;
 		case 3:
 			//merge
-			Ordenamientos.sortMerge(sublista);
+			Ordenamiento.sortMerge(sublista,comp,ascendente);
 			break;
 		case 4:
 			//quick
-			Ordenamientos.quickSort(sublista);
+			Ordenamiento.quickSort(sublista,comp,ascendente);
 			break;
 
 		}

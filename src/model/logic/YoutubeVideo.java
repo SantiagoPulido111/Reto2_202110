@@ -122,7 +122,19 @@ public class YoutubeVideo implements Comparable<YoutubeVideo>
 		return this.trending_date.compareTo(arg0.getTrending_date());
 	}
 
+	
+	
+	public static class ComparadorXfecha implements Comparator<YoutubeVideo> 
+	{
+		public int compare(YoutubeVideo video1, YoutubeVideo video2) 
+		{
+			return video1.getTrending_date().compareTo(video2.getTrending_date());
+		}
+		
+	}
+	
 	//	Comparador alterno de 2 videos por número de likes
+	
 	public static class ComparadorXLikes implements Comparator<YoutubeVideo> 
 	{
 

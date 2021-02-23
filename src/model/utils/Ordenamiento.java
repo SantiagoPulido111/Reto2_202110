@@ -3,6 +3,7 @@ package model.utils;
 import java.util.Comparator;
 
 import model.data_structures.ILista;
+import model.logic.YoutubeVideo;
 
 
 public final class Ordenamiento<T extends Comparable<T>> 
@@ -59,6 +60,95 @@ public final class Ordenamiento<T extends Comparable<T>>
 			h = h/3;
 		}
 	}
+	
+	
+	//TODO merge 
+
+		private static Comparable[] aux; 
+
+		public static void merge(ILista sublista, int lo, int mid, int hi,Comparator comp, boolean ascendente)
+		{ 
+
+			int i = lo, j = mid+1;
+
+			for (int k = lo; k <= hi; k++) 
+				aux[k] = sublista.getElement(k);
+
+			for (int k = lo; k <= hi; k++) 
+				if (i > mid) sublista.changeInfo(k, aux[j++]);
+
+				else if (j > hi ) sublista.changeInfo(k, aux[i++]);
+
+				else if (less(aux[j], aux[i], comp, ascendente)) sublista.changeInfo(k,aux[j++]);
+
+				else sublista.changeInfo(k, aux[i++]);
+		}
+
+
+		private static void sortMerge(ILista sublista, int lo, int hi,Comparator comp, boolean ascendente )
+		{ 
+
+			if (hi <= lo) return;
+			int mid = lo + (hi - lo)/2;
+			sortMerge(sublista, lo, mid, comp, ascendente); 
+			sortMerge(sublista, mid+1, hi,comp,ascendente); 
+			merge(sublista, lo, mid, hi,comp, ascendente); 
+		}
+
+		public static void sortMerge(ILista sublista, Comparator comp, boolean ascendente)
+		{
+			aux = new Comparable[sublista.size()]; 
+			sortMerge(sublista, 0, sublista.size() - 1,comp, ascendente);
+		}
+
+		
+		//TODO MergeBu
+		
+		public static void mergeBU(ILista sublista,Comparator comp, boolean ascendente)
+		{ 
+			int N = sublista.size();
+			aux = new Comparable[N];
+			for (int sz = 1; sz < N; sz = sz+sz) 
+				for (int lo = 0; lo < N-sz; lo += sz+sz) 
+					merge(sublista, lo, lo+sz-1, Math.min(lo+sz+sz-1, N-1), comp,ascendente);
+		}
+
+
+		//TODO quicksort  a veces deja espacions nulos 
+
+
+		public static void quickSort(ILista sublista,Comparator comp, boolean ascendente)
+		{
+			// StdRandom.shuffle(a);
+			quickSort(sublista, 0, sublista.size() - 1,comp,ascendente);
+		}
+		
+		private static void quickSort(ILista sublista, int lo, int hi,Comparator comp, boolean ascendente)
+		{
+			if (hi <= lo) return;
+			int j = partition(sublista, lo, hi,comp,ascendente); 
+			quickSort(sublista, lo, j-1, comp,ascendente); 
+			quickSort(sublista, j+1, hi, comp,ascendente);
+		}
+
+
+		private static int partition(ILista sublista, int lo, int hi,Comparator comp, boolean ascendente)
+		{ 
+			int follower, leader;
+			follower=leader=lo;
+			while (leader<hi) 
+			{
+				int compara=(ascendente?1:-1)*comp.compare(sublista.getElement(leader),sublista.getElement(hi));
+				if(compara<0)
+				{
+					sublista.exchange(follower, leader);
+					follower++;
+				}
+				leader++;
+			}
+			sublista.exchange(follower, hi);
+			return follower;
+		}
 }
 
 

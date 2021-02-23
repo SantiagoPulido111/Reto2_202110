@@ -28,12 +28,12 @@ public class ArregloDinamico<T extends Comparable<T>> implements ILista<T>
 	 * @param max Capacidad maxima inicial
 	 */
 
-	public ArregloDinamico( int max )
+	public ArregloDinamico( int tamano)
 	{
-		tamanoMax = max;
+		tamanoMax = tamano;
 
 
-		elementos= (T[]) new Comparable[max];
+		elementos= (T[]) new Comparable[tamano];
 
 		tamanoAct = 0;
 	}
@@ -52,6 +52,7 @@ public class ArregloDinamico<T extends Comparable<T>> implements ILista<T>
 			//			System.out.println("Arreglo lleno: " + tamanoAct + " - Arreglo duplicado: " + tamanoMax);
 		}	
 		elementos[tamanoAct] = dato;
+		
 		tamanoAct++;
 	}
 

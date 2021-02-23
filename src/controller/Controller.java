@@ -83,7 +83,8 @@ public class Controller
 				view.printMessage("--------- \nCrear Arreglo \nEscriba el tamaño de la sublista");
 
 				int tamano = lector.nextInt();
-				modelo.sublista(tamano);
+		
+		modelo.sublista(tamano);
 
 				view.printMessage("Numero actual de elementos sublista " + modelo.getSublista().size()+ "\n---------");
 
@@ -96,8 +97,17 @@ public class Controller
 				if(modelo.getSublista()!=null)
 				{
 					view.printMessage("--------- \nOrdenar Arreglo \nOpción : \n1 para Insertion \n2 para Shell \n3 para Merge \n4 para Quicksort");
+					
 					int opcion = lector.nextInt();
-					modelo.sortSublista(opcion);
+					
+					view.printMessage("--------- \n ordenar por fecha(1) o por likes(2) ");
+					int tipoOrd = lector.nextInt();
+					boolean tipoOrdb=tipoOrd==1;
+					
+					view.printMessage("--------- \n ordenar por ascendente(1) o por descendente(2) ");
+					int ascen = lector.nextInt();
+					boolean ascenb=ascen==1;
+					modelo.sortSublista(opcion,tipoOrdb,ascenb);
 
 
 					if(modelo.getSublista().size() < 20)
@@ -105,7 +115,7 @@ public class Controller
 						view.printMessage("La sublista es de " + modelo.getSublista().size() + " elementos.");
 						for (int i = 0; i < modelo.getSublista().size(); i++) 
 						{
-							view.printMessage("Titulo: " + modelo.getSublista().getElement(i).getTitle() + "Trending Date: " + modelo.getSublista().getElement(i).getTrending_date());
+							view.printMessage("------\nTitulo: " + modelo.getSublista().getElement(i).getTitle() + "\nTrending Date: " + modelo.getSublista().getElement(i).getTrending_date()+"\nlikes: " +modelo.getSublista().getElement(i).getLikes());
 						}
 					}	
 					else
@@ -113,13 +123,13 @@ public class Controller
 						view.printMessage("Primero 10 elementos");
 						for (int i = 0; i < 10; i++) 
 						{
-							view.printMessage("Titulo: " + modelo.getSublista().getElement(i).getTitle() + "Trending Date: " + modelo.getSublista().getElement(i).getTrending_date());		
+							view.printMessage("------\nTitulo: " + modelo.getSublista().getElement(i).getTitle() + "\nTrending Date: " + modelo.getSublista().getElement(i).getTrending_date()+"\nlikes: " +modelo.getSublista().getElement(i).getLikes());		
 						}
 						view.printMessage("Ultimos 10 elementos");
 
 						for (int i = modelo.getSublista().size() - 9; i < modelo.getSublista().size(); i++) 
 						{
-							view.printMessage("Titulo: " + modelo.getSublista().getElement(i).getTitle() + "Trending Date: " + modelo.getSublista().getElement(i).getTrending_date());
+							view.printMessage("------\nTitulo: " + modelo.getSublista().getElement(i).getTitle() + "\nTrending Date: " + modelo.getSublista().getElement(i).getTrending_date()+"\nlikes: " +modelo.getSublista().getElement(i).getLikes());
 						}
 					}
 				}
@@ -135,7 +145,7 @@ public class Controller
 					view.printMessage("La sublista es de " + modelo.getSublista().size() + " elementos.");
 					for (int i = 0; i < modelo.getSublista().size(); i++) 
 					{
-						view.printMessage( (i + 1) + " Titulo: " + modelo.getSublista().getElement(i).getTitle() + "Trending Date: " + modelo.getSublista().getElement(i).getTrending_date());
+						view.printMessage((i+1) +". ------\nTitulo: " + modelo.getSublista().getElement(i).getTitle() + "\nTrending Date: " + modelo.getSublista().getElement(i).getTrending_date()+"\nlikes: " +modelo.getSublista().getElement(i).getLikes());
 					}
 				}
 				else view.printMessage("--------\n sublista vacia \n--------");
