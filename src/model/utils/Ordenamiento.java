@@ -27,128 +27,152 @@ public final class Ordenamiento<T extends Comparable<T>>
 
 	//TODO insertion, 
 
-	public static void insertion(ILista lista,Comparator comp, boolean ascendente)
-	{ 
-
-		int N = lista.size();
-		for (int i = 1; i < N; i++)
-		{ 
-
-			for (int j = i; j > 0 && less(lista.getElement(j), lista.getElement(j-1),comp,ascendente); j--)
-				exch(lista, j, j-1);
+	/* Ordenamiento de N elementos en posiciones [1, N], con criterio de comparacion,
+	ascendentemente o descendentemente */
+	public final void ordenarInsercion(ILista<T> lista, Comparator<T> criterio, boolean ascendente)
+	{
+		int n = lista.size();
+		for (int i = 1+1; i <= n; i++)
+		{
+			boolean enPosicion = false;
+			for (int j = i; j > 1 && !enPosicion; j -= 1)
+			{
+				int factorComparacion = (ascendente?1:-1)*criterio.compare(lista.getElement(j), lista.getElement(j-1));
+				if (factorComparacion < 0)
+					lista.exchange(j, j-1);
+				else
+					enPosicion = true;
+			}
 		}
-	}
 
+	}
 
 	//TODO shell 
 
-	public static void shell(ILista lista, Comparator criterio, boolean ascendente)
+	/* Ordenamiento de N elementos en posiciones [1, N], con criterio de comparacion,
+	ascendentemente o descendentemente */
+	public  void shell(ILista<T> lista, Comparator<T> criterio, boolean ascendente)
 	{ 
 
-		int N = lista.size();
+
+		int n = lista.size();
 		int h = 1;
-		while (h < N/3) h = 3*h + 1; 
+		while (h < n/3)
+			h = 3 * h + 1;
 
-		while (h >= 1)
-		{ 
-			for (int i = h; i < N; i++)
-			{ 
-
-				for (int j = i; j >= h && less(lista.getElement(j), lista.getElement(j-h),criterio,ascendente); j -= h)
-					exch(lista, j, j-h);
+		while (h >=1)
+		{
+			// generalizacion del alg. Insertion sort con un valor h >= 1
+			for (int i = h+1; i <= n; i++)
+			{
+				boolean enPosicion = false;
+				for (int j = i; j > h && !enPosicion; j -= h)
+				{
+					int factorComparacion = (ascendente?1:-1) *
+							criterio.compare(lista.getElement(j), lista.getElement(j-h));
+					if (factorComparacion < 0)
+						lista.exchange(j, j-h);
+					else
+						enPosicion = true;
+				}
 			}
-			h = h/3;
+			h /= 3;
 		}
+
+
+
+
+
+
 	}
-	
-	
+
+
 	//TODO merge 
 
-		private static Comparable[] aux; 
+	private  Comparable<T>[] aux; 
 
-		public static void merge(ILista sublista, int lo, int mid, int hi,Comparator comp, boolean ascendente)
-		{ 
+	public  void merge(ILista<T> sublista, int lo, int mid, int hi,Comparator<T> comp, boolean ascendente)
+	{ 
 
-			int i = lo, j = mid+1;
+		int i = lo, j = mid+1;
 
-			for (int k = lo; k <= hi; k++) 
-				aux[k] = sublista.getElement(k);
+		for (int k = lo; k <= hi; k++) 
+			aux[k] = sublista.getElement(k+1);
 
-			for (int k = lo; k <= hi; k++) 
-				if (i > mid) sublista.changeInfo(k, aux[j++]);
+		for (int k = lo; k <= hi; k++) 
+			if (i > mid) sublista.changeInfo(k+1, (T) aux[j++]);
 
-				else if (j > hi ) sublista.changeInfo(k, aux[i++]);
+			else if (j > hi ) sublista.changeInfo(k+1, (T) aux[i++]);
 
-				else if (less(aux[j], aux[i], comp, ascendente)) sublista.changeInfo(k,aux[j++]);
+			else if (less(aux[j], aux[i], comp, ascendente)) sublista.changeInfo(k+1,(T) aux[j++]);
 
-				else sublista.changeInfo(k, aux[i++]);
-		}
+			else sublista.changeInfo(k+1, (T) aux[i++]);
+	}
 
 
-		private static void sortMerge(ILista sublista, int lo, int hi,Comparator comp, boolean ascendente )
-		{ 
+	private  void ordenarMergeSort(ILista sublista, int lo, int hi,Comparator comp, boolean ascendente )
+	{ 
 
-			if (hi <= lo) return;
-			int mid = lo + (hi - lo)/2;
-			sortMerge(sublista, lo, mid, comp, ascendente); 
-			sortMerge(sublista, mid+1, hi,comp,ascendente); 
-			merge(sublista, lo, mid, hi,comp, ascendente); 
-		}
+		if (hi <= lo) return;
+		int mid = lo + (hi - lo)/2;
+		ordenarMergeSort(sublista, lo, mid, comp, ascendente); 
+		ordenarMergeSort(sublista, mid+1, hi,comp,ascendente); 
+		merge(sublista, lo, mid, hi,comp, ascendente); 
+	}
 
-		public static void sortMerge(ILista sublista, Comparator comp, boolean ascendente)
+	public  void ordenarMergeSort(ILista sublista, Comparator comp, boolean ascendente)
+	{
+		aux = new Comparable[sublista.size()]; 
+		ordenarMergeSort(sublista, 0, sublista.size()-1,comp, ascendente);
+	}
+
+	//TODO quicksort  a veces deja espacions nulos 
+
+
+	/**
+	 * Método que va dejando el pivot en su lugar, mientras mueve elementos menores
+	 * a la izquierda del pivot y elementos mayores a la derecha del pivot.
+	 */
+	private final int partition(ILista<T> lista, Comparator<T> criterio, boolean ascendente, int lo, int hi)
+	{
+		int follower, leader;
+		follower = leader = lo;
+		while (leader < hi)
 		{
-			aux = new Comparable[sublista.size()]; 
-			sortMerge(sublista, 0, sublista.size() - 1,comp, ascendente);
-		}
-
-		
-		//TODO MergeBu
-		
-		public static void mergeBU(ILista sublista,Comparator comp, boolean ascendente)
-		{ 
-			int N = sublista.size();
-			aux = new Comparable[N];
-			for (int sz = 1; sz < N; sz = sz+sz) 
-				for (int lo = 0; lo < N-sz; lo += sz+sz) 
-					merge(sublista, lo, lo+sz-1, Math.min(lo+sz+sz-1, N-1), comp,ascendente);
-		}
-
-
-		//TODO quicksort  a veces deja espacions nulos 
-
-
-		public static void quickSort(ILista sublista,Comparator comp, boolean ascendente)
-		{
-			// StdRandom.shuffle(a);
-			quickSort(sublista, 0, sublista.size() - 1,comp,ascendente);
-		}
-		
-		private static void quickSort(ILista sublista, int lo, int hi,Comparator comp, boolean ascendente)
-		{
-			if (hi <= lo) return;
-			int j = partition(sublista, lo, hi,comp,ascendente); 
-			quickSort(sublista, lo, j-1, comp,ascendente); 
-			quickSort(sublista, j+1, hi, comp,ascendente);
-		}
-
-
-		private static int partition(ILista sublista, int lo, int hi,Comparator comp, boolean ascendente)
-		{ 
-			int follower, leader;
-			follower=leader=lo;
-			while (leader<hi) 
+			int factorComparacion = (ascendente?1:-1) * criterio.compare(lista.getElement(leader), lista.getElement(hi));
+			if(factorComparacion < 0)
 			{
-				int compara=(ascendente?1:-1)*comp.compare(sublista.getElement(leader),sublista.getElement(hi));
-				if(compara<0)
-				{
-					sublista.exchange(follower, leader);
-					follower++;
-				}
-				leader++;
+				lista.exchange(follower, leader);
+				follower ++;
 			}
-			sublista.exchange(follower, hi);
-			return follower;
+			leader ++;
 		}
+		lista.exchange(follower, hi);
+		return follower;
+	}
+
+	/**
+	 * Se localiza el pivot, utilizando el método de partición.
+	 * Luego se hace la recursión con los elementos a la izquierda del pivot
+	 * y los elementos a la derecha del pivot.
+	 */
+	private final void sort(ILista<T> lista, Comparator<T> criterio, boolean ascendente, int lo, int hi)
+	{
+		if(lo >= hi)
+			return;
+		int pivot = partition(lista, criterio, ascendente, lo, hi);
+		sort(lista, criterio, ascendente, lo, pivot - 1);
+		sort(lista, criterio, ascendente, pivot +1, hi);
+	}
+
+	/**
+	 * Método de entrada, lanza el quick sort recursivo.
+	 */
+	public final void ordenarQuickSort(ILista<T> lista, Comparator<T> criterio, boolean ascendente)
+	{
+		sort(lista, criterio, ascendente, 1, lista.size());
+	}
+
 }
 
 

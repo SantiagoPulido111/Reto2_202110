@@ -68,7 +68,8 @@ public class ArregloDinamico<T extends Comparable<T>> implements ILista<T>
 
 	public T darElemento(int pos) 
 	{
-
+pos--;
+		
 		if(pos < tamanoAct && pos >= 0)
 		{
 			return elementos[pos];									
@@ -111,6 +112,7 @@ public class ArregloDinamico<T extends Comparable<T>> implements ILista<T>
 
 	public void addElement(T element, int pos) 
 	{
+		pos--;
 
 		if(pos>-1&&pos<tamanoAct+1)
 		{
@@ -191,6 +193,7 @@ public class ArregloDinamico<T extends Comparable<T>> implements ILista<T>
 	}
 
 	public T removeElement(int pos) {
+		pos--;
 		if (pos==0)
 		{
 			return removeFirst();
@@ -227,6 +230,8 @@ public class ArregloDinamico<T extends Comparable<T>> implements ILista<T>
 
 	public T getElement(int pos) 
 	{
+		pos--;
+		
 		return (pos>-1 && pos<tamanoAct) ? elementos[pos]:null;
 	}
 
@@ -256,6 +261,8 @@ public class ArregloDinamico<T extends Comparable<T>> implements ILista<T>
 
 	public void exchange(int pos1, int pos2) 
 	{
+		pos1--;
+		pos2--;
 		if(pos1>-1&&pos2>-1&&pos1<tamanoAct&&pos2<tamanoAct)
 		{
 			T elem1=elementos[pos1];
@@ -266,8 +273,10 @@ public class ArregloDinamico<T extends Comparable<T>> implements ILista<T>
 
 	public void changeInfo(int pos, T newElem) 
 	{
+		pos--;
 		if(pos>-1&&pos<tamanoAct)
 		{
+			
 			elementos[pos]=newElem;
 		}
 	}
@@ -278,6 +287,18 @@ public class ArregloDinamico<T extends Comparable<T>> implements ILista<T>
 		ArregloDinamico<T> temp = new ArregloDinamico<>(numElementos);
 
 		for (int i = 0; i < numElementos; i++) 
+		{
+			temp.addLast(elementos[i]);
+		}
+		return temp;
+	}
+
+	
+	public ILista<T> subList(int pos, int size) {
+		
+		ArregloDinamico<T> temp = new ArregloDinamico<>(size);
+
+		for (int i = pos; i < size+pos; i++) 
 		{
 			temp.addLast(elementos[i]);
 		}

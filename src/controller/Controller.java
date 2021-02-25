@@ -30,7 +30,7 @@ public class Controller
 
 	public void run() throws ParseException 
 	{
-		Scanner lector = new Scanner(System.in);
+Scanner lector = new Scanner(System.in);
 		boolean fin = false;
 		String dato = "";
 		String respuesta = "";
@@ -113,7 +113,7 @@ public class Controller
 					if(modelo.getSublista().size() < 20)
 					{
 						view.printMessage("La sublista es de " + modelo.getSublista().size() + " elementos.");
-						for (int i = 0; i < modelo.getSublista().size(); i++) 
+						for (int i = 1; i < modelo.getSublista().size()+1; i++) 
 						{
 							view.printMessage("------\nTitulo: " + modelo.getSublista().getElement(i).getTitle() + "\nTrending Date: " + modelo.getSublista().getElement(i).getTrending_date()+"\nlikes: " +modelo.getSublista().getElement(i).getLikes());
 						}
@@ -123,13 +123,13 @@ public class Controller
 					else
 					{
 						view.printMessage("Primero 10 elementos");
-						for (int i = 0; i < 10; i++) 
+						for (int i = 1; i < 11; i++) 
 						{
 							view.printMessage("------\nTitulo: " + modelo.getSublista().getElement(i).getTitle() + "\nTrending Date: " + modelo.getSublista().getElement(i).getTrending_date()+"\nlikes: " +modelo.getSublista().getElement(i).getLikes());		
 						}
 						view.printMessage("Ultimos 10 elementos");
 
-						for (int i = modelo.getSublista().size() - 9; i < modelo.getSublista().size(); i++) 
+						for (int i = modelo.getSublista().size() - 8; i < modelo.getSublista().size()+1; i++) 
 						{
 							view.printMessage("------\nTitulo: " + modelo.getSublista().getElement(i).getTitle() + "\nTrending Date: " + modelo.getSublista().getElement(i).getTrending_date()+"\nlikes: " +modelo.getSublista().getElement(i).getLikes());
 						}
@@ -146,9 +146,9 @@ public class Controller
 				if(modelo.getSublista()!=null)
 				{
 					view.printMessage("La sublista es de " + modelo.getSublista().size() + " elementos.");
-					for (int i = 0; i < modelo.getSublista().size(); i++) 
+					for (int i = 1; i < modelo.getSublista().size()+1; i++) 
 					{
-						view.printMessage((i+1) +". ------\nTitulo: " + modelo.getSublista().getElement(i).getTitle() + "\nTrending Date: " + modelo.getSublista().getElement(i).getTrending_date()+"\nlikes: " +modelo.getSublista().getElement(i).getLikes());
+						view.printMessage((i) +". ------\nTitulo: " + modelo.getSublista().getElement(i).getTitle() + "\nTrending Date: " + modelo.getSublista().getElement(i).getTrending_date()+"\nlikes: " +modelo.getSublista().getElement(i).getLikes());
 					}
 					view.printMessage("----------------------------");
 				}

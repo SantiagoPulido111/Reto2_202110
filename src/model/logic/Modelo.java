@@ -146,6 +146,7 @@ public class Modelo {
 	public void sublista(int i)
 	{
 		if(i>0)
+			
 		{
 			i=i<datos.size()?i:datos.size();
 			setSublista(datos.sublista(i));
@@ -166,24 +167,26 @@ public class Modelo {
 	public void sortSublista(int tipoOrdenamiento, boolean porfecha, boolean ascendente)
 	{
 		Stopwatch timer = new Stopwatch();
-		Comparator comp= porfecha?new YoutubeVideo.ComparadorXfecha():new YoutubeVideo.ComparadorXLikes();
+		Comparator<YoutubeVideo> comp= porfecha?new YoutubeVideo.ComparadorXfecha():new YoutubeVideo.ComparadorXLikes();
+		Ordenamiento<YoutubeVideo> ord = new Ordenamiento<YoutubeVideo>();
+		
 		switch(tipoOrdenamiento)
 		{
 		case 1:
 			// insertion
-			Ordenamiento.insertion(sublista,comp,ascendente);
+			ord.ordenarInsercion(sublista,comp,ascendente);
 			break;
 		case 2:
 			//shell
-			Ordenamiento.shell(sublista,comp,ascendente);
+            ord.shell(sublista,comp,ascendente);
 			break;
 		case 3:
 			//merge
-			Ordenamiento.sortMerge(sublista,comp,ascendente);
+			ord.ordenarMergeSort(sublista,comp,ascendente);
 			break;
 		case 4:
 			//quick
-			Ordenamiento.quickSort(sublista,comp,ascendente);
+			ord.ordenarQuickSort(sublista,comp,ascendente);
 			break;
 
 		}
