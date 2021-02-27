@@ -92,6 +92,7 @@ public class Modelo {
 
 
 	//metodo para poder retornar los elementos del modelo enview
+	
 	public YoutubeVideo darItem(int i)
 	{
 		return datos.getElement(i);
@@ -133,8 +134,16 @@ public class Modelo {
 			int dislikes=Integer.parseInt(record.get("dislikes"));
 			String thumbnail_link=record.get("thumbnail_link");
 			String country=record.get("country");
-
-			YoutubeVideo temp=new YoutubeVideo(trending_date, title, channel_title,views,likes,dislikes,thumbnail_link,country );
+			String id = record.get("video_id");
+			
+			String publish_time_S = record.get("publish_time");
+			Date publish_time;
+			publish_time = new SimpleDateFormat("yyyy-MM-dd").parse(publish_time_S);
+			
+			int category_id = Integer.parseInt(record.get("category_id"));
+			
+			
+			YoutubeVideo temp=new YoutubeVideo(trending_date, title, channel_title,views,likes,dislikes,thumbnail_link,country,id,publish_time,category_id);
 
 			datos.addLast(temp);
 		}
@@ -195,5 +204,42 @@ public class Modelo {
 		double time = timer.elapsedTime();
 		vista.printMessage("Tiempo tomado: "+ time + " en milisegundos");
 	}
-
+	
+	public YoutubeVideo[] buenosVideosViews (int n, String pais, int categoria)
+	{
+		YoutubeVideo[] lista = new YoutubeVideo[n];
+		int tamanoLleno = 0;
+		
+		for (int i = 1; i < datos.size(); i++) 
+		{
+			YoutubeVideo actual = datos.getElement(i);
+			int minViews = 0;
+			int minPos = 0;
+			
+			if(actual.getCountry().equals(pais) && actual.getCategory_id() == categoria)
+			{
+				if(tamanoLleno == 0)
+				{
+					lista[0] = actual;
+					tamanoLleno++;
+				}
+				else if(actual.getViews() > minViews)
+				{
+					lista[minPos] = actual;
+					
+					for (int j = 0; j < tamanoLleno; j++) 
+					{
+						if(lista[j].getViews() < minViews)
+						{
+							minPos = j;
+							minViews = lista[j].getViews();
+						}
+					}
+				}
+			}
+		}
+		return lista;
+	}
+		
+	
 }

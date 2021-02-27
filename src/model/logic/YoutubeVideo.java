@@ -1,7 +1,9 @@
 package model.logic;
 
 import java.util.Comparator;
+
 import java.util.Date;
+
 
 public class YoutubeVideo implements Comparable<YoutubeVideo>
 {
@@ -13,9 +15,15 @@ public class YoutubeVideo implements Comparable<YoutubeVideo>
 	private int dislikes;
 	private String thumbnail_link;
 	private String country;
+	private String id;
+	private Date publish_time;
+	private int category_id;
+	private long dias_tendencia;
+	
+	
 
 
-	public YoutubeVideo(Date tdate, String tit, String channel_t,int vi, int li, int disli,String thumbnail,String count )
+	public YoutubeVideo(Date tdate, String tit, String channel_t,int vi, int li, int disli,String thumbnail,String count,String id, Date publish_time, int category_id)
 	{	
 		setTrending_date(tdate);
 		setTitle(tit);
@@ -25,6 +33,11 @@ public class YoutubeVideo implements Comparable<YoutubeVideo>
 		setDislikes(disli);
 		setThumbnail_link(thumbnail);
 		setCountry(count);
+		setId(id);
+		setPublish_time(publish_time);
+		setCategory_id(category_id);
+		
+		diasTendencia();
 	}
 
 	//	public int compareTo(YoutubeVideo arg0)
@@ -124,6 +137,42 @@ public class YoutubeVideo implements Comparable<YoutubeVideo>
 
 	
 	
+	public String getId() 
+	{
+		return id;
+	}
+
+	public void setId(String id) 
+	{
+		this.id = id;
+	}
+
+
+
+	public Date getPublish_time() 
+	{
+		return publish_time;
+	}
+
+	public void setPublish_time(Date publish_time) 
+	{
+		this.publish_time = publish_time;
+	}
+
+
+
+	public int getCategory_id() 
+	{
+		return category_id;
+	}
+
+	public void setCategory_id(int category_id) 
+	{
+		this.category_id = category_id;
+	}
+
+
+
 	public static class ComparadorXfecha implements Comparator<YoutubeVideo> 
 	{
 		public int compare(YoutubeVideo video1, YoutubeVideo video2) 
@@ -150,8 +199,24 @@ public class YoutubeVideo implements Comparable<YoutubeVideo>
 
 	}
 
+	public long diasTendencia ()
+	{
+		long trendingTime = trending_date.getTime();
+		long publishTime = publish_time.getTime();
+		
+		return (long) ((trendingTime - publishTime) /  864e+5);
+	}
 
+	public long getDias_tendencia() 
+	{
+		return dias_tendencia;
+	}
 
+	public void setDias_tendencia(long dias_tendencia) 
+	{
+		this.dias_tendencia = dias_tendencia;
+	}
 
+	
 
 }

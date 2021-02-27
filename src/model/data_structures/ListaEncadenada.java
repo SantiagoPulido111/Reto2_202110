@@ -210,20 +210,18 @@ public class ListaEncadenada<T extends Comparable<T>> implements ILista<T>
 
 	public T getElement(int pos) 
 	{
-
-
 		pos--;
 
 		if(primerNodo!=null)
 		{
 			int i=0;
 			NodoClase<T>actual=primerNodo;
+			
 			while(actual.hasNext()&&i<pos)
 			{
 				actual=actual.getNext();
 				i++;
 			}
-
 			return actual.getInfo();
 		}
 		else return null;
@@ -378,14 +376,6 @@ public class ListaEncadenada<T extends Comparable<T>> implements ILista<T>
 		}
 		return temp;
 	}
-
-
-
-
-
-
-
-
 
 
 

@@ -14,11 +14,11 @@ public class View
 	    
 		public void printMenu()
 		{
-			System.out.println("1. Cargaro modelo");
+			System.out.println("1. Cargar modelo");
 			System.out.println("2. Crear Sublista");
 			System.out.println("3. Ordenar Sublista");
 			System.out.println("4. Imprime la sublista completa");
-			//System.out.println("5. Imprimir el Arreglo");
+			System.out.println("5. Req 1");
 			System.out.println("6. Exit");
 			//System.out.println("7. Exchange");
 			

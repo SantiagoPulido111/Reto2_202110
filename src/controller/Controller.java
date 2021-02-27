@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import model.data_structures.ILista;
 import model.logic.Modelo;
+import model.logic.YoutubeVideo;
 import view.View;
 
 public class Controller 
@@ -30,7 +31,7 @@ public class Controller
 
 	public void run() throws ParseException 
 	{
-Scanner lector = new Scanner(System.in);
+		Scanner lector = new Scanner(System.in);
 		boolean fin = false;
 		String dato = "";
 		String respuesta = "";
@@ -58,33 +59,30 @@ Scanner lector = new Scanner(System.in);
 					e.printStackTrace();
 					view.printMessage("Error al cargar");
 				} 
-				//				view.printMessage("Titulo primer elemento: " +modelo.darItem(0).getTitle());
-				//				view.printMessage("Pais primer elemento: " +modelo.darItem(0).getCountry());
-				//				view.printMessage("Likes primer elemento: " +modelo.darItem(0).getLikes());
-				//				view.printMessage("Fecha de tendencia primer elemento: " +modelo.darItem(0).getTrending_date());
-
-				// 				int posFinal= modelo.darTamano()-1;
-				//
-				//				view.printMessage("Titulo primer elemento: " +modelo.darItem(posFinal).getTitle());
-				//				view.printMessage("Pais primer elemento: " +modelo.darItem(posFinal).getCountry());
-				//				view.printMessage("Likes primer elemento: " +modelo.darItem(posFinal).getLikes());
-				//				view.printMessage("Fecha de tendencia primer elemento: " +modelo.darItem(posFinal).getTrending_date());
-				//				view.printMessage("Total de videos: " + modelo.darTamano());
-
 
 				view.printMessage("Numero actual de elementos " + modelo.darTamano() + "\n---------");
+
+				
+				
+				
+				
+				// ----------   Para dias tendencia ------------
+				
+//				view.printMessage("Prueba carga datos " + modelo.darItem(321).diasTendencia());
+//				view.printMessage("datosssss" + modelo.darItem(321).getTrending_date());
+//				view.printMessage("datosssss" + modelo.darItem(321).getPublish_time());
 
 				break;
 
 			case 2:
 				if(modelo==null) 
 				{view.printMessage("-------- Primero carge el modelo -----------") ;
-					break;}
+				break;}
 				view.printMessage("--------- \nCrear Arreglo \nEscriba el tamaño de la sublista");
 
 				int tamano = lector.nextInt();
-		
-		modelo.sublista(tamano);
+
+				modelo.sublista(tamano);
 
 				view.printMessage("Numero actual de elementos sublista " + modelo.getSublista().size()+ "\n---------");
 
@@ -93,17 +91,17 @@ Scanner lector = new Scanner(System.in);
 			case 3:
 				if(modelo==null) 
 				{view.printMessage("-------- Primero carge el modelo -----------") ;
-					break;}
+				break;}
 				if(modelo.getSublista()!=null)
 				{
 					view.printMessage("--------- \nOrdenar Arreglo \nOpción : \n1 para Insertion \n2 para Shell \n3 para Merge \n4 para Quicksort");
-					
+
 					int opcion = lector.nextInt();
-					
+
 					view.printMessage("--------- \n ordenar por fecha(1) o por likes(2) ");
 					int tipoOrd = lector.nextInt();
 					boolean tipoOrdb=tipoOrd==1;
-					
+
 					view.printMessage("--------- \n ordenar por ascendente(1) o por descendente(2) ");
 					int ascen = lector.nextInt();
 					boolean ascenb=ascen==1;
@@ -118,7 +116,7 @@ Scanner lector = new Scanner(System.in);
 							view.printMessage("------\nTitulo: " + modelo.getSublista().getElement(i).getTitle() + "\nTrending Date: " + modelo.getSublista().getElement(i).getTrending_date()+"\nlikes: " +modelo.getSublista().getElement(i).getLikes());
 						}
 						view.printMessage("----------------------------");
-				
+
 					}	
 					else
 					{
@@ -142,7 +140,7 @@ Scanner lector = new Scanner(System.in);
 			case 4:
 				if(modelo==null) 
 				{view.printMessage("-------- Primero carge el modelo -----------") ;
-					break;}
+				break;}
 				if(modelo.getSublista()!=null)
 				{
 					view.printMessage("La sublista es de " + modelo.getSublista().size() + " elementos.");
@@ -156,6 +154,32 @@ Scanner lector = new Scanner(System.in);
 				break;
 
 			case 5: 
+				
+				view.printMessage("meter n");
+				
+				int n = lector.nextInt();
+				view.printMessage("meter pais");
+				String pais = lector.next();
+				view.printMessage("meter n categoria");
+				int categoria = lector.nextInt();
+				
+				
+				YoutubeVideo[] lista = modelo.buenosVideosViews(n, pais, categoria);
+				boolean fin1 = lista[0] == null;
+				
+				
+				for (int i = 0; i < lista.length && !fin1 ; i++) 
+				{
+					view.printMessage( lista[i].getTitle());					
+					view.printMessage( "" + lista[i].getTrending_date());
+					view.printMessage( lista[i].getChannel_title());
+					view.printMessage( "" + lista[i].getPublish_time());
+					view.printMessage( "" + lista[i].getViews());
+					view.printMessage( "" + lista[i].getLikes());
+					view.printMessage( "" + lista[i].getDislikes());
+					
+					fin1 = lista[i + 1] == null;
+				}
 				break;
 
 			case 6: 

@@ -1,5 +1,7 @@
 package model.data_structures;
 
+import model.logic.YoutubeVideo;
+
 public interface ILista<T extends Comparable<T>> 
 {
 	
@@ -58,14 +60,7 @@ public interface ILista<T extends Comparable<T>>
 	* @return sublista creada con la misma representación de la lista original (this).
 	 */
 	
-	public ILista<T> sublista(int numElementos);
-	
-	
-	
-	
-	
-	
-	
+	public ILista<T> sublista(int numElementos);	
 	
 	
 }
