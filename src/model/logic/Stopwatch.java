@@ -12,6 +12,6 @@ public class Stopwatch
 	public double elapsedTime()
 	{
 		long now = System.nanoTime();
-		return (now - start) / 1.0e9;
+		return (now - start) / 1.0e6;
 	}
 }
