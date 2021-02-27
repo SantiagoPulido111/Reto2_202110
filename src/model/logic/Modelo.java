@@ -140,7 +140,7 @@ public class Modelo {
 
 		vista.printMessage("Arreglo creado"); 
 		double time = timer.elapsedTime();
-		vista.printMessage("Tiempo tomado: "+ time);
+		vista.printMessage("Tiempo tomado (milisegundos): "+ time);
 	}
 
 	public void sublista(int i)
@@ -192,7 +192,7 @@ public class Modelo {
 		}
 		vista.printMessage("Arreglo creado"); 
 		double time = timer.elapsedTime();
-		vista.printMessage("Tiempo tomado: "+ time);
+		vista.printMessage("Tiempo tomado (milisegundos): "+ time);
 	}
 
 }
