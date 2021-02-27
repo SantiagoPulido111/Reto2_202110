@@ -1,5 +1,7 @@
 Santiago A Pulido Torres
+sa.pulidot@uniandes.edu.co
 201730218
 
-Juan David Briceño
+Juan David BriceÃ±o
+jd.briceno@uniandes.edu.co
 201812887
