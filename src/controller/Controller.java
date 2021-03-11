@@ -45,6 +45,8 @@ Scanner lector = new Scanner(System.in);
 			switch(option)
 			{
 			case 1:
+				
+				//dejamos esto para tener la funcionalidad en el futuro 
 				int esLista = 1; //lector.nextInt();
 				boolean esListab = esLista == 2;
 				view.printMessage("--------- \nCrear Arreglo \nDigite 1, para videos-small, y 2 videos-All ");
