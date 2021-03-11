@@ -1,4 +1,4 @@
-module T3_202110 {
+module T4_202110 {
 	exports test.data_structures;
 	exports controller;
 	exports view;
@@ -6,6 +6,7 @@ module T3_202110 {
 	exports model.logic;
 	exports main;
 	exports model.data_structures;
+	exports model.utils;
 
 	requires junit;
 	requires commons.csv;

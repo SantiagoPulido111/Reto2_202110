@@ -52,7 +52,7 @@ public class ArregloDinamico<T extends Comparable<T>> implements ILista<T>
 			//			System.out.println("Arreglo lleno: " + tamanoAct + " - Arreglo duplicado: " + tamanoMax);
 		}	
 		elementos[tamanoAct] = dato;
-		
+
 		tamanoAct++;
 	}
 
@@ -68,8 +68,8 @@ public class ArregloDinamico<T extends Comparable<T>> implements ILista<T>
 
 	public T darElemento(int pos) 
 	{
-pos--;
-		
+		pos--;
+
 		if(pos < tamanoAct && pos >= 0)
 		{
 			return elementos[pos];									
@@ -231,8 +231,8 @@ pos--;
 	public T getElement(int pos) 
 	{
 		pos--;
-		
-		return (pos>-1 && pos<tamanoAct) ? elementos[pos]:null;
+
+		return (pos > -1 && pos<tamanoAct) ? elementos[pos]:null;
 	}
 
 	public int size() 
@@ -242,20 +242,22 @@ pos--;
 
 	public boolean isEmpty() 
 	{	
-		return tamanoAct==0;
+		return tamanoAct == 0;
 	}
 
 	public int isPresent(T element) 
 	{		
-		int encontrado=-1;
-		for(int i=0;i<tamanoAct&&encontrado==-1;i++)
+		
+		int encontrado = -2;
+		
+		for(int i = 0; i < tamanoAct && encontrado == -2; i++)
 		{
 			if(elementos[i].equals(element))
 			{
 				encontrado=i;
 			}		
 		}
-		return encontrado;
+		return encontrado + 1;
 	}
 
 
@@ -263,7 +265,8 @@ pos--;
 	{
 		pos1--;
 		pos2--;
-		if(pos1>-1&&pos2>-1&&pos1<tamanoAct&&pos2<tamanoAct)
+		
+		if(pos1 > -1 && pos2 > -1 && pos1 < tamanoAct && pos2 < tamanoAct)
 		{
 			T elem1=elementos[pos1];
 			elementos[pos1]=elementos[pos2];
@@ -274,13 +277,12 @@ pos--;
 	public void changeInfo(int pos, T newElem) 
 	{
 		pos--;
-		if(pos>-1&&pos<tamanoAct)
+		if(pos > -1 && pos < tamanoAct)
 		{
-			
+
 			elementos[pos]=newElem;
 		}
 	}
-
 
 	public ILista<T> sublista(int numElementos)
 	{
@@ -293,9 +295,9 @@ pos--;
 		return temp;
 	}
 
-	
+
 	public ILista<T> subList(int pos, int size) {
-		
+
 		ArregloDinamico<T> temp = new ArregloDinamico<>(size);
 
 		for (int i = pos; i < size+pos; i++) 

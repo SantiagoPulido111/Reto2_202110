@@ -5,7 +5,9 @@ import java.text.ParseException;
 import java.util.Scanner;
 
 import model.data_structures.ILista;
+import model.logic.CategoriaVideo;
 import model.logic.Modelo;
+import model.logic.YoutubeVideo;
 import view.View;
 
 public class Controller 
@@ -40,15 +42,15 @@ Scanner lector = new Scanner(System.in);
 			view.printMenu();
 
 			int option = lector.nextInt();
-			switch(option){
+			switch(option)
+			{
 			case 1:
-				view.printMessage("--------- \nCrear Arreglo \nEscriba (1) para lista encadenada, (2) para arreglo dinamico ");
-				int esLista = lector.nextInt();
-				boolean esListab = esLista==1;
+				int esLista = 1; //lector.nextInt();
+				boolean esListab = esLista == 2;
 				view.printMessage("--------- \nCrear Arreglo \nDigite 1, para videos-small, y 2 videos-All ");
 				int rutai = lector.nextInt();
 
-				String ruta=(rutai==1)?SMALL:ALL;
+				String ruta = (rutai == 1)? SMALL:ALL;
 				try 
 				{
 					modelo = new Modelo(ruta,esListab);
@@ -58,22 +60,32 @@ Scanner lector = new Scanner(System.in);
 					e.printStackTrace();
 					view.printMessage("Error al cargar");
 				} 
-				//				view.printMessage("Titulo primer elemento: " +modelo.darItem(0).getTitle());
-				//				view.printMessage("Pais primer elemento: " +modelo.darItem(0).getCountry());
-				//				view.printMessage("Likes primer elemento: " +modelo.darItem(0).getLikes());
-				//				view.printMessage("Fecha de tendencia primer elemento: " +modelo.darItem(0).getTrending_date());
 
-				// 				int posFinal= modelo.darTamano()-1;
-				//
-				//				view.printMessage("Titulo primer elemento: " +modelo.darItem(posFinal).getTitle());
-				//				view.printMessage("Pais primer elemento: " +modelo.darItem(posFinal).getCountry());
-				//				view.printMessage("Likes primer elemento: " +modelo.darItem(posFinal).getLikes());
-				//				view.printMessage("Fecha de tendencia primer elemento: " +modelo.darItem(posFinal).getTrending_date());
-				//				view.printMessage("Total de videos: " + modelo.darTamano());
+				view.printMessage("Numero actual de elementos " + modelo.darTamano() + "\n=======================" + "");
 
 
-				view.printMessage("Numero actual de elementos " + modelo.darTamano() + "\n---------");
+				//Mostrar la siguiente información del primer video cargado (title, cannel_title, trending_date,
+				//	country, views, likes, dislikes).
 
+				YoutubeVideo primero = modelo.darItem(1);
+
+				if(primero != null)
+				{
+					view.printMessage("Informacion Primer video cargado");
+					view.printMessage("------\nTitulo: " + primero.getTitle() + "\nCanal: " + primero.getChannel_title() + "\nTrending Date: " + primero.getTrending_date() + "\nCountry : " + primero.getCountry() + "\nViews: " + primero.getViews()+"\nlikes: " + primero.getLikes() + "\nDislikes: " + primero.getDislikes());		
+				}
+
+				view.printMessage("======================");
+				view.printMessage("Informacion Categorias");
+				ILista<CategoriaVideo> categorias = modelo.getCategorias();
+				for (int i = 1; i <categorias.size(); i++) 
+				{
+					view.printMessage("----------\nID:" + categorias.getElement(i).getCategory_id() + "\nNombre:" + categorias.getElement(i).getCategory_name());
+				}
+
+				view.printMessage("=====================");
+				//La lista de las categorías cargadas mostrando su id y nombre.
+				
 				break;
 
 			case 2:

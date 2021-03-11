@@ -2,6 +2,7 @@ package model.logic;
 
 import java.io.FileNotFoundException;
 
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
@@ -32,6 +33,9 @@ public class Modelo {
 	 */
 	private ILista<YoutubeVideo> datos;
 	private ILista<YoutubeVideo> sublista;
+	private ILista<CategoriaVideo> listaCategorias;
+	
+	private final static String ID = "data/category-id.csv";
 
 	private View vista = new View();
 
@@ -100,8 +104,14 @@ public class Modelo {
 	{
 		datos.exchange(i, i);
 	}
+	
+	public ILista<CategoriaVideo> getCategorias() 
+	{
+		return listaCategorias;
+	}
 
 	//TODO arreglar este metodo, no sirve desde el for
+	
 	public void cargarDatos(String ruta, boolean listaEncadenada) throws IOException, ParseException
 	{
 		Stopwatch timer = new Stopwatch();
@@ -141,6 +151,22 @@ public class Modelo {
 		vista.printMessage("Arreglo creado"); 
 		double time = timer.elapsedTime();
 		vista.printMessage("Tiempo tomado (milisegundos): "+ time);
+		
+		listaCategorias = new ArregloDinamico<CategoriaVideo > (44);
+		Reader in2 = new FileReader(ID);
+		Iterable<CSVRecord> records2 = CSVFormat.EXCEL.withHeader().parse(in2);
+		
+		for (CSVRecord record : records2)
+		{
+			String categor= record.get("id	name");
+			String[] words = categor.split("	"); 
+
+			words[0]=words[0].replaceAll("\\s+", "");
+			words[1]=words[1].replaceAll("\\s+", "");
+			CategoriaVideo actualCat = new CategoriaVideo(Integer.parseInt(words[0]), words[1]);
+
+			listaCategorias.addLast(actualCat);
+		}
 	}
 
 	public void sublista(int i)
