@@ -46,16 +46,14 @@ Scanner lector = new Scanner(System.in);
 			{
 			case 1:
 				
-				//dejamos esto para tener la funcionalidad en el futuro 
-				int esLista = 1; //lector.nextInt();
-				boolean esListab = esLista == 2;
+				
 				view.printMessage("--------- \nCrear Arreglo \nDigite 1, para videos-small, y 2 videos-All ");
 				int rutai = lector.nextInt();
 
 				String ruta = (rutai == 1)? SMALL:ALL;
 				try 
 				{
-					modelo = new Modelo(ruta,esListab);
+					modelo = new Modelo(ruta);
 				} 
 				catch (IOException e) 
 				{
@@ -63,123 +61,32 @@ Scanner lector = new Scanner(System.in);
 					view.printMessage("Error al cargar");
 				} 
 
-				view.printMessage("Numero actual de elementos " + modelo.darTamano() + "\n=======================" + "");
+				view.printMessage("\n=======================" + "");
 
-
-				//Mostrar la siguiente información del primer video cargado (title, cannel_title, trending_date,
-				//	country, views, likes, dislikes).
-
-				YoutubeVideo primero = modelo.darItem(1);
-
-				if(primero != null)
-				{
-					view.printMessage("Informacion Primer video cargado");
-					view.printMessage("------\nTitulo: " + primero.getTitle() + "\nCanal: " + primero.getChannel_title() + "\nTrending Date: " + primero.getTrending_date() + "\nCountry : " + primero.getCountry() + "\nViews: " + primero.getViews()+"\nlikes: " + primero.getLikes() + "\nDislikes: " + primero.getDislikes());		
-				}
-
-				view.printMessage("======================");
-				view.printMessage("Informacion Categorias");
-				ILista<CategoriaVideo> categorias = modelo.getCategorias();
-				for (int i = 1; i <categorias.size(); i++) 
-				{
-					view.printMessage("----------\nID:" + categorias.getElement(i).getCategory_id() + "\nNombre:" + categorias.getElement(i).getCategory_name());
-				}
-
-				view.printMessage("=====================");
-				//La lista de las categorías cargadas mostrando su id y nombre.
 				
-				break;
+				view.printMessage("Numero actual de videos: " + modelo.getNumVideos() + "\n=======================" + "");
 
-			case 2:
-				if(modelo==null) 
-				{view.printMessage("-------- Primero carge el modelo -----------") ;
-					break;}
-				view.printMessage("--------- \nCrear Arreglo \nEscriba el tamaño de la sublista");
+				
+				view.printMessage("Numero actual de duplas <K,V>: " + modelo.darTamano() + "\n=======================" + "");
 
-				int tamano = lector.nextInt();
-		
-		modelo.sublista(tamano);
+				
+				view.printMessage("Tiempo promedio para ejecutar el metodo put en milisegundos " + (modelo.getTiempoPutTotal()/modelo.getNumVideos())+ "\n=======================" + "");
 
-				view.printMessage("Numero actual de elementos sublista " + modelo.getSublista().size()+ "\n---------");
 
 				break;
 
+			case 2: 
+				//TODO opcion 2 
+				break;
 			case 3:
-				if(modelo==null) 
-				{view.printMessage("-------- Primero carge el modelo -----------") ;
-					break;}
-				if(modelo.getSublista()!=null)
-				{
-					view.printMessage("--------- \nOrdenar Arreglo \nOpción : \n1 para Insertion \n2 para Shell \n3 para Merge \n4 para Quicksort");
-					
-					int opcion = lector.nextInt();
-					
-					view.printMessage("--------- \n ordenar por fecha(1) o por likes(2) ");
-					int tipoOrd = lector.nextInt();
-					boolean tipoOrdb=tipoOrd==1;
-					
-					view.printMessage("--------- \n ordenar por ascendente(1) o por descendente(2) ");
-					int ascen = lector.nextInt();
-					boolean ascenb=ascen==1;
-					modelo.sortSublista(opcion,tipoOrdb,ascenb);
-
-
-					if(modelo.getSublista().size() < 20)
-					{
-						view.printMessage("La sublista es de " + modelo.getSublista().size() + " elementos.");
-						for (int i = 1; i < modelo.getSublista().size()+1; i++) 
-						{
-							view.printMessage("------\nTitulo: " + modelo.getSublista().getElement(i).getTitle() + "\nTrending Date: " + modelo.getSublista().getElement(i).getTrending_date()+"\nlikes: " +modelo.getSublista().getElement(i).getLikes());
-						}
-						view.printMessage("----------------------------");
-				
-					}	
-					else
-					{
-						view.printMessage("Primero 10 elementos");
-						for (int i = 1; i < 11; i++) 
-						{
-							view.printMessage("------\nTitulo: " + modelo.getSublista().getElement(i).getTitle() + "\nTrending Date: " + modelo.getSublista().getElement(i).getTrending_date()+"\nlikes: " +modelo.getSublista().getElement(i).getLikes());		
-						}
-						view.printMessage("Ultimos 10 elementos");
-
-						for (int i = modelo.getSublista().size() - 8; i < modelo.getSublista().size()+1; i++) 
-						{
-							view.printMessage("------\nTitulo: " + modelo.getSublista().getElement(i).getTitle() + "\nTrending Date: " + modelo.getSublista().getElement(i).getTrending_date()+"\nlikes: " +modelo.getSublista().getElement(i).getLikes());
-						}
-						view.printMessage("----------------------------");
-					}
-				}
-				else view.printMessage("--------\n sublista vacia \n --------");
-				break;
-
-			case 4:
-				if(modelo==null) 
-				{view.printMessage("-------- Primero carge el modelo -----------") ;
-					break;}
-				if(modelo.getSublista()!=null)
-				{
-					view.printMessage("La sublista es de " + modelo.getSublista().size() + " elementos.");
-					for (int i = 1; i < modelo.getSublista().size()+1; i++) 
-					{
-						view.printMessage((i) +". ------\nTitulo: " + modelo.getSublista().getElement(i).getTitle() + "\nTrending Date: " + modelo.getSublista().getElement(i).getTrending_date()+"\nlikes: " +modelo.getSublista().getElement(i).getLikes());
-					}
-					view.printMessage("----------------------------");
-				}
-				else view.printMessage("--------\n sublista vacia \n--------");
-				break;
-
-			case 5: 
-				break;
-
-			case 6: 
+				//TODO opcion 3
+		
+			case 4: 
 				view.printMessage("--------- \n Hasta pronto !! \n---------"); 
 				lector.close();
 				fin = true;
 				break;	
 
-			case 7: 
-				break;
 
 			default: 
 				view.printMessage("--------- \n Opcion Invalida !! \n---------");

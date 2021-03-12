@@ -8,7 +8,7 @@ package model.data_structures;
  *
  */
 
-public class ArregloDinamico<T extends Comparable<T>> implements ILista<T>
+public class ArregloDinamico<T extends Comparable<T>> implements ILista<T>,Comparable<ArregloDinamico<T>>
 {
 	/**
 	 * Capacidad maxima del arreglo
@@ -135,11 +135,14 @@ public class ArregloDinamico<T extends Comparable<T>> implements ILista<T>
 			} 
 
 			elementos[i]=element;
+			i++;
 
 			while (  i < tamanoAct+1)
 			{
-				elementos[i] = copia[i];
+				
+				elementos[i] = copia[i-1];
 				i++;
+				
 			} 
 
 			tamanoAct++;
@@ -305,5 +308,12 @@ public class ArregloDinamico<T extends Comparable<T>> implements ILista<T>
 			temp.addLast(elementos[i]);
 		}
 		return temp;
+	}
+
+	@Override
+	public int compareTo(ArregloDinamico o) {
+		
+		
+		return tamanoMax -o.darCapacidad();
 	}
 }

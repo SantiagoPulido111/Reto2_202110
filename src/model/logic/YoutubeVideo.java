@@ -1,7 +1,9 @@
 package model.logic;
 
 import java.util.Comparator;
+
 import java.util.Date;
+
 
 public class YoutubeVideo implements Comparable<YoutubeVideo>
 {
@@ -13,9 +15,17 @@ public class YoutubeVideo implements Comparable<YoutubeVideo>
 	private int dislikes;
 	private String thumbnail_link;
 	private String country;
+	private String id;
+	private Date publish_time;
+	private int category_id;
+	private long dias_tendencia;
+	private String tags;
+	private String categoria;
+	
+	
 
 
-	public YoutubeVideo(Date tdate, String tit, String channel_t,int vi, int li, int disli,String thumbnail,String count )
+	public YoutubeVideo(Date tdate, String tit, String channel_t,int vi, int li, int disli,String thumbnail,String count,String id, Date publish_time, int category_id,String tag,String category)
 	{	
 		setTrending_date(tdate);
 		setTitle(tit);
@@ -25,6 +35,14 @@ public class YoutubeVideo implements Comparable<YoutubeVideo>
 		setDislikes(disli);
 		setThumbnail_link(thumbnail);
 		setCountry(count);
+		setId(id);
+		setPublish_time(publish_time);
+		setCategory_id(category_id);
+		
+		diasTendencia();
+		
+		setTags(tag);
+		setCategoria(category);
 	}
 
 	//	public int compareTo(YoutubeVideo arg0)
@@ -124,6 +142,42 @@ public class YoutubeVideo implements Comparable<YoutubeVideo>
 
 	
 	
+	public String getId() 
+	{
+		return id;
+	}
+
+	public void setId(String id) 
+	{
+		this.id = id;
+	}
+
+
+
+	public Date getPublish_time() 
+	{
+		return publish_time;
+	}
+
+	public void setPublish_time(Date publish_time) 
+	{
+		this.publish_time = publish_time;
+	}
+
+
+
+	public int getCategory_id() 
+	{
+		return category_id;
+	}
+
+	public void setCategory_id(int category_id) 
+	{
+		this.category_id = category_id;
+	}
+
+
+
 	public static class ComparadorXfecha implements Comparator<YoutubeVideo> 
 	{
 		public int compare(YoutubeVideo video1, YoutubeVideo video2) 
@@ -149,9 +203,84 @@ public class YoutubeVideo implements Comparable<YoutubeVideo>
 		}
 
 	}
+	
+	public static class ComparadorXViews implements Comparator<YoutubeVideo> 
+	{
 
+		/** Comparador alterno de acuerdo al número de likes
+		 * @return valor 0 si video1 y video2 tiene los mismos likes.
+	 valor negativo si video1 tiene menos likes que video2.
+	 valor positivo si video1 tiene más likes que video2. */
 
+		public int compare(YoutubeVideo video1, YoutubeVideo video2) 
+		{
+			return video1.getViews() - video2.getViews();
+		}
 
+	}
+	
+	public static class ComparadorXtitulo implements Comparator<YoutubeVideo> 
+	{
 
+		/** Comparador alterno de acuerdo al número de likes
+		 * @return valor 0 si video1 y video2 tiene los mismos likes.
+	 valor negativo si video1 tiene menos likes que video2.
+	 valor positivo si video1 tiene más likes que video2. */
+
+		public int compare(YoutubeVideo video1, YoutubeVideo video2) 
+		{
+			return (video1.getTitle().compareTo(video2.getTitle())==0)?video1.getId().compareTo(video2.getId()):video1.getTitle().compareTo(video2.getTitle());
+		}
+	}
+	
+
+	public void diasTendencia ()
+	{
+		long trendingTime = trending_date.getTime();
+		long publishTime = publish_time.getTime();
+		
+		dias_tendencia= (long) ((trendingTime - publishTime) /  864e+5);
+	}
+
+	public long getDias_tendencia() 
+	{
+		return dias_tendencia;
+	}
+
+	public void setDias_tendencia(long dias_tendencia) 
+	{
+		this.dias_tendencia = dias_tendencia;
+	}
+
+	public String getTags() {
+		return tags;
+	}
+
+	public void setTags(String tags) {
+		this.tags = tags;
+	}
+
+	public boolean contieneTag(String tag_s)
+	{
+	
+	String[] words=tags.split("\\|");
+	
+//	boolean esta =false;
+//	for (int i = 0; i < words.length&&!esta; i++)
+//	{
+//		if(tag_s.equals(words[i])) esta=true;
+//	}
+//		return esta;
+		return tags.contains(tag_s.replace("\"", ""));
+	}
+
+	public String getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(String categoria) {
+		this.categoria = categoria;
+	}
+	
 
 }

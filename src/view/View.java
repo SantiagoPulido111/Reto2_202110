@@ -15,13 +15,10 @@ public class View
 		public void printMenu()
 		{
 			System.out.println("1. Cargaro modelo");
-			System.out.println("2. Crear Sublista");
-			System.out.println("3. Ordenar Sublista");
-			System.out.println("4. Imprime la sublista completa");
-			//System.out.println("5. Imprimir el Arreglo");
-			System.out.println("6. Exit");
-			//System.out.println("7. Exchange");
-			
+			System.out.println("2. Req1: Numero y videos de un pais y nombre categoria");
+			System.out.println("3. Preueba de desempeño");
+	
+			System.out.println("4. Exit");
 			System.out.println("Dar el numero de opcion a resolver, luego oprimir tecla Return: (e.g.," + " 1):");	
 		}
 		
@@ -31,13 +28,5 @@ public class View
 			System.out.println(mensaje);
 		}		
 		
-		public void printModelo(Modelo modelo)
-		{
-			//System.out.println(modelo);
-			int max= modelo.darTamano();
-			for (int i=0; i<max;i++)
-			{
-				System.out.println(modelo.darItem(i));
-			}
-		}
+		
 }
