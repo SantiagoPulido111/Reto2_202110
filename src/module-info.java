@@ -8,6 +8,6 @@ module T4_202110 {
 	exports model.data_structures;
 	exports model.utils;
 
-	requires junit;
 	requires commons.csv;
+	requires junit;
 }

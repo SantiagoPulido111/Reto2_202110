@@ -2,8 +2,6 @@ package model.logic;
 
 import java.io.FileNotFoundException;
 
-
-
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
@@ -39,10 +37,10 @@ public class Modelo {
 	private ILista<YoutubeVideo> sublista;
 	private ILista<CategoriaVideo> listaCategorias;
 	private int numVideos;
-	
+
 	//Para la opcion 1
 	private double tiempoParaTimerTotal=0;
-	
+
 	//ESTO SOLO SRIVE PARA OPC 1
 	private final static String ID = "data/category-id.csv";
 
@@ -56,7 +54,7 @@ public class Modelo {
 	{
 		setNumVideos(0);
 		cargarDatos(ruta);
-		
+
 	}
 
 	/**
@@ -99,7 +97,7 @@ public class Modelo {
 		Stopwatch timer = new Stopwatch();
 		datos.put(key, temp);
 		tiempoParaTimerTotal = getTiempoPutTotal() + timer.elapsedTime();
-		
+
 		numVideos++;
 	}
 
@@ -133,27 +131,27 @@ public class Modelo {
 
 	public void cargarDatos(String ruta) throws IOException, ParseException
 	{
-	
+
 		//hacer esto en cualquier metodo que clacule el tiempo tomado por el put 
 		tiempoParaTimerTotal=0;
-		
-		
-		
-		
-		
+
+
+
+
+
 		listaCategorias = new ArregloDinamico<CategoriaVideo > (44);
 		Reader in2 = new FileReader(ID);
 		Iterable<CSVRecord> records2 = CSVFormat.EXCEL.withHeader().parse(in2);
-		
+
 		for (CSVRecord record : records2)
 		{
 			String categor= record.get("id	name");
 			String[] words = categor.split("	"); 
-			
+
 			words[0]=words[0].replaceAll("\\s+", "");
 			words[1]=words[1].replaceAll("\\s+", "");
 			CategoriaVideo actualCat = new CategoriaVideo(Integer.parseInt(words[0]), words[1]);
-			
+
 			listaCategorias.addLast(actualCat);
 		}
 		Stopwatch timer = new Stopwatch();
@@ -191,7 +189,7 @@ public class Modelo {
 		vista.printMessage("Arreglo creado"); 
 		double time = timer.elapsedTime();
 		vista.printMessage("Tiempo tomado (milisegundos): "+ time);
-		
+
 
 	}
 
@@ -269,61 +267,60 @@ public class Modelo {
 		}
 		vista.printMessage("Arreglo creado"); 
 		double time = timer.elapsedTime();
-		vista.printMessage("Tiempo tomado (milisegundos): "+ time);
+		vista.printMessage("Tiempo tomado (milisegundos): " + time);
 	}
 
 
 	public String llaveEnString (String pais, String categoria )
 	{
-		return pais +"-"+categoria;
+		return pais + "-" + categoria;
 	}
 
-	public int getNumVideos() {
+	public int getNumVideos() 
+	{
 		return numVideos;
 	}
 
-	public void setNumVideos(int numVideos) {
+	public void setNumVideos(int numVideos) 
+	{
 		this.numVideos = numVideos;
 	}
 
-	public double getTiempoPutTotal() {
+	public double getTiempoPutTotal() 
+	{
 		return tiempoParaTimerTotal;
 	}
-	
+
 	public void pruabaDeDesemprno()
 	{
 		//hacer esto en cualquier metodo que clacule el tiempo tomado por el put 
-				tiempoParaTimerTotal=0;
+		tiempoParaTimerTotal = 0;
 		
-	    String[] paises = {"canada", "germany","france","united kingdom","mexico","russia","USA"};
-	    String[] paisesFalsos= {"colombia", "tangamandapia", "chiquinquira","UEN","UPAC","llljd","unlikes wisdom"};
-	    String[] categoriasMal= {"engennering & comedy", "hupiesfr", "yakak"};
-	    
-		for(int i=0; i<1000;i++)
+		ArregloDinamico<String> listaTemp = (ArregloDinamico<String>)datos.keySet();
+
+//		String[] paises = {"canada", "germany","france","united kingdom","mexico","russia","USA"};
+//		String[] paisesFalsos= {"colombia", "tangamandapia", "chiquinquira","UEN","UPAC","llljd","unlikes wisdom"};
+//		String[] categoriasMal= {"engennering & comedy", "hupiesfr", "yakak"};
+
+		for(int i = 1; i < 700 + 1; i++)
 		{
-			double probabilidadBueno = Math.random();
-			int posPaises= (int) Math.round(Math.random()*6);
-			int posCatgorias= (int) Math.round(Math.random()*(listaCategorias.size()-1)+1);
-			
-			String key;
-			
-			if(probabilidadBueno>=0.3)
-			{
-				key=llaveEnString(paises[posPaises],listaCategorias.getElement(posCatgorias).getCategory_name() );
-			}
-			else
-			{
-				key=llaveEnString(paisesFalsos[posPaises], categoriasMal[posCatgorias%3]);
-			}
-			
+			int j = (i > listaTemp.size())? 1 : i;
+					
+			String key= listaTemp.getElement(j);
+
 			Stopwatch timer = new Stopwatch();
 			datos.get(key);
-			tiempoParaTimerTotal = getTiempoPutTotal() + timer.elapsedTime();
-			
+			tiempoParaTimerTotal += timer.elapsedTime();
 		}
-		
-		
+
+		for(int i = 1; i < 300 + 1; i++)
+		{
+			String falseKey = "tangamandapia" + i;
+
+			Stopwatch timer = new Stopwatch();
+			datos.get(falseKey);
+			tiempoParaTimerTotal += timer.elapsedTime();
+		}
 	}
-	
 
 }

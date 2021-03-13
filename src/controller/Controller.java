@@ -32,7 +32,7 @@ public class Controller
 
 	public void run() throws ParseException 
 	{
-Scanner lector = new Scanner(System.in);
+		Scanner lector = new Scanner(System.in);
 		boolean fin = false;
 		String dato = "";
 		String respuesta = "";
@@ -45,8 +45,8 @@ Scanner lector = new Scanner(System.in);
 			switch(option)
 			{
 			case 1:
-				
-				
+
+
 				view.printMessage("--------- \nCrear Arreglo \nDigite 1, para videos-small, y 2 videos-All ");
 				int rutai = lector.nextInt();
 
@@ -63,13 +63,13 @@ Scanner lector = new Scanner(System.in);
 
 				view.printMessage("\n=======================" + "");
 
-				
+
 				view.printMessage("Numero actual de videos: " + modelo.getNumVideos() + "\n=======================" + "");
 
-				
+
 				view.printMessage("Numero actual de duplas <K,V>: " + modelo.darTamano() + "\n=======================" + "");
 
-				
+
 				view.printMessage("Tiempo promedio para ejecutar el metodo put en milisegundos " + (modelo.getTiempoPutTotal()/modelo.getNumVideos())+ "\n=======================" + "");
 
 				view.printMessage("======================");
@@ -85,52 +85,52 @@ Scanner lector = new Scanner(System.in);
 
 			case 2: 
 				//TODO opcion 2 \
-				
+
 				view.printMessage("--------------\n Ingrese el pais: ");
 				String pais2= lector.next();
 				pais2+=lector.nextLine();
-				
-				
+
+
 				view.printMessage("--------------------\n Ingrese la categoria: ");
 				String categoria2_s= lector.next();
 				categoria2_s+=lector.nextLine();
 				categoria2_s = categoria2_s.replaceAll("\\s+","");
-				
+
 				String llave = modelo.llaveEnString(pais2, categoria2_s);
 				ILista<YoutubeVideo>lista2 =modelo.buscar(llave);
 				if(lista2!=null)
 				{
-				view.printMessage("\n=======================" + "");
-				view.printMessage("Numero de videos con este pais y categoria: "+ lista2.size());
-				for (int i = 1; i < lista2.size()+1; i++) 
-				{
-					YoutubeVideo actual = lista2.getElement(i);
-					
-					view.printMessage( "------------------------");	
+					view.printMessage("\n=======================" + "");
+					view.printMessage("Numero de videos con este pais y categoria: "+ lista2.size());
+					for (int i = 1; i < lista2.size()+1; i++) 
+					{
+						YoutubeVideo actual = lista2.getElement(i);
 
-					view.printMessage( "Titulo: " + actual.getTitle());	
-					
-					view.printMessage( "Views: " + actual.getViews());
-					view.printMessage( "Likes: " + actual.getLikes());
-					view.printMessage( "Dislikes: " + actual.getDislikes());
-				
-					
-					
-				}
+						view.printMessage( "------------------------");	
+
+						view.printMessage( "Titulo: " + actual.getTitle());	
+
+						view.printMessage( "Views: " + actual.getViews());
+						view.printMessage( "Likes: " + actual.getLikes());
+						view.printMessage( "Dislikes: " + actual.getDislikes());
+
+
+
+					}
 				}
 				else view.printMessage("No se encontraron videos para su solicitud");
-				
-				
-				
-				
+
+
+
+
 				break;
 			case 3:
 				//TODO opcion 3
-				
+
 				modelo.pruabaDeDesemprno();
 				view.printMessage("Tiempo promedio para ejecutar el metodo put en milisegundos " + (modelo.getTiempoPutTotal()/modelo.getNumVideos())+ "\n=======================" + "");
-            break;
-		
+				break;
+
 			case 4: 
 				view.printMessage("--------- \n Hasta pronto !! \n---------"); 
 				lector.close();

@@ -129,6 +129,7 @@ public class TablaSimbolos<K extends Comparable<K>,V extends Comparable<V>> impl
 	public ILista<K> keySet() 
 	{
 		ArregloDinamico<K> lista = new ArregloDinamico<>(size());
+		
 		for(int i=1;i<size()+1;i++)
 		{
 			lista.addLast(elementos.getElement(i).getKey());
