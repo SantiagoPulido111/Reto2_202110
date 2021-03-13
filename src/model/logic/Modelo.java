@@ -41,7 +41,7 @@ public class Modelo {
 	private int numVideos;
 	
 	//Para la opcion 1
-	private double tiempoPutTotal=0;
+	private double tiempoParaTimerTotal=0;
 	
 	//ESTO SOLO SRIVE PARA OPC 1
 	private final static String ID = "data/category-id.csv";
@@ -98,7 +98,7 @@ public class Modelo {
 		temp.addLast(dato);
 		Stopwatch timer = new Stopwatch();
 		datos.put(key, temp);
-		tiempoPutTotal = getTiempoPutTotal() + timer.elapsedTime();
+		tiempoParaTimerTotal = getTiempoPutTotal() + timer.elapsedTime();
 		
 		numVideos++;
 	}
@@ -134,6 +134,9 @@ public class Modelo {
 	public void cargarDatos(String ruta) throws IOException, ParseException
 	{
 	
+		//hacer esto en cualquier metodo que clacule el tiempo tomado por el put 
+		tiempoParaTimerTotal=0;
+		
 		
 		
 		
@@ -284,7 +287,43 @@ public class Modelo {
 	}
 
 	public double getTiempoPutTotal() {
-		return tiempoPutTotal;
+		return tiempoParaTimerTotal;
 	}
+	
+	public void pruabaDeDesemprno()
+	{
+		//hacer esto en cualquier metodo que clacule el tiempo tomado por el put 
+				tiempoParaTimerTotal=0;
+		
+	    String[] paises = {"canada", "germany","france","united kingdom","mexico","russia","USA"};
+	    String[] paisesFalsos= {"colombia", "tangamandapia", "chiquinquira","UEN","UPAC","llljd","unlikes wisdom"};
+	    String[] categoriasMal= {"engennering & comedy", "hupiesfr", "yakak"};
+	    
+		for(int i=0; i<1000;i++)
+		{
+			double probabilidadBueno = Math.random();
+			int posPaises= (int) Math.round(Math.random()*6);
+			int posCatgorias= (int) Math.round(Math.random()*(listaCategorias.size()-1)+1);
+			
+			String key;
+			
+			if(probabilidadBueno>=0.3)
+			{
+				key=llaveEnString(paises[posPaises],listaCategorias.getElement(posCatgorias).getCategory_name() );
+			}
+			else
+			{
+				key=llaveEnString(paisesFalsos[posPaises], categoriasMal[posCatgorias%3]);
+			}
+			
+			Stopwatch timer = new Stopwatch();
+			datos.get(key);
+			tiempoParaTimerTotal = getTiempoPutTotal() + timer.elapsedTime();
+			
+		}
+		
+		
+	}
+	
 
 }
