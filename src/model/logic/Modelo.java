@@ -83,14 +83,11 @@ public class Modelo {
 		ArregloDinamico<YoutubeVideo> temp;
 		if(datos.get(key)==null)
 		{
-
 			temp = new ArregloDinamico<YoutubeVideo>(1);
-
 		}
 		else
 		{
 			temp= datos.get(key);
-
 		}
 
 		temp.addLast(dato);
