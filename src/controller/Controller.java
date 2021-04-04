@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.Scanner;
 
+import model.data_structures.ArregloDinamico;
 import model.data_structures.ILista;
 import model.logic.CategoriaVideo;
 import model.logic.Modelo;
@@ -45,7 +46,7 @@ public class Controller
 			switch(option)
 			{
 			case 1:
-
+				//TODO falta 
 
 				view.printMessage("--------- \nCrear Arreglo \nDigite 1, para videos-small, y 2 videos-All ");
 				int rutai = lector.nextInt();
@@ -67,10 +68,44 @@ public class Controller
 				view.printMessage("Numero actual de videos: " + modelo.getNumVideos() + "\n=======================" + "");
 
 
-				view.printMessage("Numero actual de duplas <K,V>: " + modelo.darTamano() + "\n=======================" + "");
+				view.printMessage("Numero actual de duplas <K,V> para Limear Probing " + modelo.darTuplasLP()+ "\n=======================" + "");
+				view.printMessage("Numero actual de duplas <K,V> para Separate Chain " + modelo.darTuplasSC()+ "\n=======================" + "");
 
 
-				view.printMessage("Tiempo promedio para ejecutar el metodo put en milisegundos " + (modelo.getTiempoPutTotal()/modelo.getNumVideos())+ "\n=======================" + "");
+				view.printMessage("Tiempo promedio para ejecutar el metodo put en milisegundos para Linear Probing: " + (modelo.getTiempoPutTotalLP()/modelo.getNumVideos())+ "\n=======================" + "");
+				view.printMessage("Tiempo promedio para ejecutar el metodo put en milisegundos para Separate Chain: " + (modelo.getTiempoPutTotalSC()/modelo.getNumVideos())+ "\n=======================" + "");
+
+
+
+				view.printMessage("===================Tabla solicitada===============");
+
+				view.printMessage("===================Linear Probing ===============");
+				view.printMessage("Numero Tuplas: "+ modelo.darTuplasLP());
+				view.printMessage("Tamano inicial: "+ 53);
+				view.printMessage("Tamano final: "+ modelo.darTamanoLP());
+				view.printMessage("Factor carga porcentual: "+ modelo.darTuplasLP()*100/modelo.darTamanoLP()+"%");
+				view.printMessage("Numero de rehashes: "+ modelo.darReHashesLP());
+
+
+				view.printMessage("===================Separate Chaining  ===============");
+				view.printMessage("Numero Tuplas: "+ modelo.darTuplasSC());
+				view.printMessage("Tamano inicial: "+ 53);
+				view.printMessage("Tamano final: "+ modelo.darTamanoSC());
+				view.printMessage("Factor carga porcentual : "+ modelo.darTuplasSC()*100/modelo.darTamanoSC()+"%");
+				view.printMessage("Numero de rehashes: "+ modelo.darReHashesSC());
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 				view.printMessage("======================");
 				view.printMessage("Informacion Categorias");
@@ -84,54 +119,94 @@ public class Controller
 				break;
 
 			case 2: 
-				//TODO opcion 2 \
 
-				view.printMessage("--------------\n Ingrese el pais: ");
+				if(modelo == null) 
+				{
+					view.printMessage("-------- Primero carge el modelo -----------") ;
+					break;
+				}
+
+
+				view.printMessage("Dar pais");
 				String pais2= lector.next();
 				pais2+=lector.nextLine();
 
 
-				view.printMessage("--------------------\n Ingrese la categoria: ");
-				String categoria2_s= lector.next();
-				categoria2_s+=lector.nextLine();
-				categoria2_s = categoria2_s.replaceAll("\\s+","");
+				view.printMessage("Dar categoria");
+				String categ2= lector.next();
+				categ2+=lector.nextLine();
 
-				String llave = modelo.llaveEnString(pais2, categoria2_s);
-				ILista<YoutubeVideo>lista2 =modelo.buscar(llave);
-				if(lista2!=null)
-				{
-					view.printMessage("\n=======================" + "");
-					view.printMessage("Numero de videos con este pais y categoria: "+ lista2.size());
-					for (int i = 1; i < lista2.size()+1; i++) 
+				ArregloDinamico<YoutubeVideo> listvid =modelo.darVideosPaisCtegLP(pais2, categ2);
+				if(listvid!=null) {
+					view.printMessage("El numero total de videos es: "+ listvid.size() );	
+					view.printMessage("Los titulos son los sigueintes:");	
+					for(int i=1; i<listvid.size()+1;i++)
 					{
-						YoutubeVideo actual = lista2.getElement(i);
+						YoutubeVideo temp= listvid.getElement(i);
+						view.printMessage("============== \n"+i+".) "+ temp.getTitle());
+						view.printMessage("Views: "+ temp.getViews());
+						view.printMessage("likes: "+ temp.getLikes());
+						view.printMessage("Dislikes: "+ temp.getDislikes());
+					}
+				}
+				else view.printMessage("No hay videos con ese criterio");
+				break;
+			case 3:
+				if(modelo == null) 
+				{
+					view.printMessage("-------- Primero carge el modelo -----------") ;
+					break;
+				}
 
-						view.printMessage( "------------------------");	
-
-						view.printMessage( "Titulo: " + actual.getTitle());	
-
-						view.printMessage( "Views: " + actual.getViews());
-						view.printMessage( "Likes: " + actual.getLikes());
-						view.printMessage( "Dislikes: " + actual.getDislikes());
 
 
+
+				view.printMessage("Dar pais");
+				String pais3= lector.next();
+				pais3+=lector.nextLine();
+
+
+				view.printMessage("Dar categoria");
+				String categ3= lector.next();
+				categ3+=lector.nextLine();
+
+				ArregloDinamico<YoutubeVideo> listvid3 =modelo.darVideosPaisCtegSC(pais3, categ3);
+
+				if(listvid3!=null) {
+					view.printMessage("El numero total de videos es: "+ listvid3.size() );	
+					view.printMessage("Los titulos son los sigueintes:");	
+					for(int i=1; i<listvid3.size()+1;i++)
+					{
+						YoutubeVideo temp= listvid3.getElement(i);
+						view.printMessage("============== \n"+i+".) "+ temp.getTitle());
+						view.printMessage("Views: "+ temp.getViews());
+						view.printMessage("likes: "+ temp.getLikes());
+						view.printMessage("Disikes: "+ temp.getDislikes());
 
 					}
 				}
-				else view.printMessage("No se encontraron videos para su solicitud");
-
-
+				else view.printMessage("No hay videos con ese criterio");
 
 
 				break;
-			case 3:
-				//TODO opcion 3
+				
+			case 4:
+				if(modelo == null) 
+				{
+					view.printMessage("-------- Primero carge el modelo -----------") ;
+					break;
+				}
 
+				
 				modelo.pruabaDeDesemprno();
-				view.printMessage("Tiempo promedio para ejecutar el metodo put en milisegundos " + (modelo.getTiempoPutTotal()/modelo.getNumVideos())+ "\n=======================" + "");
+				view.printMessage("Tiempo promedio para ejecutar el metodo get en milisegundos para Linear Probing: " + (modelo.getTiempoPutTotalLP()/1000)+ "\n=======================" + "");
+				view.printMessage("Tiempo promedio para ejecutar el metodo get en milisegundos para Separate Chain: " + (modelo.getTiempoPutTotalSC()/1000)+ "\n=======================" + "");
+
+				
+				
 				break;
 
-			case 4: 
+			case 5: 
 				view.printMessage("--------- \n Hasta pronto !! \n---------"); 
 				lector.close();
 				fin = true;

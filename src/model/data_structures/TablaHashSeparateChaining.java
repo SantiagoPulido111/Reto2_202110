@@ -6,51 +6,112 @@ import model.logic.YoutubeVideo;
 
 public class TablaHashSeparateChaining <K extends Comparable<K>,V extends Comparable<V>> implements ITablaSimbolos<K, V> 
 {	
-	
-	int a = 47;
-	int b = 54;
-	
-	
-	ILista<ILista <NodoTS<K,V>>> elementos;
+
+
+	int p;
+	int a;
+	int b;
+
+	private int numrehashes;
+	ILista<ListaEncadenada<NodoTS<K,V>>> elementos;
 	private int tamano;
 	private int tamanoActual;
-	
-		
-	public TablaHashSeparateChaining(int tamanoInicial)
-	{
-		elementos = new ArregloDinamico<>(tamanoInicial);
+	private double factorMax;
 
-		for (int i = 1; i < tamanoInicial + 1; i++) 
+	//TODO implementar rehash y paar eso recibir factor de carga 
+	public TablaHashSeparateChaining(int tamanoInicial, double factorCarga)
+	{
+
+		factorMax=factorCarga;
+		tamano= nextPrime(tamanoInicial);
+		elementos = new ArregloDinamico<ListaEncadenada<NodoTS<K,V>>>(tamano);
+		tamanoActual=0;
+
+		for (int i = 0; i < tamano; i++) 
 		{
 			elementos.addLast(null);
 		}
+
+		p= nextPrime(tamano*5);
+
+		a= (int) Math.round(Math.random()*(p-1));
+
+
+		b= (int) Math.round(Math.random()*(p-1));
+
+
+		numrehashes=0;
 	}
 
 
 	public void put(K key, V valor) 
 	{
-		int posicion = mad(key);
-		ListaEncadenada<NodoTS<K,V>> LSC = (ListaEncadenada<NodoTS<K, V>>) elementos.getElement(posicion);
+		int posicion = hash(key);
 
-		if(elementos.getElement(posicion) == null && !contains(key))
+		ListaEncadenada<NodoTS<K,V>> LSC = (ListaEncadenada<NodoTS<K, V>>) elementos.getElement(posicion);
+		if(LSC!=null && !contains(key))
 		{
-			LSC = new ListaEncadenada<NodoTS<K,V>>();
-			LSC.addLast(new NodoTS<K,V>(key, valor));
+			LSC.addLast(new NodoTS<K,V>(key,valor));
 		}
 		else
-		{			
+		{
 			elementos.changeInfo(posicion, new ListaEncadenada<NodoTS<K,V>>());
-			elementos.getElement(posicion).addLast(new NodoTS<K,V>(key, valor));
+			elementos.getElement(posicion).addLast(new NodoTS<K,V>(key,valor));
 		}
 		tamanoActual++;
+		verificarCarga();
 	}
 
-	private int mad(K key) 
+
+	private void verificarCarga() {
+		if((tamanoActual/tamano)>factorMax) reHash();
+	}
+
+	//TODO falta 
+	private void reHash() 
 	{
-		int m = elementos.size();
+		numrehashes++;
 
-		return Math.abs((a * (key.hashCode()) + b) % nextPrime(m * 10)) % m + 1;
+		ColaEncadenada<NodoTS<K,V>> nodos =	darNodos();
+		tamanoActual=0;
+		tamano= nextPrime(tamano*2);
+		elementos =new ArregloDinamico<ListaEncadenada<NodoTS<K,V>>>(tamano);
+
+		for (int i = 0; i <tamano; i++) 
+		{
+			elementos.addLast(null);
+		}
+
+		NodoTS<K, V> actual;
+		while((actual= nodos.dequeue()) != null)
+		{
+			put(actual.getKey(),actual.getValor());
+		}
+
+
 	}
+
+
+	private ColaEncadenada<NodoTS<K, V>> darNodos() 
+	{
+
+		ColaEncadenada<NodoTS<K,V>> cola =new 	ColaEncadenada<NodoTS<K,V>>();
+		for (int i = 1; i <= elementos.size(); i++) 
+		{
+			ILista<NodoTS<K, V>> listaSC= elementos.getElement(i);
+			if (listaSC!=null) 
+			{
+				for (int j = 1; j <= listaSC.size(); j++) 
+				{
+					cola.enqueue(listaSC.getElement(j));
+				}
+
+			}
+
+		}
+		return cola;
+	}
+
 
 	static boolean isPrime(int n)
 
@@ -90,61 +151,73 @@ public class TablaHashSeparateChaining <K extends Comparable<K>,V extends Compar
 
 	public V get(K key) 
 	{
-		V elemento =null;
-		int max = elementos.size(); 
-		boolean encontrado= max==0;
-		int min =1;
 
-		while(!encontrado) 
+		V elemento = null;
+
+		int posicion = hash(key);
+
+		ListaEncadenada<NodoTS<K,V>> LSC = (ListaEncadenada<NodoTS<K, V>>) elementos.getElement(posicion);
+
+		if(LSC != null)
 		{
-			int mid = (max+min)/2;        
-			if (elementos.getElement(mid).getKey().equals(key))
+
+
+			for(int i=1; i<LSC.size()+1&&elemento==null;i++)
 			{
-				elemento = elementos.getElement(mid).getValor();
-				encontrado=true;
+				NodoTS<K,V> temp = LSC.getElement(i);
+				if(temp.getKey().compareTo(key)==0)
+				{
+					elemento=temp.getValor();
+
+				}
 			}
-			else if (max == min) encontrado=true;
-			else if (elementos.getElement(mid).getKey().compareTo(key)>0) max=mid;
-			else min = mid + 1;
+
 		}
+
 		return elemento;
 	}
 
 	// esto es basicmaente copiar el get, pero si ecuentra elimina el elmento con los metodos deILIST
 	public V remove(K key) 
 	{
-		V elemento =null;
-		int max = elementos.size(); 
-		boolean encontrado= max==0;
-		int min =1;
 
-		while(!encontrado) 
+		V elemento = null;
+
+		int posicion = hash(key);
+
+		ListaEncadenada<NodoTS<K,V>> LSC = (ListaEncadenada<NodoTS<K, V>>) elementos.getElement(posicion);
+
+		if(LSC != null)
 		{
-			int mid = (max+min)/2;        
-			if (elementos.getElement(mid).getKey().equals(key))
+
+
+			for(int i=1; i<LSC.size()+1&&elemento==null;i++)
 			{
-				elemento= elementos.getElement(mid).getValor();
-				elementos.removeElement(mid);
-				encontrado=true;
+				NodoTS<K,V> temp = LSC.getElement(i);
+				if(temp.getKey().compareTo(key)==0)
+				{
+					elemento=temp.getValor();
+					LSC.removeElement(i);
+                    elementos.changeInfo(i, LSC);
+				}
 			}
-			else if (max == min) encontrado=true;
-			else if (elementos.getElement(mid).getKey().compareTo(key)>0) max=mid;
-			else min=mid+1;
+
 		}
+
 		return elemento;
 	}
 
 
-	public boolean contains(K key) 
-	{
-		return (this.get(key)==null);
-	}
+
 
 	public int size() 
 	{
-		return elementos.size();
+		return tamano;
 	}
-
+	public int Numtuplas() 
+	{
+		return tamanoActual;
+	}
 
 	public boolean isEmpty()
 	{
@@ -154,11 +227,19 @@ public class TablaHashSeparateChaining <K extends Comparable<K>,V extends Compar
 
 	public ILista<K> keySet() 
 	{
-		ArregloDinamico<K> lista = new ArregloDinamico<>(size());
+		ArregloDinamico<K> lista = new ArregloDinamico<>(tamanoActual);
 
-		for(int i=1;i<size()+1;i++)
+		for(int i=1;i<elementos.size()+1;i++)
 		{
-			lista.addLast(elementos.getElement(i).getKey());
+			ILista <NodoTS<K,V>> listatemp=elementos.getElement(i);
+			if( listatemp!=null)
+			{
+
+				for(int j=1; j<listatemp.size();j++)
+				{
+					lista.addLast(listatemp.getElement(j).getKey());
+				}
+			}
 		}
 		return lista;
 	}
@@ -166,17 +247,51 @@ public class TablaHashSeparateChaining <K extends Comparable<K>,V extends Compar
 
 	public ILista<V> valueSet() 
 	{
-		ArregloDinamico<V> lista = new ArregloDinamico<>(size());
-		for(int i=1;i<size()+1;i++)
+		ArregloDinamico<V> lista = new ArregloDinamico<>(tamanoActual);
+
+		for(int i=1;i<elementos.size()+1;i++)
 		{
-			lista.addLast(elementos.getElement(i).getValor());
+			ILista <NodoTS<K,V>> listatemp=elementos.getElement(i);
+			if( listatemp!=null)
+			{
+
+				for(int j=1; j<listatemp.size();j++)
+				{
+					lista.addLast(listatemp.getElement(j).getValor());
+				}
+			}
 		}
 		return lista;
 	}
 
-	@Override
+	//TODO falta implementar MAD
+
+
+	private int mad(K key) 
+	{
+		int m = tamano;
+
+		return Math.abs((a * (key.hashCode()) + b) % p) % m + 1;
+	}
+
 	public int hash(K key) 
 	{
-		return 0;
+		return mad(key);
 	}
+
+
+
+	public boolean contains(K key) {
+
+		return get(key)!=null;
+	}
+
+	public int darNumReHashes() {
+
+		return numrehashes;
+
+	}
+
+
+
 }

@@ -1,8 +1,8 @@
 package model.data_structures;
 
 
-public class ListaEncadenada<T extends Comparable<T>> implements ILista<T>
-{
+public class ListaEncadenada<T extends Comparable<T>> implements Comparable<ListaEncadenada<T>>, ILista<T>  {
+
 	private  NodoClase<T> primerNodo;
 	private NodoClase<T> ultimoNodo;
 	private  int tamano;
@@ -92,20 +92,21 @@ public class ListaEncadenada<T extends Comparable<T>> implements ILista<T>
 
 	public T removeFirst() 
 	{
-		tamano--;
+		
 
-		if (primerNodo !=null&&tamano>0)
+		if (primerNodo !=null&&tamano>1)
 		{
 			T temp=primerNodo.getInfo();
 			primerNodo=primerNodo.getNext();
+			tamano--;
 			return temp;
 		}
-
-		else if(tamano==0)
+		else if(tamano==1)
 		{
 			T temp=primerNodo.getInfo();
 			primerNodo=null;
 			ultimoNodo=null;
+			tamano--;
 			return temp;
 		}
 		else 
@@ -160,7 +161,7 @@ public class ListaEncadenada<T extends Comparable<T>> implements ILista<T>
 			return removeFirst();
 		}
 		//deberia ser tamano -1 pero ya lo reste arriba 
-		if(pos==tamano)
+		if(pos==tamano-1)
 		{
 			return removeLast();
 		}
@@ -329,11 +330,7 @@ public class ListaEncadenada<T extends Comparable<T>> implements ILista<T>
 
 	public void changeInfo(int pos, T newElem) 
 	{
-
-
 		pos--;
-
-
 		if(primerNodo!=null)
 		{
 			int i=0;
@@ -377,6 +374,22 @@ public class ListaEncadenada<T extends Comparable<T>> implements ILista<T>
 			temp2 = temp2.getNext();
 		}
 		return temp;
+	}
+
+
+	
+
+	@Override
+	public int compareTo(ListaEncadenada<T> o) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+	@Override
+	public int compareTo(ILista<T> o) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 

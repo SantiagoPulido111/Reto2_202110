@@ -2,23 +2,41 @@ package model.data_structures;
 
 public class TablaHashLinearProbing <K extends Comparable<K>,V extends Comparable<V>> implements ITablaSimbolos<K, V> 
 {
+	
+	
+	int p;
+	int a;
+	int b;
+	private int numrehashes;
+	
 	ILista<NodoTS<K, V>> elementos;
 	private int tamano;
 	private int tamanoActual;
-
-	public TablaHashLinearProbing(int tamanoInicial)
+	private double factorMax;
+	
+	//TODO implementar rehash y paar eso recibir factor de carga 
+	public TablaHashLinearProbing(int tamanoInicial, double factorCarga)
 	{
 
-		elementos = new ArregloDinamico<>(tamanoInicial);
-
+		factorMax=factorCarga;
 		tamano = nextPrime(tamanoInicial);
-		elementos = new ArregloDinamico<NodoTS<K,V>>(tamanoInicial);
+		elementos = new ArregloDinamico<NodoTS<K,V>>(tamano);
 		tamanoActual = 0;
 
 		for (int i = 1; i < tamano + 1; i++) 
 		{
 			elementos.addLast(null);
 		}
+		
+		
+        p= nextPrime(tamano*5);
+		
+		a= (int) Math.round(Math.random()*(p-1));
+		
+
+		b= (int) Math.round(Math.random()*(p-1));
+		
+		numrehashes=0;
 	}
 
 	static boolean isPrime(int n)
@@ -55,7 +73,7 @@ public class TablaHashLinearProbing <K extends Comparable<K>,V extends Comparabl
 
 
 
-	@Override
+
 	public void put(K key, V valor) 
 	{
 		int posicion = hash(key);
@@ -68,8 +86,52 @@ public class TablaHashLinearProbing <K extends Comparable<K>,V extends Comparabl
 		
 		elementos.changeInfo(posicion, new NodoTS<K,V>(key, valor));
 		tamanoActual++;
+		verificarCarga();
 
 	}
+	
+	private void verificarCarga() {
+		if((tamanoActual/tamano)>factorMax) reHash();
+	}
+	
+	
+	private void reHash() 
+	{
+
+	
+		numrehashes++;
+		ColaEncadenada<NodoTS<K,V>> nodos =	darNodos();
+		tamanoActual=0;
+		tamano= nextPrime(tamano*2);
+		elementos =new ArregloDinamico<NodoTS<K,V>>(tamano);
+
+		for (int i = 1; i < tamano + 1; i++) 
+		{
+			elementos.addLast(null);
+		}
+
+		NodoTS<K, V> actual;
+		while((actual= nodos.dequeue()) != null)
+		{
+			put(actual.getKey(),actual.getValor());
+		}
+
+
+	}
+
+
+	private ColaEncadenada<NodoTS<K, V>> darNodos() 
+	{
+
+		ColaEncadenada<NodoTS<K,V>> cola =new 	ColaEncadenada<NodoTS<K,V>>();
+		for (int i = 1; i <= elementos.size(); i++) 
+		{
+			NodoTS<K, V> NodoSC= elementos.getElement(i);
+			if (NodoSC!=null) cola.enqueue(NodoSC);
+		}
+		return cola;
+	}
+
 
 	private int getNextEmpty(int posicion)
 	{
@@ -102,8 +164,10 @@ public class TablaHashLinearProbing <K extends Comparable<K>,V extends Comparabl
 			{
 				encontroNull = true; 
 			}
-			else if(nodoAct.getKey().compareTo(key) == 0)
+			else if(nodoAct.getKey()!=null && nodoAct.getKey().compareTo(key) == 0)
 			{
+				
+				//TODO que pasa si es un nodo cuya key = null, ahi le puse algo 
 				retornar = nodoAct.getValor();
 			}
 			else
@@ -133,7 +197,7 @@ public class TablaHashLinearProbing <K extends Comparable<K>,V extends Comparabl
 			{
 				encontroNull = true; 
 			}
-			else if(nodoAct.getKey().compareTo(key) == 0)
+			else if(nodoAct.getKey()!=null && nodoAct.getKey().compareTo(key) == 0)
 			{
 				retornar = nodoAct.getValor();
 			}
@@ -157,7 +221,7 @@ public class TablaHashLinearProbing <K extends Comparable<K>,V extends Comparabl
 	@Override
 	public boolean contains(K key) 
 	{
-		return (this.get(key)==null);
+		return (this.get(key)!=null);
 	}
 
 
@@ -165,9 +229,13 @@ public class TablaHashLinearProbing <K extends Comparable<K>,V extends Comparabl
 	@Override
 	public int size() 
 	{
-		return elementos.size();
+		return tamano;
 	}
 
+	public int Numtuplas() 
+	{
+		return tamanoActual;
+	}
 
 
 	@Override
@@ -185,7 +253,11 @@ public class TablaHashLinearProbing <K extends Comparable<K>,V extends Comparabl
 
 		for(int i=1;i<size()+1;i++)
 		{
-			lista.addLast(elementos.getElement(i).getKey());
+			NodoTS<K, V> temp = elementos.getElement(i);
+			if(temp!=null)
+			{
+				lista.addLast(elementos.getElement(i).getKey());
+			}
 		}
 		return lista;
 	}
@@ -198,16 +270,35 @@ public class TablaHashLinearProbing <K extends Comparable<K>,V extends Comparabl
 		ArregloDinamico<V> lista = new ArregloDinamico<>(size());
 		for(int i=1;i<size()+1;i++)
 		{
-			lista.addLast(elementos.getElement(i).getValor());
+			NodoTS<K, V> temp = elementos.getElement(i);
+			if(temp!=null)
+			{
+				lista.addLast(elementos.getElement(i).getValor());
+			}
 		}
 		return lista;
 	}
 
+	private int mad(K key) 
+	{
+		int m = tamano;
+
+		return Math.abs((a * (key.hashCode()) + b) % p) % m + 1;
+	}
 
 
-	@Override
 	public int hash(K key) 
 	{
-		return 0;
+		return mad(key);
 	}
+	
+	
+	
+	public int darNumReHashes() {
+		
+		return numrehashes;
+		
+	}
+	
+	
 }

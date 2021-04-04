@@ -8,8 +8,7 @@ package model.data_structures;
  *
  */
 
-public class ArregloDinamico<T extends Comparable<T>> implements ILista<T>
-{
+public class ArregloDinamico<T extends Comparable<T>> implements Comparable<ArregloDinamico<T>>, ILista<T>  {
 	/**
 	 * Capacidad maxima del arreglo
 	 */
@@ -159,7 +158,7 @@ public class ArregloDinamico<T extends Comparable<T>> implements ILista<T>
 		{
 			return null;
 		}
-		else if(tamanoAct==0)
+		else if(tamanoAct==1)
 		{
 			T temp =elementos[0];
 			elementos[0]=null;
@@ -312,6 +311,12 @@ public class ArregloDinamico<T extends Comparable<T>> implements ILista<T>
 	@Override
 	public int compareTo(ILista<T> o) 
 	{
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int compareTo(ArregloDinamico<T> o) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

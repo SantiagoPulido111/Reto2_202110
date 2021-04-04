@@ -1,6 +1,6 @@
 package model.data_structures;
 
-public interface ILista<T extends Comparable<T>> extends Comparable<ILista<T>>
+public interface ILista<T extends Comparable<T>> 
 {
 	
 	//Agrega un elemento al principio de la lista
@@ -62,9 +62,7 @@ public interface ILista<T extends Comparable<T>> extends Comparable<ILista<T>>
 
 	int compareTo(ILista<T> o);
 
-	public Object getKey();
 
-	public V getValor();
 	
 	
 	

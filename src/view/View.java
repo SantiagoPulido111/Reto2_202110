@@ -14,11 +14,11 @@ public class View
 	    
 		public void printMenu()
 		{
-			System.out.println("1. Cargaro modelo");
-			System.out.println("2. Req1: Numero y videos de un pais y nombre categoria");
-			System.out.println("3. Preueba de desempeño");
-	
-			System.out.println("4. Exit");
+			System.out.println("1. Cargar videos");
+			System.out.println("2. OPC2: Videos de un pais y nombre categoria, usando LP");
+			System.out.println("3. OPC3: Videos de un pais y nombre categoria, usando SC");
+			System.out.println("4. OPC4: prueba de desempeño");
+			System.out.println("5. Exit");
 			System.out.println("Dar el numero de opcion a resolver, luego oprimir tecla Return: (e.g.," + " 1):");	
 		}
 		

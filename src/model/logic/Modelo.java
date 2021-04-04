@@ -19,6 +19,8 @@ import model.data_structures.ArregloDinamico;
 import model.data_structures.ILista;
 import model.data_structures.ITablaSimbolos;
 import model.data_structures.ListaEncadenada;
+import model.data_structures.TablaHashLinearProbing;
+import model.data_structures.TablaHashSeparateChaining;
 import model.data_structures.TablaSimbolos;
 import model.utils.Ordenamiento;
 import view.View;
@@ -33,15 +35,16 @@ public class Modelo {
 	 * Atributos del modelo del mundo
 	 */
 	//private ILista<YoutubeVideo> datos;
-	private ITablaSimbolos<String, ArregloDinamico<YoutubeVideo>> datos;
-	private ILista<YoutubeVideo> sublista;
+	private TablaHashLinearProbing<String, ArregloDinamico<YoutubeVideo>> LP;
+	private TablaHashSeparateChaining<String,ArregloDinamico<YoutubeVideo>>  SC;
+
 	private ILista<CategoriaVideo> listaCategorias;
 	private int numVideos;
 
-	//Para la opcion 1
-	private double tiempoParaTimerTotal=0;
+	//Para revisar lo del tiempo
+	private double tiempoParaTimerTotalLP=0;
+	private double tiempoParaTimerTotalSC=0;
 
-	//ESTO SOLO SRIVE PARA OPC 1
 	private final static String ID = "data/category-id.csv";
 
 	private View vista = new View();
@@ -55,6 +58,7 @@ public class Modelo {
 		setNumVideos(0);
 		cargarDatos(ruta);
 
+
 	}
 
 	/**
@@ -67,10 +71,36 @@ public class Modelo {
 	 * Servicio de consulta de numero de elementos presentes en el modelo 
 	 * @return numero de elementos presentes en el modelo
 	 */
-	public int darTamano()
+	public int darTamanoLP()
 	{
-		return datos.size();
+		return LP.size();
 	}
+	public int darTamanoSC()
+	{
+		return SC.size();
+	}
+
+
+	public int darTuplasLP()
+	{
+		return LP.Numtuplas();
+	}
+	public int darTuplasSC()
+	{
+		return SC.Numtuplas();
+	}
+
+
+
+	public int darReHashesLP()
+	{
+		return LP.darNumReHashes();
+	}
+	public int darReHashesSC()
+	{
+		return SC.darNumReHashes();
+	}
+
 
 	/**
 	 * Requerimiento de agregar dato
@@ -78,22 +108,47 @@ public class Modelo {
 	 */
 	public void agregar(YoutubeVideo dato)
 	{	
-		//pruebas
+
 		String key = llaveEnString(dato.getCountry(),dato.getCategoria());
 		ArregloDinamico<YoutubeVideo> temp;
-		if(datos.get(key)==null)
+
+
+		
+		//Primero manejo LP
+		if(LP.get(key)==null)
 		{
 			temp = new ArregloDinamico<YoutubeVideo>(1);
 		}
 		else
 		{
-			temp= datos.get(key);
+			
+			temp= LP.remove(key);
 		}
 
 		temp.addLast(dato);
+
 		Stopwatch timer = new Stopwatch();
-		datos.put(key, temp);
-		tiempoParaTimerTotal = getTiempoPutTotal() + timer.elapsedTime();
+		LP.put(key, temp);
+		tiempoParaTimerTotalLP = getTiempoPutTotalLP() + timer.elapsedTime();
+
+
+		temp=null;
+		//TODO HAY UN PROBLEMA ACA PROBABLEMENETE EN EL REHASH 
+		//Segundo manejo SC
+		if(SC.get(key)==null)
+		{
+			temp = new ArregloDinamico<YoutubeVideo>(1);
+		}
+		else
+		{
+			temp= SC.remove(key);
+		}
+
+		temp.addLast(dato);
+		Stopwatch timer2 = new Stopwatch();
+
+		SC.put(key, temp);
+		tiempoParaTimerTotalSC = getTiempoPutTotalSC() + timer2.elapsedTime();
 
 		numVideos++;
 	}
@@ -103,20 +158,20 @@ public class Modelo {
 	 * @param key Dato a buscar
 	 * @return dato encontrado
 	 */
-	public ArregloDinamico<YoutubeVideo> buscar(String key)
-	{
-		return datos.get(key);
-	}
+	//	public ArregloDinamico<YoutubeVideo> buscar(String key)
+	//	{
+	//		return datos.get(key);
+	//	}
 
 	/**
 	 * Requerimiento eliminar dato
 	 * @param dato Dato a eliminar
 	 * @return dato eliminado
 	 */
-	public ArregloDinamico<YoutubeVideo> eliminar(String key)
-	{
-		return datos.remove(key);
-	}
+	//	public ArregloDinamico<YoutubeVideo> eliminar(String key)
+	//	{
+	//		return datos.remove(key);
+	//	}
 
 
 	public ILista<CategoriaVideo> getCategorias() 
@@ -130,8 +185,8 @@ public class Modelo {
 	{
 
 		//hacer esto en cualquier metodo que clacule el tiempo tomado por el put 
-		tiempoParaTimerTotal=0;
-
+		tiempoParaTimerTotalLP=0;
+		tiempoParaTimerTotalSC=0;
 
 
 
@@ -155,7 +210,10 @@ public class Modelo {
 		Reader in = new FileReader(ruta);
 		Iterable<CSVRecord> records = CSVFormat.EXCEL.withHeader().parse(in);
 
-		datos =new TablaSimbolos<>(1000);
+		LP =new TablaHashLinearProbing<String,ArregloDinamico<YoutubeVideo>>(50, 0.75);
+		SC =new TablaHashSeparateChaining<>(50, 5);
+
+
 
 		for (CSVRecord record : records)
 		{
@@ -181,12 +239,15 @@ public class Modelo {
 			YoutubeVideo temp=new YoutubeVideo(trending_date, title, channel_title,views,likes,dislikes,thumbnail_link,country,id,publish_time,category_id,tag,categoria);
 
 			agregar(temp);
+			
+			
 		}
 
 		vista.printMessage("Arreglo creado"); 
 		double time = timer.elapsedTime();
 		vista.printMessage("Tiempo tomado (milisegundos): "+ time);
-
+		tiempoParaTimerTotalLP=0;
+		tiempoParaTimerTotalSC=0;
 
 	}
 
@@ -222,50 +283,50 @@ public class Modelo {
 		return categ;
 	}
 
-	public ILista<YoutubeVideo> getSublista() 
-	{
-		return sublista;
-	}
-
-	public void setSublista(ILista<YoutubeVideo> sublista) 
-	{
-		this.sublista = sublista;
-	}
-
-
+	//	public ILista<YoutubeVideo> getSublista() 
+	//	{
+	//		return sublista;
+	//	}
+	//
+	//	public void setSublista(ILista<YoutubeVideo> sublista) 
+	//	{
+	//		this.sublista = sublista;
+	//	}
 
 
 
-	public void sortSublista(int tipoOrdenamiento, boolean porfecha, boolean ascendente)
-	{
-		Stopwatch timer = new Stopwatch();
-		Comparator<YoutubeVideo> comp= porfecha?new YoutubeVideo.ComparadorXfecha():new YoutubeVideo.ComparadorXLikes();
-		Ordenamiento<YoutubeVideo> ord = new Ordenamiento<YoutubeVideo>();
 
-		switch(tipoOrdenamiento)
-		{
-		case 1:
-			// insertion
-			ord.ordenarInsercion(sublista,comp,ascendente);
-			break;
-		case 2:
-			//shell
-			ord.shell(sublista,comp,ascendente);
-			break;
-		case 3:
-			//merge
-			ord.ordenarMergeSort(sublista,comp,ascendente);
-			break;
-		case 4:
-			//quick
-			ord.ordenarQuickSort(sublista,comp,ascendente);
-			break;
 
-		}
-		vista.printMessage("Arreglo creado"); 
-		double time = timer.elapsedTime();
-		vista.printMessage("Tiempo tomado (milisegundos): " + time);
-	}
+	//	public void sortSublista(int tipoOrdenamiento, boolean porfecha, boolean ascendente)
+	//	{
+	//		Stopwatch timer = new Stopwatch();
+	//		Comparator<YoutubeVideo> comp= porfecha?new YoutubeVideo.ComparadorXfecha():new YoutubeVideo.ComparadorXLikes();
+	//		Ordenamiento<YoutubeVideo> ord = new Ordenamiento<YoutubeVideo>();
+	//
+	//		switch(tipoOrdenamiento)
+	//		{
+	//		case 1:
+	//			// insertion
+	//			ord.ordenarInsercion(sublista,comp,ascendente);
+	//			break;
+	//		case 2:
+	//			//shell
+	//			ord.shell(sublista,comp,ascendente);
+	//			break;
+	//		case 3:
+	//			//merge
+	//			ord.ordenarMergeSort(sublista,comp,ascendente);
+	//			break;
+	//		case 4:
+	//			//quick
+	//			ord.ordenarQuickSort(sublista,comp,ascendente);
+	//			break;
+	//
+	//		}
+	//		vista.printMessage("Arreglo creado"); 
+	//		double time = timer.elapsedTime();
+	//		vista.printMessage("Tiempo tomado (milisegundos): " + time);
+	//	}
 
 
 	public String llaveEnString (String pais, String categoria )
@@ -283,41 +344,92 @@ public class Modelo {
 		this.numVideos = numVideos;
 	}
 
-	public double getTiempoPutTotal() 
+	public double getTiempoPutTotalLP() 
 	{
-		return tiempoParaTimerTotal;
+		return tiempoParaTimerTotalLP;
 	}
+
+	public double getTiempoPutTotalSC() 
+	{
+		return tiempoParaTimerTotalSC;
+	}
+	
+	
+	
+	public ArregloDinamico<YoutubeVideo> darVideosPaisCtegLP(String Pais, String Categ)
+	{
+		return LP.get(llaveEnString(Pais, Categ));
+	}
+	
+	public ArregloDinamico<YoutubeVideo> darVideosPaisCtegSC(String Pais, String Categ)
+	{
+		return SC.get(llaveEnString(Pais, Categ));
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	public void pruabaDeDesemprno()
 	{
-		//hacer esto en cualquier metodo que clacule el tiempo tomado por el put 
-		tiempoParaTimerTotal = 0;
+				//hacer esto en cualquier metodo que clacule el tiempo tomado por el put 
+				tiempoParaTimerTotalLP = 0;
+				tiempoParaTimerTotalSC = 0;
+				
+				//primero LP
+				ArregloDinamico<String> listaTemp = (ArregloDinamico<String>)LP.keySet();
+				for(int i = 1; i < 700 + 1; i++)
+				{
+					int j = (i > listaTemp.size())? 1 : i;
 		
-		ArregloDinamico<String> listaTemp = (ArregloDinamico<String>)datos.keySet();
-
-//		String[] paises = {"canada", "germany","france","united kingdom","mexico","russia","USA"};
-//		String[] paisesFalsos= {"colombia", "tangamandapia", "chiquinquira","UEN","UPAC","llljd","unlikes wisdom"};
-//		String[] categoriasMal= {"engennering & comedy", "hupiesfr", "yakak"};
-
-		for(int i = 1; i < 700 + 1; i++)
-		{
-			int j = (i > listaTemp.size())? 1 : i;
-					
-			String key= listaTemp.getElement(j);
-
-			Stopwatch timer = new Stopwatch();
-			datos.get(key);
-			tiempoParaTimerTotal += timer.elapsedTime();
-		}
-
-		for(int i = 1; i < 300 + 1; i++)
-		{
-			String falseKey = "tangamandapia" + i;
-
-			Stopwatch timer = new Stopwatch();
-			datos.get(falseKey);
-			tiempoParaTimerTotal += timer.elapsedTime();
-		}
+					String key= listaTemp.getElement(j);
+		
+					Stopwatch timer = new Stopwatch();
+					LP.get(key);
+					tiempoParaTimerTotalLP += timer.elapsedTime();
+				}
+		
+				for(int i = 1; i < 300 + 1; i++)
+				{
+					String falseKey = "tangamandapia" + i;
+		
+					Stopwatch timer = new Stopwatch();
+					LP.get(falseKey);
+					tiempoParaTimerTotalLP += timer.elapsedTime();
+				}
+				
+				
+				//primero LP
+//				ArregloDinamico<String> listaTemp = (ArregloDinamico<String>)LP.keySet();
+				// puedo utilizar la misma lista pues son las mismas llaves
+				for(int i = 1; i < 700 + 1; i++)
+				{
+					int j = (i > listaTemp.size())? 1 : i;
+		
+					String key= listaTemp.getElement(j);
+		
+					Stopwatch timer = new Stopwatch();
+					SC.get(key);
+					tiempoParaTimerTotalSC += timer.elapsedTime();
+				}
+		
+				for(int i = 1; i < 300 + 1; i++)
+				{
+					String falseKey = "tangamandapia" + i;
+		
+					Stopwatch timer = new Stopwatch();
+					SC.get(falseKey);
+					tiempoParaTimerTotalSC += timer.elapsedTime();
+				}
+				
+				
+				
 	}
 
 }
