@@ -12,6 +12,7 @@ public class TablaHashLinearProbing <K extends Comparable<K>,V extends Comparabl
 	ILista<NodoTS<K, V>> elementos;
 	private int tamano;
 	private int tamanoActual;
+	private int numTuplas;
 	private double factorMax;
 	
 	//TODO implementar rehash y paar eso recibir factor de carga 
@@ -22,6 +23,7 @@ public class TablaHashLinearProbing <K extends Comparable<K>,V extends Comparabl
 		tamano = nextPrime(tamanoInicial);
 		elementos = new ArregloDinamico<NodoTS<K,V>>(tamano);
 		tamanoActual = 0;
+		numTuplas=0;
 
 		for (int i = 1; i < tamano + 1; i++) 
 		{
@@ -86,6 +88,7 @@ public class TablaHashLinearProbing <K extends Comparable<K>,V extends Comparabl
 		
 		elementos.changeInfo(posicion, new NodoTS<K,V>(key, valor));
 		tamanoActual++;
+		
 		verificarCarga();
 
 	}
@@ -234,7 +237,7 @@ public class TablaHashLinearProbing <K extends Comparable<K>,V extends Comparabl
 
 	public int Numtuplas() 
 	{
-		return tamanoActual;
+		return numTuplas;
 	}
 
 

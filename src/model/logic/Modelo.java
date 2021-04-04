@@ -44,7 +44,12 @@ public class Modelo {
 	//Para revisar lo del tiempo
 	private double tiempoParaTimerTotalLP=0;
 	private double tiempoParaTimerTotalSC=0;
+	
+	private int revicionTuplasLP=0;
 
+	private int revicionTuplasSC=0;
+
+	
 	private final static String ID = "data/category-id.csv";
 
 	private View vista = new View();
@@ -83,11 +88,11 @@ public class Modelo {
 
 	public int darTuplasLP()
 	{
-		return LP.Numtuplas();
+		return revicionTuplasLP;
 	}
 	public int darTuplasSC()
 	{
-		return SC.Numtuplas();
+		return revicionTuplasSC;
 	}
 
 
@@ -112,12 +117,14 @@ public class Modelo {
 		String key = llaveEnString(dato.getCountry(),dato.getCategoria());
 		ArregloDinamico<YoutubeVideo> temp;
 
-
+     
 		
 		//Primero manejo LP
 		if(LP.get(key)==null)
 		{
 			temp = new ArregloDinamico<YoutubeVideo>(1);
+			revicionTuplasLP++;
+			
 		}
 		else
 		{
@@ -138,6 +145,8 @@ public class Modelo {
 		if(SC.get(key)==null)
 		{
 			temp = new ArregloDinamico<YoutubeVideo>(1);
+			
+			revicionTuplasSC++;
 		}
 		else
 		{
@@ -151,6 +160,14 @@ public class Modelo {
 		tiempoParaTimerTotalSC = getTiempoPutTotalSC() + timer2.elapsedTime();
 
 		numVideos++;
+		
+		//TODO pa debuggerar 
+		if (revicionTuplasSC!=revicionTuplasLP)
+		{
+			ArregloDinamico<YoutubeVideo>debugSC=(SC.get(key));
+			ArregloDinamico<YoutubeVideo>debugLP=(LP.get(key));
+			vista.printMessage(key);
+		}
 	}
 
 	/**
@@ -187,7 +204,9 @@ public class Modelo {
 		//hacer esto en cualquier metodo que clacule el tiempo tomado por el put 
 		tiempoParaTimerTotalLP=0;
 		tiempoParaTimerTotalSC=0;
+		revicionTuplasLP=0;
 
+		revicionTuplasSC=0;
 
 
 
@@ -246,8 +265,9 @@ public class Modelo {
 		vista.printMessage("Arreglo creado"); 
 		double time = timer.elapsedTime();
 		vista.printMessage("Tiempo tomado (milisegundos): "+ time);
-		tiempoParaTimerTotalLP=0;
-		tiempoParaTimerTotalSC=0;
+	
+		
+		vista.printMessage("Las tuplas para LP Y SC son:"+revicionTuplasLP + "y"+ revicionTuplasSC); 
 
 	}
 

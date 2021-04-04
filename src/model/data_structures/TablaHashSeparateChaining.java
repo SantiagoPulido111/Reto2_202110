@@ -191,14 +191,15 @@ public class TablaHashSeparateChaining <K extends Comparable<K>,V extends Compar
 		{
 
 
-			for(int i=1; i<LSC.size()+1&&elemento==null;i++)
+			for(int i=1; i<=LSC.size()&&elemento==null;i++)
 			{
 				NodoTS<K,V> temp = LSC.getElement(i);
 				if(temp.getKey().compareTo(key)==0)
 				{
 					elemento=temp.getValor();
 					LSC.removeElement(i);
-                    elementos.changeInfo(i, LSC);
+                    elementos.changeInfo(posicion, LSC);
+                    tamanoActual--;
 				}
 			}
 
