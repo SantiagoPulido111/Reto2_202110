@@ -147,6 +147,9 @@ public class TablaHashLinearProbing <K extends Comparable<K>,V extends Comparabl
 	private int getNextEmpty(int posicion)
 	{
 		int posicionRetornar = posicion +1;
+		if(posicionRetornar > tamano)
+			posicionRetornar = 1;
+		
 		
 		while(elementos.getElement(posicionRetornar) != null && !elementos.getElement(posicionRetornar).isEmpty())
 		{

@@ -117,6 +117,10 @@ public class Controller
 				}
 
 				view.printMessage("=====================");
+
+				if(modelo.darTuplasLP()==modelo.darTuplasSC())
+					view.printMessage("=====================\n" + "Caragado exitosamente"+"\n=====================");
+				view.printMessage("");				
 				break;
 
 			case 2: 
@@ -190,7 +194,7 @@ public class Controller
 
 
 				break;
-				
+
 			case 4:
 				if(modelo == null) 
 				{
@@ -198,13 +202,13 @@ public class Controller
 					break;
 				}
 
-				
+
 				modelo.pruabaDeDesemprno();
 				view.printMessage("Tiempo promedio para ejecutar el metodo get en milisegundos para Linear Probing: " + (modelo.getTiempoPutTotalLP()/1000)+ "\n=======================" + "");
 				view.printMessage("Tiempo promedio para ejecutar el metodo get en milisegundos para Separate Chain: " + (modelo.getTiempoPutTotalSC()/1000)+ "\n=======================" + "");
 
-				
-				
+
+
 				break;
 
 			case 5: 

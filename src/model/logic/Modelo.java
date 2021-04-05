@@ -271,7 +271,7 @@ public class Modelo {
 		vista.printMessage("Tiempo tomado (milisegundos): "+ time);
 	
 		
-		vista.printMessage("Las tuplas para LP Y SC son:"+revicionTuplasLP + "y"+ revicionTuplasSC); 
+		
 
 	}
 
