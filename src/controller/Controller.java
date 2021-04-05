@@ -54,6 +54,7 @@ public class Controller
 				String ruta = (rutai == 1)? SMALL:ALL;
 				try 
 				{
+					modelo=null;
 					modelo = new Modelo(ruta);
 				} 
 				catch (IOException e) 

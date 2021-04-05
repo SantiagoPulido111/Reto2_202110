@@ -48,6 +48,7 @@ public class Modelo {
 	private int revicionTuplasLP=0;
 
 	private int revicionTuplasSC=0;
+	boolean primerbug=false;
 
 	
 	private final static String ID = "data/category-id.csv";
@@ -62,7 +63,7 @@ public class Modelo {
 	{
 		setNumVideos(0);
 		cargarDatos(ruta);
-
+      
 
 	}
 
@@ -161,12 +162,15 @@ public class Modelo {
 
 		numVideos++;
 		
-		//TODO pa debuggerar 
-		if (revicionTuplasSC!=revicionTuplasLP)
+		//TODO pa debuggerar primer error
+		
+		if (revicionTuplasSC!=revicionTuplasLP&&!primerbug)
 		{
 			ArregloDinamico<YoutubeVideo>debugSC=(SC.get(key));
 			ArregloDinamico<YoutubeVideo>debugLP=(LP.get(key));
+			vista.printMessage("bug en:");
 			vista.printMessage(key);
+			primerbug=true;
 		}
 	}
 

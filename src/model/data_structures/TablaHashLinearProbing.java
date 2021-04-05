@@ -33,10 +33,10 @@ public class TablaHashLinearProbing <K extends Comparable<K>,V extends Comparabl
 		
         p= nextPrime(tamano*5);
 		
-		a= (int) Math.round(Math.random()*(p-1));
+		a= (int) Math.round(Math.random()*(p-5));
 		
 
-		b= (int) Math.round(Math.random()*(p-1));
+		b= (int) Math.round(Math.random()*(p-5));
 		
 		numrehashes=0;
 	}
@@ -80,12 +80,20 @@ public class TablaHashLinearProbing <K extends Comparable<K>,V extends Comparabl
 	{
 		int posicion = hash(key);
 		NodoTS<K,V> nodo = elementos.getElement(posicion);
-
-		if(nodo != null  && !nodo.isEmpty())
+		
+       
+       if(nodo != null  && !nodo.isEmpty())
 		{
 			posicion = getNextEmpty(posicion);
+			
 		}
 		
+       //TODO revisar esto, para no hacer reHashes innecesarios 
+       if(elementos.getElement(posicion)!=null&&elementos.getElement(posicion).isEmpty())
+       {
+    	   tamanoActual--;
+       }
+       
 		elementos.changeInfo(posicion, new NodoTS<K,V>(key, valor));
 		tamanoActual++;
 		
@@ -147,6 +155,8 @@ public class TablaHashLinearProbing <K extends Comparable<K>,V extends Comparabl
 			if(posicionRetornar > tamano)
 				posicionRetornar = 1;
 		}
+		
+	
 		return posicionRetornar;
 	}
 
