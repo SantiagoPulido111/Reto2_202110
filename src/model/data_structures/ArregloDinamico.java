@@ -311,13 +311,13 @@ public class ArregloDinamico<T extends Comparable<T>> implements Comparable<Arre
 	@Override
 	public int compareTo(ILista<T> o) 
 	{
-		// TODO Auto-generated method stub
+	
 		return 0;
 	}
 
 	@Override
 	public int compareTo(ArregloDinamico<T> o) {
-		// TODO Auto-generated method stub
+	
 		return 0;
 	}
 }

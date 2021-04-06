@@ -15,7 +15,7 @@ public class TablaHashLinearProbing <K extends Comparable<K>,V extends Comparabl
 	private int numTuplas;
 	private double factorMax;
 	
-	//TODO implementar rehash y paar eso recibir factor de carga 
+	// 
 	public TablaHashLinearProbing(int tamanoInicial, double factorCarga)
 	{
 
@@ -88,7 +88,7 @@ public class TablaHashLinearProbing <K extends Comparable<K>,V extends Comparabl
 			
 		}
 		
-       //TODO revisar esto, para no hacer reHashes innecesarios 
+        
        if(elementos.getElement(posicion)!=null&&elementos.getElement(posicion).isEmpty())
        {
     	   tamanoActual--;
@@ -183,7 +183,7 @@ public class TablaHashLinearProbing <K extends Comparable<K>,V extends Comparabl
 			else if(nodoAct.getKey()!=null && nodoAct.getKey().compareTo(key) == 0)
 			{
 				
-				//TODO que pasa si es un nodo cuya key = null, ahi le puse algo 
+				 
 				retornar = nodoAct.getValor();
 			}
 			else

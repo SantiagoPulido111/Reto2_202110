@@ -39,7 +39,7 @@ public class TablaSimbolos<K extends Comparable<K>,V extends Comparable<V>> impl
 			}
 			else if (max == min) 
 			{
-				//TODO revisar esto 
+				 
 	            if(elementos.getElement(mid).getKey().compareTo(key)>0) elementos.addElement(element, mid);
 	            else elementos.addElement(element, mid+1);
 				encontrado=true;

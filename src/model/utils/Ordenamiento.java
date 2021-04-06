@@ -9,9 +9,7 @@ import model.logic.YoutubeVideo;
 public final class Ordenamiento<T extends Comparable<T>> 
 {
 
-	//TODO revisar esto porque en quick sort a veces compara contra null
-	//TODO ponerle el comparador a todo esto con el comparador 
-	//TODO hacer que los metodos sean para la clase genercia T
+
 
 	private static boolean less(Comparable v, Comparable w, Comparator comparador, boolean ascendente)
 	{ 
@@ -25,7 +23,7 @@ public final class Ordenamiento<T extends Comparable<T>>
 	}
 
 
-	//TODO insertion, 
+	// 
 
 	/* Ordenamiento de N elementos en posiciones [1, N], con criterio de comparacion,
 	ascendentemente o descendentemente */
@@ -47,7 +45,7 @@ public final class Ordenamiento<T extends Comparable<T>>
 
 	}
 
-	//TODO shell 
+	 
 
 	/* Ordenamiento de N elementos en posiciones [1, N], con criterio de comparacion,
 	ascendentemente o descendentemente */
@@ -87,7 +85,7 @@ public final class Ordenamiento<T extends Comparable<T>>
 	}
 
 
-	//TODO merge 
+	// 
 
 	private  Comparable<T>[] aux; 
 
@@ -126,7 +124,7 @@ public final class Ordenamiento<T extends Comparable<T>>
 		ordenarMergeSort(sublista, 0, sublista.size()-1,comp, ascendente);
 	}
 
-	//TODO quicksort  a veces deja espacions nulos 
+	// 
 
 
 	/**

@@ -18,7 +18,7 @@ public class TablaHashSeparateChaining <K extends Comparable<K>,V extends Compar
 	private int tamanoActual;
 	private double factorMax;
 
-	//TODO implementar rehash y paar eso recibir factor de carga 
+ 
 	public TablaHashSeparateChaining(int tamanoInicial, double factorCarga)
 	{
 
@@ -67,7 +67,7 @@ public class TablaHashSeparateChaining <K extends Comparable<K>,V extends Compar
 		if((tamanoActual/tamano)>factorMax) reHash();
 	}
 
-	//TODO falta 
+
 	private void reHash() 
 	{
 		numrehashes++;
@@ -236,7 +236,7 @@ public class TablaHashSeparateChaining <K extends Comparable<K>,V extends Compar
 			if( listatemp!=null)
 			{
 
-				for(int j=1; j<listatemp.size();j++)
+				for(int j=1; j<listatemp.size()+1;j++)
 				{
 					lista.addLast(listatemp.getElement(j).getKey());
 				}
@@ -265,7 +265,7 @@ public class TablaHashSeparateChaining <K extends Comparable<K>,V extends Compar
 		return lista;
 	}
 
-	//TODO falta implementar MAD
+	
 
 
 	private int mad(K key) 

@@ -35,22 +35,24 @@ public class Modelo {
 	 * Atributos del modelo del mundo
 	 */
 	//private ILista<YoutubeVideo> datos;
-	private TablaHashLinearProbing<String, ArregloDinamico<YoutubeVideo>> LP;
-	private TablaHashSeparateChaining<String,ArregloDinamico<YoutubeVideo>>  SC;
 
+	private TablaHashSeparateChaining<String,ArregloDinamico<YoutubeVideo>>  SC1;
+	private TablaHashSeparateChaining<String,ArregloDinamico<YoutubeVideo>>  SC2;
+	private TablaHashSeparateChaining<String,ArregloDinamico<YoutubeVideo>>  SC3;
+	private TablaHashSeparateChaining<String,ArregloDinamico<YoutubeVideo>>  SC4;
 	private ILista<CategoriaVideo> listaCategorias;
 	private int numVideos;
 
 	//Para revisar lo del tiempo
 	private double tiempoParaTimerTotalLP=0;
 	private double tiempoParaTimerTotalSC=0;
-	
+
 	private int revicionTuplasLP=0;
 
 	private int revicionTuplasSC=0;
 	boolean primerbug=false;
 
-	
+
 	private final static String ID = "data/category-id.csv";
 
 	private View vista = new View();
@@ -63,7 +65,7 @@ public class Modelo {
 	{
 		setNumVideos(0);
 		cargarDatos(ruta);
-      
+
 
 	}
 
@@ -77,13 +79,22 @@ public class Modelo {
 	 * Servicio de consulta de numero de elementos presentes en el modelo 
 	 * @return numero de elementos presentes en el modelo
 	 */
-	public int darTamanoLP()
+
+	public int darTamanoSC1()
 	{
-		return LP.size();
+		return SC1.size();
 	}
-	public int darTamanoSC()
+	public int darTamanoSC2()
 	{
-		return SC.size();
+		return SC2.size();
+	}
+	public int darTamanoSC3()
+	{
+		return SC3.size();
+	}
+	public int darTamanoSC4()
+	{
+		return SC4.size();
 	}
 
 
@@ -98,15 +109,28 @@ public class Modelo {
 
 
 
-	public int darReHashesLP()
+
+	public int darReHashesSC1()
 	{
-		return LP.darNumReHashes();
-	}
-	public int darReHashesSC()
-	{
-		return SC.darNumReHashes();
+		return SC1.darNumReHashes();
 	}
 
+
+	public int darReHashesSC2()
+	{
+		return SC2.darNumReHashes();
+	}
+
+
+	public int darReHashesSC3()
+	{
+		return SC3.darNumReHashes();
+	}
+
+	public int darReHashesSC4()
+	{
+		return SC4.darNumReHashes();
+	}
 
 	/**
 	 * Requerimiento de agregar dato
@@ -115,64 +139,86 @@ public class Modelo {
 	public void agregar(YoutubeVideo dato)
 	{	
 
-		String key = llaveEnString(dato.getCountry(),dato.getCategoria());
-		ArregloDinamico<YoutubeVideo> temp;
 
-     
-		
-		//Primero manejo LP
-		if(LP.get(key)==null)
-		{
-			temp = new ArregloDinamico<YoutubeVideo>(1);
-			revicionTuplasLP++;
-			
+
+
+		String keyReq1 = llaveEnString_PaisCateg(dato.getCountry(),dato.getCategoria());
+		String keyReq2 = llaveEnString_Pais(dato.getCountry());
+		String keyReq3 = llaveEnString_Categ(dato.getCategoria());
+		if(numVideos%20000==0) {
+			vista.printMessage("Se han cargado "+ numVideos+ " videos");
 		}
-		else
-		{
-			
-			temp= LP.remove(key);
-		}
-
-		temp.addLast(dato);
-
-		Stopwatch timer = new Stopwatch();
-		LP.put(key, temp);
-		tiempoParaTimerTotalLP = getTiempoPutTotalLP() + timer.elapsedTime();
-
-
-		temp=null;
-		//TODO HAY UN PROBLEMA ACA PROBABLEMENETE EN EL REHASH 
-		//Segundo manejo SC
-		if(SC.get(key)==null)
-		{
-			temp = new ArregloDinamico<YoutubeVideo>(1);
-			
-			revicionTuplasSC++;
-		}
-		else
-		{
-			temp= SC.remove(key);
-		}
-
-		temp.addLast(dato);
-		Stopwatch timer2 = new Stopwatch();
-
-		SC.put(key, temp);
-		tiempoParaTimerTotalSC = getTiempoPutTotalSC() + timer2.elapsedTime();
-
+		String[] keyReq4 = ArregloDellaveEnString_tag(dato.getTags());
 		numVideos++;
-		
-		//TODO pa debuggerar primer error
-		
-		if (revicionTuplasSC!=revicionTuplasLP&&!primerbug)
+
+
+
+		//Requerimiento 1 LISTO
+		ArregloDinamico<YoutubeVideo> temp;
+		if(SC1.get(keyReq1)==null)
 		{
-			ArregloDinamico<YoutubeVideo>debugSC=(SC.get(key));
-			ArregloDinamico<YoutubeVideo>debugLP=(LP.get(key));
-			vista.printMessage("bug en:");
-			vista.printMessage(key);
-			primerbug=true;
+			temp = new ArregloDinamico<YoutubeVideo>(1);
+
+
 		}
+		else
+		{
+			temp= SC1.remove(keyReq1);
+		}
+
+		temp.addLast(dato);
+
+		//Ordenamiento<YoutubeVideo> ord = new Ordenamiento<YoutubeVideo>();
+		//ord.ordenarInsercion(temp, new YoutubeVideo.ComparadorXViews(), true);
+
+		SC1.put(keyReq1, temp);
+
+
+
+
+		//Requerimiento 2 LISTO
+		temp=null;
+		if(SC2.get(keyReq2)==null)
+		{
+			temp = new ArregloDinamico<YoutubeVideo>(1);
+
+
+		}
+		else
+		{
+			temp= SC2.remove(keyReq2);
+		}
+
+		temp.addLast(dato);
+		//ord.ordenarInsercion(temp, new YoutubeVideo.ComparadorXtitulo(), true);
+		SC2.put(keyReq2, temp);
+
+
+
+
+
+
+		//Requerimiento 3 LISTO
+		temp=null;
+		if(SC3.get(keyReq3)==null)
+		{
+			temp = new ArregloDinamico<YoutubeVideo>(1);
+
+
+		}
+		else
+		{
+			temp= SC3.remove(keyReq3);
+		}
+
+		temp.addLast(dato);
+		//ord.ordenarInsercion(temp, new YoutubeVideo.ComparadorXtitulo(), true);
+		SC3.put(keyReq3, temp);
+
 	}
+	//TODO req4
+
+
 
 	/**
 	 * Requerimiento buscar dato
@@ -200,7 +246,7 @@ public class Modelo {
 		return listaCategorias;
 	}
 
-	//TODO arreglar este metodo, no sirve desde el for
+
 
 	public void cargarDatos(String ruta) throws IOException, ParseException
 	{
@@ -209,7 +255,6 @@ public class Modelo {
 		tiempoParaTimerTotalLP=0;
 		tiempoParaTimerTotalSC=0;
 		revicionTuplasLP=0;
-
 		revicionTuplasSC=0;
 
 
@@ -233,8 +278,11 @@ public class Modelo {
 		Reader in = new FileReader(ruta);
 		Iterable<CSVRecord> records = CSVFormat.EXCEL.withHeader().parse(in);
 
-		LP =new TablaHashLinearProbing<String,ArregloDinamico<YoutubeVideo>>(50, 0.75);
-		SC =new TablaHashSeparateChaining<>(50, 5);
+		int factordecarga=4;
+		SC1 =new TablaHashSeparateChaining<>(50000, factordecarga);
+		SC2 =new TablaHashSeparateChaining<>(50000, factordecarga);
+		SC3 =new TablaHashSeparateChaining<>(50000, factordecarga);
+		SC4 =new TablaHashSeparateChaining<>(50000, factordecarga);
 
 
 
@@ -261,17 +309,53 @@ public class Modelo {
 
 			YoutubeVideo temp=new YoutubeVideo(trending_date, title, channel_title,views,likes,dislikes,thumbnail_link,country,id,publish_time,category_id,tag,categoria);
 
+			//aca esta toda la complejidad
 			agregar(temp);
-			
-			
+
+
 		}
 
+		ILista<String> llaves1=SC1.keySet();
+
+		ArregloDinamico<String> llaves2=(ArregloDinamico<String>) SC2.keySet();
+		
+		ArregloDinamico<String> llaves3=(ArregloDinamico<String>) SC3.keySet();
+		Ordenamiento<YoutubeVideo> ord = new Ordenamiento<YoutubeVideo>();
+		
+		vista.printMessage(""+llaves1.size());
+				
+		for (int i = 1; i < llaves1.size()+1; i++) 
+		{
+			
+			ArregloDinamico<YoutubeVideo> temporalorden= SC1.remove(llaves1.getElement(i));
+			ord.ordenarMergeSort(temporalorden, new YoutubeVideo.ComparadorXViews(), false);
+			SC1.put(llaves1.getElement(i), temporalorden);
+		
+		}
+		
+		for (int i = 1; i < llaves2.size()+1; i++) 
+		{
+			ArregloDinamico<YoutubeVideo> temporalorden= SC2.remove(llaves2.getElement(i));
+			ord.ordenarMergeSort(temporalorden, new YoutubeVideo.ComparadorXtitulo(), true);
+			SC2.put(llaves2.getElement(i), temporalorden);
+		
+		}
+		
+		
+		for (int i = 1; i < llaves3.size()+1; i++) 
+		{
+			ArregloDinamico<YoutubeVideo> temporalorden= SC3.remove(llaves3.getElement(i));
+			ord.ordenarMergeSort(temporalorden, new YoutubeVideo.ComparadorXtitulo(), true);
+			SC3.put(llaves3.getElement(i), temporalorden);
+		
+		}
+		
 		vista.printMessage("Arreglo creado"); 
 		double time = timer.elapsedTime();
 		vista.printMessage("Tiempo tomado (milisegundos): "+ time);
-	
-		
-		
+
+
+
 
 	}
 
@@ -296,7 +380,7 @@ public class Modelo {
 
 		boolean encontrado = false;
 		String categ=null;
-		for (int i = 1; i < listaCategorias.size() && !encontrado; i++) 
+		for (int i = 1; i < listaCategorias.size()+1 && !encontrado; i++) 
 		{
 			if(listaCategorias.getElement(i).getCategory_id()==id)
 			{
@@ -353,9 +437,30 @@ public class Modelo {
 	//	}
 
 
-	public String llaveEnString (String pais, String categoria )
+	public String llaveEnString_PaisCateg (String pais, String categoria )
 	{
 		return pais + "-" + categoria;
+	}
+
+
+	public String llaveEnString_Pais (String pais)
+	{
+		return pais;
+	}
+
+	public String llaveEnString_Categ (String categ)
+	{
+		return categ;
+	}
+
+
+
+
+	public String[] ArregloDellaveEnString_tag (String tags)
+	{
+
+
+		return tags.split("\\|");
 	}
 
 	public int getNumVideos() 
@@ -373,87 +478,121 @@ public class Modelo {
 		return tiempoParaTimerTotalLP;
 	}
 
-	public double getTiempoPutTotalSC() 
+	public ArregloDinamico<YoutubeVideo> req1(String pais,String categoria)
 	{
-		return tiempoParaTimerTotalSC;
+		return SC1.get(llaveEnString_PaisCateg(pais, categoria));
 	}
-	
-	
-	
-	public ArregloDinamico<YoutubeVideo> darVideosPaisCtegLP(String Pais, String Categ)
-	{
-		return LP.get(llaveEnString(Pais, Categ));
-	}
-	
-	public ArregloDinamico<YoutubeVideo> darVideosPaisCtegSC(String Pais, String Categ)
-	{
-		return SC.get(llaveEnString(Pais, Categ));
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
-	public void pruabaDeDesemprno()
+
+
+
+
+	public void req2(String pais)
 	{
-				//hacer esto en cualquier metodo que clacule el tiempo tomado por el put 
-				tiempoParaTimerTotalLP = 0;
-				tiempoParaTimerTotalSC = 0;
-				
-				//primero LP
-				ArregloDinamico<String> listaTemp = (ArregloDinamico<String>)LP.keySet();
-				for(int i = 1; i < 700 + 1; i++)
-				{
-					int j = (i > listaTemp.size())? 1 : i;
-		
-					String key= listaTemp.getElement(j);
-		
-					Stopwatch timer = new Stopwatch();
-					LP.get(key);
-					tiempoParaTimerTotalLP += timer.elapsedTime();
-				}
-		
-				for(int i = 1; i < 300 + 1; i++)
-				{
-					String falseKey = "tangamandapia" + i;
-		
-					Stopwatch timer = new Stopwatch();
-					LP.get(falseKey);
-					tiempoParaTimerTotalLP += timer.elapsedTime();
-				}
-				
-				
-				//primero LP
-//				ArregloDinamico<String> listaTemp = (ArregloDinamico<String>)LP.keySet();
-				// puedo utilizar la misma lista pues son las mismas llaves
-				for(int i = 1; i < 700 + 1; i++)
-				{
-					int j = (i > listaTemp.size())? 1 : i;
-		
-					String key= listaTemp.getElement(j);
-		
-					Stopwatch timer = new Stopwatch();
-					SC.get(key);
-					tiempoParaTimerTotalSC += timer.elapsedTime();
-				}
-		
-				for(int i = 1; i < 300 + 1; i++)
-				{
-					String falseKey = "tangamandapia" + i;
-		
-					Stopwatch timer = new Stopwatch();
-					SC.get(falseKey);
-					tiempoParaTimerTotalSC += timer.elapsedTime();
-				}
-				
-				
-				
+		ArregloDinamico<YoutubeVideo> temporal=SC2.get(llaveEnString_Pais(pais));
+
+		Comparator<YoutubeVideo> comparador = new YoutubeVideo.ComparadorXtitulo();
+
+		int numAparicionesMax = 1;
+		YoutubeVideo masAparecio = temporal.getElement(1); 
+		int numActual = 1; 
+
+		//Complejidad O(n) nuevamente, el n es reducido
+
+		for (int i = 2; i < temporal.size(); i++) 
+		{ 
+			if (comparador.compare(temporal.getElement(i),temporal.getElement(i-1)) == 0) 
+				numActual++; 
+			else 
+			{ 
+				if (numActual > numAparicionesMax) 
+				{ 
+					numAparicionesMax = numActual; 
+					masAparecio = temporal.getElement(i-1);
+				} 
+				numActual = 1; 
+			} 
+		} 
+
+
+		if (numActual > numAparicionesMax) 
+		{ 
+			numAparicionesMax = numActual;
+			masAparecio = temporal.getElement(temporal.size() - 1);
+		} 
+
+		if(masAparecio != null)
+		{
+			System.out.println("------------------------");	
+
+			System.out.println("Titulo: " + masAparecio.getTitle());	
+			System.out.println("Canal: " + masAparecio.getChannel_title());
+			System.out.println("Pais: " + masAparecio.getCountry());
+			System.out.println("Numero dias de tendencia: " + numAparicionesMax);
+
+			System.out.println("------------------------");
+		}
+		else System.out.println("No hay elmentos ");	
 	}
+
+
+
+	public void req3(String categ)
+	{
+		ArregloDinamico<YoutubeVideo> temporal=SC3.get(llaveEnString_Categ(categ));
+
+		Comparator<YoutubeVideo> comparador = new YoutubeVideo.ComparadorXtitulo();
+
+		int numAparicionesMax = 1;
+		YoutubeVideo masAparecio = temporal.getElement(1); 
+		int numActual = 1; 
+
+		//Complejidad O(n) nuevamente, el n es reducido
+
+		for (int i = 2; i < temporal.size(); i++) 
+		{ 
+			if (comparador.compare(temporal.getElement(i),temporal.getElement(i-1)) == 0) 
+				numActual++; 
+			else 
+			{ 
+				if (numActual > numAparicionesMax) 
+				{ 
+					numAparicionesMax = numActual; 
+					masAparecio = temporal.getElement(i-1);
+				} 
+				numActual = 1; 
+			} 
+		} 
+
+
+		if (numActual > numAparicionesMax) 
+		{ 
+			numAparicionesMax = numActual;
+			masAparecio = temporal.getElement(temporal.size() - 1);
+		} 
+
+		if(masAparecio != null)
+		{
+			System.out.println("------------------------");	
+
+			System.out.println("Titulo: " + masAparecio.getTitle());	
+			System.out.println("Canal: " + masAparecio.getChannel_title());
+			System.out.println("Pais: " + masAparecio.getCountry());
+			System.out.println("Numero dias de tendencia: " + numAparicionesMax);
+
+			System.out.println("------------------------");
+		}
+		else System.out.println("No hay elmentos ");	
+	}
+
+
+
+
+
+
+
+
+
+
 
 }

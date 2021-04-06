@@ -381,14 +381,14 @@ public class ListaEncadenada<T extends Comparable<T>> implements Comparable<List
 
 	@Override
 	public int compareTo(ListaEncadenada<T> o) {
-		// TODO Auto-generated method stub
+		// 
 		return 0;
 	}
 
 
 	@Override
 	public int compareTo(ILista<T> o) {
-		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 
